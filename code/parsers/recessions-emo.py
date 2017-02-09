@@ -176,7 +176,6 @@ def write_csv(df):
     '''
     ym = 'Year_Month'
     dt_fmt = '%Y-%m'
-    h = []
 
     df.to_csv(path_or_buf = OUT_FILE, index_label = ym, \
                      date_format = dt_fmt)
