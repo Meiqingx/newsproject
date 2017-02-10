@@ -10,6 +10,17 @@ OUT_FILE = 'recessions_data.csv'
 
 def read_file(fname):
     '''
+    Reads in the recession_dates.csv file, converts the dates, replaces missing
+    values with np.NaN, and returns the cleaned dataframe.
+
+    Inputs:
+        fname (string): The name of the file to be read.
+
+    Outputs:
+        None.
+
+    Returns:
+        clean_recessions (pandas dataframe): The cleaned dataframe.
     '''
 
     date_conv = {'Start_Date': date_fixer, 'End_Date': date_fixer}
@@ -23,10 +34,16 @@ def read_file(fname):
 
 def date_fixer(datestring):
     '''
+    Fixes a datestring by making it a datetime object.
 
-    Input:  (string) datestring: A date in 'YYYY Month' format.
+    Input:
+    datestring (string): A date in 'YYYY Month' format.
 
-    Output: (datetime) date: a corrected date
+    Output:
+        None.
+
+    Returns:
+        date (datetime): A corrected date (or np.NaN if datestring was '').
     '''
 
     if datestring == '':
@@ -41,6 +58,20 @@ def date_fixer(datestring):
 
 def build_df(clean_recessions):
     '''
+    Takes in a cleaned recessions dataframe and builds the output dataframe.
+
+    Inputs:
+        clean_recessions (pandas dataframe): The cleaned recessions dataframe.
+
+    Outputs:
+        None.
+
+    Returns:
+        df (pandas dataframe): A dataframe of YYYY-MM dates ranging from the
+                               beginning of the recessions dataset to the
+                               present with columns for months elapsed since
+                               the most recent recession began and months
+                               elapsed since the last recession ending.
     '''
 
     months_list = gen_months_list(clean_recessions)
@@ -64,9 +95,14 @@ def dy2dm(reldel):
     '''
     Takes a relative delta object and converts it to delta-months.
 
-    Input: (relative delta object) reldel:  the difference between two dates
+    Inputs:
+    reldel (relative delta object):  The difference between two dates.
 
-    Output: (int) dm: delta-months, the difference between two dates in months
+    Outputs:
+        None.
+
+    Returns:
+        dm (int): Delta-months, the difference between two dates in months.
     '''
     m = reldel.months
     y = reldel.years
@@ -78,6 +114,20 @@ def dy2dm(reldel):
 
 def gen_months_list(clean_recessions):
     '''
+    Generates the list of YYYY-MMs ranging from the start of the first economic
+    recession listed in the data to the present month.
+
+    Inputs:
+        clean_recessions (pandas dataframe): The cleaned recessions dataframe.
+
+    Outputs:
+        None.
+
+    Returns:
+        months_list (list of datetime objects): List of all the months ranging
+                                                from the first start date in
+                                                the recession data to the
+                                                present month.
     '''
 
     dates = get_dates(clean_recessions)
@@ -111,6 +161,28 @@ def gen_months_list(clean_recessions):
 
 def gen_deltas(clean_recessions, months_list):
     '''
+    For each month in months_list, generates the months elapsed since the start
+    of the most recent recession and the most recent recession ending.
+
+    Inputs:
+        clean_recessions (pandas dataframe):  The cleaned recessions dataframe.
+        months_list (list of datetime objects): List of the months ranging from
+                                                the start of the earliest
+                                                recession in the data and the
+                                                current month.
+
+    Outputs:
+        None.
+
+    Returns:
+        rec_start_deltas (list of ints): List of the number of months elapsed
+                                         since the start of the most recent
+                                         recession, corresponding to the dates
+                                         in months_list.
+        rec_end_deltas (list of ints): List of the number of months elapsed
+                                       since the most recent recession ending,
+                                       corresponding to the dates in
+                                       months_list.
     '''
 
     dates = get_dates(clean_recessions)
@@ -133,7 +205,7 @@ def gen_deltas(clean_recessions, months_list):
         elapsed_end = rec_end_deltas[-1]
 
         if start_count < len(clean_recessions) - 2:
-            if month == start_col[start_count]:# + 2]:
+            if month == start_col[start_count]:
                 rec_start_deltas.append(1)
                 start_count += 1
             else:
@@ -160,6 +232,20 @@ def gen_deltas(clean_recessions, months_list):
 
 def get_dates(clean_recessions):
     '''
+    Returns the current date, the start date of the earliest recession, and the
+    end date of the earliest recession, all as datetime objects.
+
+    Inputs:
+        clean_recessions (pandas dataframe): The cleaned recessions dataframe.
+
+    Outputs:
+        None.
+
+    Returns:
+        dates (list of datetime objects): A list of the current date, first
+                                          recession start date, and first
+                                          recession end date, all as datetime
+                                          objects.
     '''
     current_date = dt.strptime('2017 February', '%Y %B')
     first_start_date = clean_recessions['Start_Date'][1]
@@ -173,6 +259,16 @@ def get_dates(clean_recessions):
 
 def write_csv(df):
     '''
+    Writes a dataframe to a csv file.
+
+    Inputs:
+        df (pandas dataframe): The final dataframe to be written.
+
+    Outputs:
+        A csv file with the name of OUT_FILE.
+
+    Returns:
+        None.
     '''
     ym = 'Year_Month'
     dt_fmt = '%Y-%m'
