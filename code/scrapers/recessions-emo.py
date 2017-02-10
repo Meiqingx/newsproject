@@ -32,6 +32,16 @@ def create_output_dir():
 
 def get_page(url):
     '''
+    Downloads the page at the given URL and creates a BeautifulSoup object.
+
+    Inputs:
+        url (string): The URL to be accessed.
+
+    Outputs:
+        None.
+
+    Returns:
+        soup (BeautifulSoup object): The BeautifulSoup made from the URL.
     '''
 
     rqst = requests.get(url)
@@ -45,6 +55,18 @@ def get_page(url):
 
 def process_page(soup):
     '''
+    Processes a BeautifulSoup object and returns lists of the recession start
+    and end dates.
+
+    Inputs:
+        soup (BeautifulSoup object): The BeautifulSoup object to be processed.
+
+    Outputs:
+        None.
+
+    Returns:
+        clean_start (list of strings): A list of YYYY-MM recession start dates.
+        clean_end (list of strings): A list of YYYY-MM recession end dates.
     '''
 
     block = soup.find_all('div', align = "center")
@@ -69,6 +91,18 @@ def process_page(soup):
 
 def clean_dates(dates):
     '''
+    Takes in a list of dates in 'Month YYYY' format and switches them to
+    YYYY-MM format.
+
+    Inputs:
+        dates (list of strings): The list of dates to be cleaned.
+
+    Outputs:
+        None.
+
+    Returns:
+        clean_dates (list of strings): The cleaned list of dates in YYYY-MM
+                                       format.
     '''
 
     expr = '[A-Z][a-z]*[\s]+[1-2][0-9][0-9][0-9]'
@@ -87,6 +121,17 @@ def clean_dates(dates):
 
 def build_array(clean_start, clean_end):
     '''
+    Takes lists of cleaned start and end dates and makes an array of them.
+
+    Inputs:
+        clean_start (list of strings): A list of the cleaned start dates.
+        clean_end (list of strings): A list of the cleaned end dates.
+
+    Outputs:
+        None.
+
+    Returns:
+        array (numpy array): An array of corresponding start and end dates.
     '''
     start = np.array(clean_start)
     end = np.array(clean_end)
@@ -99,6 +144,16 @@ def build_array(clean_start, clean_end):
 
 def write_csv(array):
     '''
+    Writes a csv file from the given array.
+
+    Inputs:
+        array (numpy array): The array to be written.
+
+    Outputs:
+        A csv file named OUTPUT_FILE and in OUTPUT_DIR.
+
+    Returns:
+        None.
     '''
 
     headers = 'Start_Date,End_Date\n'
