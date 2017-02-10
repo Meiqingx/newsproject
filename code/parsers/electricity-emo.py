@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from datetime import datetime as dt
 
-URL = 'http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01'
+#URL = 'http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01'
 
 OUTPUT_FILE = 'electricity_data.csv'
 
@@ -31,10 +31,17 @@ def create_output_dir():
 
 def date_fixer(date_int):
     '''
+    Fixes dates that come in int(YYYYMM) format and changes them to datetime.
 
-    Input:  (string) date_int: A date in YYYYMM format.
+    Inputs:
+        date_int (int): A date in YYYYMM format.
 
-    Output: (datetime) date: a corrected date
+    Output:
+        None.
+
+    Returns:
+        date (datetime object): A corrected date as a datetime object (or
+                                np.NaN if the date was invalid).
     '''
     datestring = str(date_int)[0:7]
 
@@ -49,6 +56,17 @@ def date_fixer(date_int):
 
 def build_df(filename):
     '''
+    Builds a dataframe from the given filename with one row per month and one
+    column for each variable.
+
+    Inputs:
+        filename (string): The name of the file to be read.
+
+    Outputs:
+        None.
+
+    Returns:
+        df (pandas dataframe): The final dataframe.
     '''
 
     c = ['MSN','Date','Billion_Kwatt_Hrs','Column_Order','Description','Unit']
@@ -67,12 +85,22 @@ def build_df(filename):
 
 def write_csv(df):
     '''
+    Writes a csv file from the dataframe.
+
+    Inputs:
+        df (pandas dataframe): The dataframe to be written.
+
+    Outputs:
+        A csv named OUTPUT_FILE.
+
+    Returns:
+        None.
     '''
 
     dt_fmt = '%Y-%m'
 
     df.to_csv(path_or_buf = OUTPUT_FILE, index_label = 'Date', \
-                     date_format = dt_fmt)
+              date_format = dt_fmt)
 
 
 
