@@ -86,12 +86,13 @@ def calc_means(clean_map):
 
     Returns:
         values (tuple of floats): The global mean, northern-hemisphere mean,
-                                  and southern-hemisphere mean for the given
-                                  map's precipitation levels.
+                                  southern-hemisphere mean, and tropics mean
+                                  for the given map's precipitation levels.
     '''
 
     north = clean_map[:90]
     south = clean_map[90:]
+    tropics = clean_map[65:112]
 
     global_mean = clean_map.mean().mean()
 
@@ -99,7 +100,9 @@ def calc_means(clean_map):
 
     south_mean = south.mean().mean()
 
-    values = global_mean, north_mean, south_mean
+    tropics_mean = tropics.mean().mean()
+
+    values = global_mean, north_mean, south_mean, tropics_mean
 
     return values
 
@@ -128,7 +131,7 @@ def write_csv(array):
     print('\tWriting file:', OUT_FILE)
 
     csv_file = open(OUT_FILE, 'w')
-    headers = 'Date,Global_Mean,North_H_Mean,South_H_Mean\n'
+    headers = 'Date,Global_Mean,North_H_Mean,South_H_Mean,Tropics_Mean\n'
     com = ','
 
     csv_file.write(headers)
