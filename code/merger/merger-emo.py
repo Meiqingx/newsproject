@@ -70,7 +70,10 @@ def merge_dfs(dataframes_list):
     '''
     '''
 
-    if len(dataframes_list) == 2:
+    if len(dataframes_list) < 2:
+        return dataframes_list
+
+    elif len(dataframes_list) == 2:
         df_l = dataframes_list[0]
         df_r = dataframes_list[1]
         merged_df = df_l.merge(df_r, how = 'inner', on = 'Date')
