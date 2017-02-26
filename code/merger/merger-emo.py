@@ -8,16 +8,18 @@ def read_files():
     '''
     '''
 
-
+    # Filenames
     precipitation_f = '../parsers/precipitation_means.csv'
     electricity_f = '../parsers/electricity_data.csv'
     recessions_f = '../parsers/recessions_data.csv'
 
 
 
+    # Column headers for each file
+    precip_hdrs = ['Date','Global_Mean_Precipitation',
+                   'North_H_Mean_Precipitation','South_H_Mean_Precipitation',
+                   'Tropics_Mean_Precipitation']
 
-    precip_hdrs = ['Date','Global_Mean','North_H_Mean','South_H_Mean',
-                   'Tropics_Mean']
     elec_hdrs = ['Date','Electricity Direct Use','Electricity End Use, Total',
                  'Electricity Exports','Electricity Imports',
                  'Electricity Net Generation, Commercial Sector',
@@ -27,11 +29,18 @@ def read_files():
                  'Electricity Net Imports',
                  'Electricity Retail Sales, Total',
                  'Transmission and Distribution Losses and Unaccounted for']
+
     rec_hdrs = ['Date','Months_Elapsed_Since_Current_Recession_Began',
                 'Months_Elapsed_Since_Last_Recession_Ending']
 
+
+
+
+
+    # The date_fixer function will be used as a converter
     cv = {'Date': date_fixer}
 
+    # Create individual dataframes
     precipitation = pd.read_csv(precipitation_f, names = precip_hdrs, \
                                 converters = cv, skiprows = 1)
     electricity = pd.read_csv(electricity_f, names = elec_hdrs, \
@@ -39,6 +48,10 @@ def read_files():
     recessions = pd.read_csv(recessions_f, names = rec_hdrs, converters = cv,\
                              skiprows = 1)
 
+
+
+
+    # Add dataframes to a list
     dataframes = [precipitation, electricity, recessions]
 
     return dataframes
@@ -86,9 +99,28 @@ def merge_dfs(dataframes_list):
 
 
 
+def gen_sqrs_cbcs(df):
+    '''
+    Generates squared and cubic terms for all variables in the data frame.
 
+    Inputs:
+        df (pandas dataframe): The dataframe in question.
 
+    Outputs:
+        None
 
+    Returns:
+        None
+    '''
+
+    names = list(df.columns)[1:]
+
+    sqr_names = [x + ' ** 2' for x in names]
+    cbc_names = [x + ' ** 3' for x in names]
+
+    for i, name in enumerate(names):
+        df[sqr_names[i]] = df[name].map(lambda x: x ** 2)
+        df[cbc_names[i]] = df[name].map(lambda x: x ** 3)
 
 
 
@@ -97,3 +129,5 @@ dataframes = read_files()
 
 
 merged_df = merge_dfs(dataframes)
+
+gen_sqrs_cbcs(merged_df)
