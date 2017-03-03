@@ -16,9 +16,10 @@ def read_files():
 
 
     # Column headers for each file
-    precip_hdrs = ['Date','Global_Mean_Precipitation',
-                   'North_H_Mean_Precipitation','South_H_Mean_Precipitation',
-                   'Tropics_Mean_Precipitation']
+    precip_hdrs = ['Date','Global Monthly Mean Precipitation',
+                   'Northern Monthly Hemisphere Mean Precipitation',
+                   'Southern Monthly Hemisphere Mean Precipitation',
+                   'Tropics Monthly Mean Precipitation']
 
     elec_hdrs = ['Date','Electricity Direct Use','Electricity End Use, Total',
                  'Electricity Exports','Electricity Imports',
@@ -30,8 +31,8 @@ def read_files():
                  'Electricity Retail Sales, Total',
                  'Transmission and Distribution Losses and Unaccounted for']
 
-    rec_hdrs = ['Date','Months_Elapsed_Since_Current_Recession_Began',
-                'Months_Elapsed_Since_Last_Recession_Ending']
+    rec_hdrs = ['Date','Months Elapsed Since Current Recession Began',
+                'Months Elapsed Since Last Recession Ending']
 
 
 

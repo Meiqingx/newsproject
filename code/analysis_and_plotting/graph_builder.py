@@ -11,7 +11,7 @@ def plot_a_lot(df):
 
     rows = len(df.columns[1:])
 
-    fig, ax = plt.subplots(nrows=rows,ncols=1,sharex='col', sharey=False,figsize=(8,300))#nrows=rows, )
+    fig, ax = plt.subplots(nrows=rows,ncols=1,figsize=(8,6*rows))
 
     for i, name in enumerate(list(df.columns)[1:]):
         label = name

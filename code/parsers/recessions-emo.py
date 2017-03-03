@@ -76,8 +76,8 @@ def build_df(clean_recessions):
 
     months_list = gen_months_list(clean_recessions)
 
-    dms = 'Months_Elapsed_Since_Current_Recession_Began'
-    dme = 'Months_Elapsed_Since_Last_Recession_Ending'
+    dms = 'Months Elapsed Since Current Recession Began'
+    dme = 'Months Elapsed Since Last Recession Ending'
 
     rec_start_deltas, rec_end_deltas = gen_deltas(clean_recessions, months_list)
 
@@ -204,7 +204,7 @@ def gen_deltas(clean_recessions, months_list):
         elapsed_start = rec_start_deltas[-1]
         elapsed_end = rec_end_deltas[-1]
 
-        if start_count < len(clean_recessions) - 2:
+        if start_count < len(clean_recessions):
             if month == start_col[start_count]:
                 rec_start_deltas.append(1)
                 start_count += 1
@@ -215,7 +215,7 @@ def gen_deltas(clean_recessions, months_list):
             incr = elapsed_start + 1
             rec_start_deltas.append(incr)
 
-        if end_count < len(clean_recessions) - 1:
+        if end_count < len(clean_recessions):
             if month == end_col[end_count]:
                 rec_end_deltas.append(1)
                 end_count += 1
