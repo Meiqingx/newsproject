@@ -13,6 +13,7 @@ def read_files():
     electricity_f = '../parsers/electricity_data.csv'
     recessions_f = '../parsers/recessions_data.csv'
     worldbank_f = '../scrapers/worldbank/gem.csv'
+    commodities_f = '../scrapers/worldbank/gem-commodities.csv'
 
 
     # Column headers for each file
@@ -46,12 +47,13 @@ def read_files():
     recessions = pd.read_csv(recessions_f, names = rec_hdrs, converters = cv,\
                              skiprows = 1)
 
-    #I set descriptive headers in my crawler, so did not put a new set of labels here
+    #meiqing: I set descriptive headers in my crawler, so did not put a new set of labels here
     worldbank_gem = pd.read_csv(worldbank_f, converters=cv)
 
+    commodities = pd.read_csv(commodities_f, converters=cv)
 
     # Add dataframes to a list
-    dataframes = [precipitation, electricity, recessions, worldbank_gem]
+    dataframes = [precipitation, electricity, recessions, worldbank_gem, commodities]
 
     return dataframes
 
