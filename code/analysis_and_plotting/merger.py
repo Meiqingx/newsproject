@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from datetime import datetime as dt
-
+import csv
 
 
 def read_files():
@@ -12,7 +12,7 @@ def read_files():
     precipitation_f = '../parsers/precipitation_means.csv'
     electricity_f = '../parsers/electricity_data.csv'
     recessions_f = '../parsers/recessions_data.csv'
-
+    worldbank_f = '../scrapers/worldbank/gem.csv'
 
 
     # Column headers for each file
@@ -35,9 +35,6 @@ def read_files():
                 'Months Elapsed Since Last Recession Ending']
 
 
-
-
-
     # The date_fixer function will be used as a converter
     cv = {'Date': date_fixer}
 
@@ -49,11 +46,12 @@ def read_files():
     recessions = pd.read_csv(recessions_f, names = rec_hdrs, converters = cv,\
                              skiprows = 1)
 
-
+    #I set descriptive headers in my crawler, so did not put a new set of labels here
+    worldbank_gem = pd.read_csv(worldbank_f, converters=cv)
 
 
     # Add dataframes to a list
-    dataframes = [precipitation, electricity, recessions]
+    dataframes = [precipitation, electricity, recessions, worldbank_gem]
 
     return dataframes
 
