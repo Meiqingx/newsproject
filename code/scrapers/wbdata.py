@@ -1,16 +1,16 @@
 import requests
-import json
 import pandas as pd
+import itertools
 
 
 BASIC_FORMAT = 'http://api.worldbank.org/'
 
-COUNTRY_CODES = {'China': 'CHN', 'United States': 'USA', 'Germany':'DEU', 
+COUNTRY_CODES = {'United States': 'USA', 'China': 'CHN','Germany':'DEU', 
                  'Japan': 'JPN', 'United Kingdom': 'GBR', 'India': 'IND', 
-                 'Brazil': 'BRA'}
+                 'Brazil': 'BRA', 'World':'WLD'}
 
-INDICATORS = {'stock': 'DSTKMKTXD', 'exchange rate_real':'REER', 
-              'exchange rate_nominal': 'NEER', 'industrial production': 'IPTOTNSKD', 
+INDICATORS = {'stock': 'DSTKMKTXD', 'real exchange rate':'REER', 
+              'nomial exchange rate': 'NEER', 'industrial production': 'IPTOTNSKD', 
               'CPI': 'CPTOTSAXMZGY', }
 
 # create a country lookup function/class..
@@ -97,31 +97,53 @@ def crawl_data(country, indicator, yymm=None):
     content = load_data(country, indicator, yymm)
     data = content[1]
     
-    indicator = data[0]['indicator']['value']
+    indicator = data[0]['indicator']['value'].rstrip(',')
     country = data[0]['country']['value']
     val = []
     date = []
     
     for datum in data:
         val.append(datum['value'])
-        date.append(datum['date'])
+        ym = datum['date'][:4] + '-' + datum['date'][5:]
+        date.append(ym)
     
     return indicator, country, val, date
 
-def create_df(country, indicator, yymm=None, outfile='./gem.csv'):
+
+def select_vars(country_lst=None, indicator_lst=None):
+    '''
+    Select variables 
+    '''
+    if country_lst is None:
+        country_lst = get_countries()
+    
+    if indicator_lst is None:
+        indicator_lst = get_indicators()
+
+    return list(itertools.product(country_lst, indicator_lst))
+
+
+def create_df(country_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv'):
     '''
     '''
-    indicator, country, val, date = crawl_data(country, indicator, yymm)
+    variables = select_vars(country_lst, indicator_lst)
+    dfs = [] 
 
-    nrow = len(val)
+    for var in variables:
+        
+        country, indicator = var
+        
+        indicator, country, val, date = crawl_data(country, indicator, yymm)
 
-    df = pd.DataFrame({'country': [country] * nrow, 
-                       'date': date, 
-                        indicator: val})
+        col_name = country + ': ' + indicator
 
-    df.to_csv(outfile)
+        df = pd.DataFrame({col_name: val},
+                           index=date)
+        
+        dfs.append(df)
 
+    results = pd.concat(dfs, axis=1)
+    results.index.name = 'Date'
 
-
-
+    results.to_csv(outfile)
 
