@@ -20,9 +20,15 @@ series = database["WLDALUMINUM"]
 
 independent_vars = database[["WLDBEEF", "WLDSILVER"]]
 
-model = Predict.model(series, 1, independent_vars)
+model = Predict.model(series, 2, independent_vars = None)
 
 pred = Predict.predictions(model, series, independent_vars)
+
+residual = Predict.residuals(model, series, independent_vars = None)
+
+dw = Predict.durbin_watson(model, series, independent_vars)
+
+print(dw)
 
 
 # results_ARIMA = model.fit(disp=-1) 

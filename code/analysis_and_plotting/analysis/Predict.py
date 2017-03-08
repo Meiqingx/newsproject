@@ -6,9 +6,9 @@ import matplotlib.pylab as plt
 from matplotlib.pylab import rcParams
 import datetime
 from statsmodels.tsa.seasonal import seasonal_decompose
-from statsmodels.tsa.stattools import adfuller
-from statsmodels.tsa.stattools import acf, pacf
+from statsmodels.tsa.stattools import adfuller, acf, pacf
 from statsmodels.tsa.arima_model import ARIMA
+
 
 class Predict:
 
@@ -69,6 +69,24 @@ class Predict:
 
         return prediction_original_units
 
+    def residuals(model, series, independent_vars = None):
+        '''
+        Generates a series of residuals
+        '''
+        y_hat = Predict.predictions(model, series, independent_vars)
+        residuals = series - y_hat
+
+        return residuals
+
+    def durbin_watson(model, series, independent_vars = None):
+        '''
+        Computes the Durbin - Watson statistic
+        Parts of the code from: http://statsmodels.sourceforge.net/devel/_modules/statsmodels/stats/stattools.html
+        '''
+        resids = np.asarray(Predict.residuals(model, series, independent_vars))
+        diff_resids = np.diff(resids) # First difference
+        dw = np.sum(diff_resids**2) / np.sum(resids**2)
+        return dw
 
     def measures_of_fit(model, series, independent_vars = None):
         '''
@@ -80,9 +98,42 @@ class Predict:
             independent_vars = array of independent vars
 
         Outputs:
-            
-        '''
 
+        '''
+        return None
+
+    def r_square(model, series, independent_vars = None):
+        '''
+        Generates the R square measure
+
+        Inputs:
+            model = timne series model of class Predict
+            series = series of an asset
+            independent_vars = array of independent variables
+        Outputs:
+            r_square [0,1]
+        '''
+        y_hat = predictions(model, series, independent_vars)
+        y_mean = np.mean(series)
+        var_org = np.sum((series - y_mean) ** 2)
+        var_hat = np.sum((series - y_hat) ** 2)
+        r_square = 1 - (var_hat/var_org)
+        return r_square
+
+    def mse(model, series, independent_vars = None):
+        '''
+        Generates MSE
+
+        Inputs:
+            model = time series model of class Predict
+            series = series of an asset
+            independent_vars = array of independent variables
+        Outputs:
+            mse (positive number)
+        '''
+        y_hat = Predict.predictions(model, series, independent_vars)
+        mse = np.sum((y_hat - series) ** 2) / len(series)
+        return mse
 
 
 
