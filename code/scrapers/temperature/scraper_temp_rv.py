@@ -157,8 +157,11 @@ names_files = ['GLB.Ts+dSST.txt',
  'ZonAnn.Ts.txt']
 
 # Create data frames
-for i in range(len(names_files)):
-    globals()['data_%s' % i] = generate_df(names_files[i])
+new_names = []
+for i, name in enumerate(names_files):
+    if "Zon" not in name:
+        new_names.append(name[:7])
+        globals()['data_%s' % name[:7]] = generate_df(names_files[i])
 
 # Need to merge and save dataframes
 
@@ -166,7 +169,15 @@ for i in range(len(names_files)):
 # COMPATIBILITY NEEDED
 ######################
 
+# Set index
 
+def compatibility(df):
+    df = df.set_index(df['Year'])
+    df = df.drop(['Year'], axis=1)
+    df = df.stack()
+    df.index = pd.PeriodIndex(start = '1880-01', freq='M', periods = len(df))
+
+    return df
 
 
 
