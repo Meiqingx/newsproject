@@ -85,7 +85,7 @@ def calc_means(clean_map):
         None.
 
     Returns:
-        values (tuple of floats): The global mean, northern-hemisphere mean,
+        values (tuple of pd.dfs): The global mean, northern-hemisphere mean,
                                   southern-hemisphere mean, and tropics mean
                                   for the given map's precipitation levels.
     '''
@@ -105,8 +105,6 @@ def calc_means(clean_map):
     values = global_mean, north_mean, south_mean, tropics_mean
 
     return values
-
-
 
 
 
@@ -180,6 +178,7 @@ def process_maps(filenames):
         lines_list.append(data_tuple)
 
     write_csv(lines_list)
+
 
 
 
