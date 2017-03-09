@@ -42,6 +42,8 @@ def read_files():
     # Create individual dataframes
     precipitation = pd.read_csv(precipitation_f, names = precip_hdrs, \
                                 converters = cv, skiprows = 1)
+    precipitation = precipitation.interpolate()
+
     electricity = pd.read_csv(electricity_f, names = elec_hdrs, \
                               converters = cv, skiprows = 1)
     recessions = pd.read_csv(recessions_f, names = rec_hdrs, converters = cv,\
