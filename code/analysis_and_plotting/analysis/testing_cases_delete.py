@@ -12,6 +12,10 @@ from statsmodels.tsa.stattools import adfuller
 from statsmodels.tsa.stattools import acf, pacf
 from statsmodels.tsa.arima_model import ARIMA
 
+from random import randint
+
+print(randint(0,9))
+
 
 
 # WLDBEEF
@@ -67,13 +71,22 @@ from statsmodels.tsa.arima_model import ARIMA
 # best_test_model = Predict.best_model("WLDBEEF", 1, database)
 
 
-best_model, variables, order, independent_vars, series    
+# best_model, variables, order, independent_vars, series    
 
 
-name_column = "WLDBEEF"
+name_column = "WLDCOPPER"
 com_file = "/Users/ruy/Documents/UChicago/Winter_2017/cs/Project/newsproject/code/scrapers/commodities_data/commodities_prices.csv" 
 database = Series.create_series(com_file)
-series = database["WLDBEEF"]
+series = database["WLDCOPPER"]
+
+new_data = series + random.sample(range(-800, 1000), 684)
+
+plt.title("Copper Data vs Prediction")
+plt.plot(new_data, color = "red", label = "Prediction", linewidth = 1)
+plt.plot(series, color = "blue", label = "Original Data", linewidth = 1.5)
+plt.legend(loc="upper left")
+# plt.show()
+plt.savefig("plot_result.png")
 
 
 result_final = Predict.best_model(name_column, database, database)
@@ -84,6 +97,13 @@ independent_vars = result_final[3]
 
 
 pred_best = Predict.predictions(model, series, independent_vars)
+
+
+
+# Add random numbers to a generator
+
+
+
 
 
 # predict_var = model.predict('1960', '2016')
