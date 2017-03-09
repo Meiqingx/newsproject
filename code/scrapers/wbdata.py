@@ -11,7 +11,7 @@ COUNTRY_CODES = {'United States': 'USA', 'China': 'CHN','Germany':'DEU',
 
 INDICATORS = {'stock': 'DSTKMKTXD', 'real exchange rate':'REER', 
               'nomial exchange rate': 'NEER', 'industrial production': 'IPTOTNSKD', 
-              'CPI': 'CPTOTSAXMZGY', }
+              'CPI': 'CPTOTNSXN'}
 
 COMMODITIES = {'coffee': 'COFFEE_ROBUS', 'agriculture': 'IAGRICULTURE', 'beverages': 'IBEVERAGES',
                 'beef': 'BEEF', 'aluminum': 'ALUMINUM', 'metal': 'IMETMIN', 

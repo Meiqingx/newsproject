@@ -18,8 +18,8 @@ def read_files():
 
     # Column headers for each file
     precip_hdrs = ['Date','Global Monthly Mean Precipitation',
-                   'Northern Monthly Hemisphere Mean Precipitation',
-                   'Southern Monthly Hemisphere Mean Precipitation',
+                   'Northern Hemisphere Monthly Mean Precipitation',
+                   'Southern Hemisphere Monthly Mean Precipitation',
                    'Tropics Monthly Mean Precipitation']
 
     elec_hdrs = ['Date','Electricity Direct Use','Electricity End Use, Total',
@@ -42,6 +42,8 @@ def read_files():
     # Create individual dataframes
     precipitation = pd.read_csv(precipitation_f, names = precip_hdrs, \
                                 converters = cv, skiprows = 1)
+    precipitation = precipitation.interpolate()
+
     electricity = pd.read_csv(electricity_f, names = elec_hdrs, \
                               converters = cv, skiprows = 1)
     recessions = pd.read_csv(recessions_f, names = rec_hdrs, converters = cv,\
@@ -52,10 +54,13 @@ def read_files():
 
     commodities = pd.read_csv(commodities_f, converters=cv)
 
-    # Add dataframes to a list
-    dataframes = [precipitation, electricity, recessions, worldbank_gem, commodities]
+    oil = commodities[['Date', 'Crude oil, Brendt, $/bbl, nominal$']].copy()
+    commodities = commodities.drop('Crude oil, Brendt, $/bbl, nominal$', axis=1)
 
-    return dataframes
+    predictor_dfs = [precipitation, electricity, recessions, worldbank_gem, oil]
+    outcomes = commodities
+
+    return predictor_dfs, outcomes
 
 
 
@@ -125,10 +130,31 @@ def gen_sqrs_cbcs(df):
 
 
 
+def write_csv(df,filename):
+    '''
+    Writes a dataframe to a csv file.
 
-dataframes = read_files()
+    Inputs:
+        df (pandas dataframe): The final dataframe to be written.
+
+    Outputs:
+        A csv file with the name of OUT_FILE.
+
+    Returns:
+        None.
+    '''
+    dt = 'Date'
+    dt_fmt = '%Y-%m'
+
+    df.to_csv(path_or_buf = filename, header=True, index=False,\
+                     date_format = dt_fmt)
 
 
-merged_df = merge_dfs(dataframes)
+predictor_dfs, outcomes = read_files()
 
-gen_sqrs_cbcs(merged_df)
+predictors = merge_dfs(predictor_dfs)
+
+gen_sqrs_cbcs(predictors)
+
+write_csv(predictors,'predictors.csv')
+write_csv(outcomes,'outcomes.csv')
