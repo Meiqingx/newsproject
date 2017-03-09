@@ -18,8 +18,8 @@ def read_files():
 
     # Column headers for each file
     precip_hdrs = ['Date','Global Monthly Mean Precipitation',
-                   'Northern Monthly Hemisphere Mean Precipitation',
-                   'Southern Monthly Hemisphere Mean Precipitation',
+                   'Northern Hemisphere Monthly Mean Precipitation',
+                   'Southern Hemisphere Monthly Mean Precipitation',
                    'Tropics Monthly Mean Precipitation']
 
     elec_hdrs = ['Date','Electricity Direct Use','Electricity End Use, Total',
@@ -52,7 +52,10 @@ def read_files():
 
     commodities = pd.read_csv(commodities_f, converters=cv)
 
-    predictor_dfs = [precipitation, electricity, recessions, worldbank_gem]
+    oil = commodities[['Date', 'Crude oil, Brendt, $/bbl, nominal$']].copy()
+    commodities = commodities.drop('Crude oil, Brendt, $/bbl, nominal$', axis=1)
+
+    predictor_dfs = [precipitation, electricity, recessions, worldbank_gem, oil]
     outcomes = commodities
 
     return predictor_dfs, outcomes
