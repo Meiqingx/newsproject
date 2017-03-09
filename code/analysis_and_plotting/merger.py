@@ -52,10 +52,10 @@ def read_files():
 
     commodities = pd.read_csv(commodities_f, converters=cv)
 
-    # Add dataframes to a list
-    dataframes = [precipitation, electricity, recessions, worldbank_gem, commodities]
+    predictor_dfs = [precipitation, electricity, recessions, worldbank_gem]
+    outcomes = commodities
 
-    return dataframes
+    return predictor_dfs, outcomes
 
 
 
@@ -125,10 +125,31 @@ def gen_sqrs_cbcs(df):
 
 
 
+def write_csv(df,filename):
+    '''
+    Writes a dataframe to a csv file.
 
-dataframes = read_files()
+    Inputs:
+        df (pandas dataframe): The final dataframe to be written.
+
+    Outputs:
+        A csv file with the name of OUT_FILE.
+
+    Returns:
+        None.
+    '''
+    dt = 'Date'
+    dt_fmt = '%Y-%m'
+
+    df.to_csv(path_or_buf = filename, header=True, index=False,\
+                     date_format = dt_fmt)
 
 
-merged_df = merge_dfs(dataframes)
+predictor_dfs, outcomes = read_files()
 
-gen_sqrs_cbcs(merged_df)
+predictors = merge_dfs(predictor_dfs)
+
+gen_sqrs_cbcs(predictors)
+
+write_csv(predictors,'predictors.csv')
+write_csv(outcomes,'outcomes.csv')
