@@ -64,6 +64,10 @@ def save_plain_text(urls_list, base_url = "https://data.giss.nasa.gov/gistemp/")
 
     Output: None; it saves the files
     '''
+    current_dir = os.getcwd()
+    output_dir = make_output_dir()
+    os.chdir(output_dir)
+
     list_name_files = []
     for extract_url in urls_list: 
         testing_url = base_url + extract_url
@@ -78,11 +82,10 @@ def save_plain_text(urls_list, base_url = "https://data.giss.nasa.gov/gistemp/")
         list_name_files.append(file_name)
 
     print("FINISH")
+    os.chdir(current_dir)
 
     return list_name_files
 
-# Save plain text
-# save_plain_text(urls_list)
 
 def generate_df(file):
     '''
@@ -129,6 +132,86 @@ def generate_df(file):
     return data
 
 
+def gen_auxdatabases_and_names(names_files):
+    '''
+    Generates the correct name of the databases from a 
+    list of files' names
+
+    Input:
+        list of files' names
+    Output:
+        (treated names, df_list), where
+        treated_names = final names of the columns
+        df_list =  list of databases (months in the columns)
+    '''
+    current_dir = os.getcwd()
+    output_dir = make_output_dir()
+    os.chdir(output_dir)
+
+    new_names = []
+    df_list = []
+    for i, name in enumerate(names_files):
+        if "Zon" not in name:
+            new_names.append(name[:7])
+            globals()['data_%s' % i] = generate_df(names_files[i])
+            df_list.append(globals()['data_%s' % i])
+
+    # Deal with the name of the variables
+    treated_names = []
+    for name in new_names:
+        if "+" in name:
+            name_adjusted = "temp_" +name[:2] + "_land_ocean"
+            if "." in name_adjusted:
+                name_adjusted = "temp_" + name_adjusted[:7] + "_land_ocean"
+        else:
+            name_adjusted = "temp_" + name[:2] + "_station"
+
+        treated_names.append(name_adjusted)
+
+    os.chdir(current_dir)
+    
+    return treated_names, df_list
+
+
+def compatibility(df):
+    '''
+    Generates a database compatible with other crawlers'
+    databases
+
+    Inputs:
+        df = pandas dataframe (month in columns)
+    Outputs:
+        df with month and year as index, shape (n,)
+    '''
+    df = df.set_index(df['Year'])
+    df = df.drop(['Year'], axis=1)
+    df = df.stack()
+    df.index = pd.PeriodIndex(start = '1880-01', freq='M', periods = len(df))
+
+    return df
+
+def join_dataframes(df_list, treated_names):
+    '''
+    Join the dataframes
+
+    Input:
+        df_list = list of databases (month as columns)
+        treated_names = list of names for the columns
+    Output:
+        merge_df = final dataframe of the file to merge with other crawlers'
+            output
+    '''
+    merge_df = pd.DataFrame(compatibility(df_list[0]))
+    merge_df.columns = [treated_names[0]]
+
+    for i, dataframe in enumerate(df_list[1:]):
+        loop_df = pd.DataFrame(compatibility(dataframe))
+        loop_df.columns = [treated_names[i+1]]
+        merge_df = pd.concat([merge_df, loop_df], axis=1)
+
+    return merge_df
+
+
 def print_full(x):
     '''
     Allow to print a complete pandas dataframe
@@ -145,39 +228,18 @@ def print_full(x):
 output_dir = make_output_dir()   
 initial_url = "https://data.giss.nasa.gov/gistemp/"
 urls_list = get_url_list(initial_url)
-#  names_files = save_plain_text(urls_list)
+names_files = save_plain_text(urls_list)
+treated_names, df_list = gen_auxdatabases_and_names(names_files)
+final_df = join_dataframes(df_list, treated_names)
+final_df['DATE'] = final_df.index
 
-names_files = ['GLB.Ts+dSST.txt',
- 'NH.Ts+dSST.txt',
- 'SH.Ts+dSST.txt',
- 'ZonAnn.Ts+dSST.txt',
- 'GLB.Ts.txt',
- 'NH.Ts.txt',
- 'SH.Ts.txt',
- 'ZonAnn.Ts.txt']
+# To export the data
+cwd = os.getcwd()
+if not os.path.exists(str(cwd) + "/data"):
+    os.makedirs(str(cwd) + "/data")
+final_df.to_csv((str(cwd)+'/data/final_temp.txt'), index = None)
 
-# Create data frames
-new_names = []
-for i, name in enumerate(names_files):
-    if "Zon" not in name:
-        new_names.append(name[:7])
-        globals()['data_%s' % name[:7]] = generate_df(names_files[i])
 
-# Need to merge and save dataframes
-
-######################
-# COMPATIBILITY NEEDED
-######################
-
-# Set index
-
-def compatibility(df):
-    df = df.set_index(df['Year'])
-    df = df.drop(['Year'], axis=1)
-    df = df.stack()
-    df.index = pd.PeriodIndex(start = '1880-01', freq='M', periods = len(df))
-
-    return df
 
 
 

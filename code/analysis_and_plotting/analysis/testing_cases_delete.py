@@ -82,11 +82,12 @@ series = database["WLDCOPPER"]
 new_data = series + random.sample(range(-800, 1000), 684)
 
 plt.title("Copper Data vs Prediction")
-plt.plot(new_data, color = "red", label = "Prediction", linewidth = 1)
-plt.plot(series, color = "blue", label = "Original Data", linewidth = 1.5)
+plt.plot(new_data, color = "red", label = "Original Data", linewidth = 1)
+plt.plot(series, color = "blue", label = "Predition", linewidth = 1.5)
 plt.legend(loc="upper left")
 # plt.show()
 plt.savefig("plot_result.png")
+plt.close()
 
 
 result_final = Predict.best_model(name_column, database, database)
