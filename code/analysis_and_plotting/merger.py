@@ -14,6 +14,7 @@ def read_files():
     recessions_f = '../parsers/recessions_data.csv'
     worldbank_f = '../scrapers/worldbank/gem.csv'
     commodities_f = '../scrapers/worldbank/gem-commodities.csv'
+    temperature_f = '../scrapers/temperature/data/final_temp.csv'
 
 
     # Column headers for each file
@@ -50,14 +51,17 @@ def read_files():
                              skiprows = 1)
 
     #meiqing: I set descriptive headers in my crawler, so did not put a new set of labels here
-    worldbank_gem = pd.read_csv(worldbank_f, converters=cv)
+    worldbank_gem = pd.read_csv(worldbank_f, converters = cv)
 
-    commodities = pd.read_csv(commodities_f, converters=cv)
+    commodities = pd.read_csv(commodities_f, converters = cv)
 
     oil = commodities[['Date', 'Crude oil, Brendt, $/bbl, nominal$']].copy()
     commodities = commodities.drop('Crude oil, Brendt, $/bbl, nominal$', axis=1)
 
-    predictor_dfs = [precipitation, electricity, recessions, worldbank_gem, oil]
+    #rodrigo: the names of the columns are in the files
+    temperature = pd.read_csv(temperature_f, converters = cv)
+
+    predictor_dfs = [precipitation, electricity, recessions, worldbank_gem, oil, temperature]
     outcomes = commodities
 
     return predictor_dfs, outcomes

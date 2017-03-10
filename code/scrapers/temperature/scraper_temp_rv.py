@@ -231,13 +231,13 @@ urls_list = get_url_list(initial_url)
 names_files = save_plain_text(urls_list)
 treated_names, df_list = gen_auxdatabases_and_names(names_files)
 final_df = join_dataframes(df_list, treated_names)
-final_df['DATE'] = final_df.index
+final_df.insert(0, 'Date', final_df.index)
 
 # To export the data
 cwd = os.getcwd()
 if not os.path.exists(str(cwd) + "/data"):
     os.makedirs(str(cwd) + "/data")
-final_df.to_csv((str(cwd)+'/data/final_temp.txt'), index = None)
+final_df.to_csv((str(cwd)+'/data/final_temp.csv'), index = None)
 
 
 
