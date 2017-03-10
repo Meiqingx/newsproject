@@ -58,12 +58,16 @@ def plot_plots(predictors):
     n = 50
     x = 1
 
+    bad = []
+
     while m < cols:
         zero = [0]
         sel = [x for x in range(m,n)]
         for i in range(len(sel)):
             val = sel[i]
             if val > cols:
+                bad.append(val)
+        for val in bad:
                 sel.remove(val)
         selected = zero + sel
         preds = predictors.iloc[:, selected]
