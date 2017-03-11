@@ -6,10 +6,6 @@ cd ../scrapers
 python3 recessions-emo.py
 python3 wbdata.py
 
-cd commodities_data
-
-python3 commodities_prices.csv
-
 
 cd ../temperature
 
