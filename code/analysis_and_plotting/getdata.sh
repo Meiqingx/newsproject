@@ -3,20 +3,20 @@
 cd ../scrapers
 
 echo -e '\nRunning precipitation scraper\n'
-#python3 precipitation-emo.py
+python3 precipitation-emo.py
 
 echo -e '\nRunning recessions scraper\n'
-#python3 recessions-emo.py
+python3 recessions-emo.py
 
 echo -e '\nRunning World Bank scraper\n'
-#python3 wbdata.py
+python3 wbdata.py
 
 
 
 cd temperature
 
 echo -e '\nRunning temperature scraper\n'
-#python3 scraper_temp_rv.py
+python3 scraper_temp_rv.py
 
 echo -e '\nDone scraping all data (except for electricity data,'
 echo -e 'which was downloaded by hand)\n\n'
