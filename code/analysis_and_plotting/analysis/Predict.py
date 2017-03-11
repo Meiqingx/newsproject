@@ -8,6 +8,7 @@ import datetime
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.stattools import adfuller, acf, pacf
 from statsmodels.tsa.arima_model import ARIMA
+from queue import PriorityQueue
 
 
 class Predict:
@@ -113,11 +114,13 @@ class Predict:
         Outputs:
             r_square [0,1]
         '''
-        y_hat = predictions(model, series, independent_vars)
+        y_hat = Predict.predictions(model, series, independent_vars)
         y_mean = np.mean(series)
         var_org = np.sum((series - y_mean) ** 2)
         var_hat = np.sum((series - y_hat) ** 2)
         r_square = 1 - (var_hat/var_org)
+        print("var_hat is", var_hat)
+        print("var_org is", var_org)
         return r_square
 
     def mse(model, series, independent_vars = None):
@@ -134,6 +137,117 @@ class Predict:
         y_hat = Predict.predictions(model, series, independent_vars)
         mse = np.sum((y_hat - series) ** 2) / len(series)
         return mse
+
+    def best_order(series, independent_vars = None):
+        '''
+        Creates the parameter for the best model
+        '''
+        # First, select the number of lags
+        measures_of_fit_acumulator = PriorityQueue()
+        for i in [1,2,3]:
+            model = Predict.model(series, i, independent_vars)
+            r_square = Predict.r_square(model, series, independent_vars)
+            print(r_square)
+            measures_of_fit_acumulator.put((-Predict.r_square(model, series, independent_vars), i))
+
+        winner = measures_of_fit_acumulator.get()[1]
+        return winner
+
+    def best_parameters(name_column, database_dependent, database_independent):
+        '''
+        Selects the best model with 5 variables
+
+        Input:
+            name_column = name of the column of the dependent variable
+            database_dependent
+            database_independent
+
+        Outputs:
+            list of [list_independent_vars, autoregressive_terms], where
+            list_independent_vars = list of the names of the independetn variables
+            autoregressive_terms = number of the best number of autoregressive terms
+
+
+        '''
+        database_dependent = database_dependent.dropna(axis=1)
+        database_independent = database_independent.dropna(axis=1)
+
+        ### MODIFY THIS
+        database_independent = database_independent.drop(['WLDCRUDE_BRENT'], axis=1)
+        ### MODIFY THIS
+
+        list_predictors = list(database_independent.columns)
+        print(list_predictors)
+
+        series = database_dependent[name_column]
+        autoregressive_terms = Predict.best_order(series)
+
+        list_independent_vars = []
+
+        for j in range(5):
+            queue_for_predictors = PriorityQueue()
+            
+            for element in list_predictors:
+
+                list_independent_vars.append(element)                
+                independent_vars = database_independent[list_independent_vars]
+                print("before model", element)
+                model = Predict.model(series, autoregressive_terms, independent_vars)
+                print("before r_square", element)
+                r_square = Predict.r_square(model, series, independent_vars)
+                print("before queue", element)
+                queue_for_predictors.put((-r_square, element))
+                del list_independent_vars[-1]
+                
+            best_one_variable = queue_for_predictors.get()[1]
+            list_independent_vars.append(best_one_variable)
+
+
+        return list_independent_vars, autoregressive_terms
+
+    def best_model(name_column, database_dependent, database_independent):
+        '''
+        Selects the best model and generates some parameters to test the model
+
+        Inputs:
+            name_column = name of the dependent variable
+            database_dependent = database of dependent variables
+            database_independent = database of independent variables
+
+        Outputs:
+            list = [best_model, variables, order, independent_vars, series]
+            best_model = ARIMA model of class Predict
+            variables = list of names of indepenedent variables
+            order = order of the autoregression process
+            independent_vars = dataframe with independent variables
+        '''
+
+        variables, order = Predict.best_parameters(name_column, database_dependent, database_independent)
+
+        series = database_dependent[name_column]
+        independent_vars = database_independent[variables]
+
+        best_model = Predict.model(series, order, independent_vars)
+
+        return best_model, variables, order, independent_vars, series
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
