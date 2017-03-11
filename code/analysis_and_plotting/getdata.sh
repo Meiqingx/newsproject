@@ -7,6 +7,6 @@ python3 recessions-emo.py
 python3 wbdata.py
 
 
-cd ../temperature
+cd temperature
 
 python3 scraper_temp_rv.py
