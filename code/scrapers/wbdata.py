@@ -42,7 +42,7 @@ def get_indicators():
 def get_commodities():
     '''
     '''
-    return set(commodities)
+    return set(COMMODITIES)
 
 
 def build_country_code(country):
@@ -204,4 +204,9 @@ def create_commodities_df(commodity_lst=None, yymm=None, \
     results.index.name = 'Date'
 
     results.to_csv(outfile)
+
+if __name__ == '__main__':
+
+    create_predictors_df()
+    create_commodities_df()
    
