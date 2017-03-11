@@ -9,6 +9,7 @@ from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.stattools import adfuller, acf, pacf
 from statsmodels.tsa.arima_model import ARIMA
 from queue import PriorityQueue
+import time
 
 
 class Predict:
@@ -26,7 +27,7 @@ class Predict:
         # I will use log
         series = np.log(series)
         differences = 1
-        moving_avg_terms = 1
+        moving_avg_terms = 0
 
         params = (autoregressive_terms, differences, moving_avg_terms)
 
@@ -123,6 +124,20 @@ class Predict:
         print("var_org is", var_org)
         return r_square
 
+    def adjusted_r_square(model, series, autoregressive_terms, independent_vars = None):
+        sample_size = len(series)
+        number_predictors = autoregressive_terms
+
+        if independent_vars is not None:
+            number_predictors += len(independent_vars.columns)
+
+        r2 = Predict.r_square(model, series, independent_vars)
+
+        rv = 1 - ((1 - r2) * ((sample_size - 1)/(sample_size - number_predictors -1)))
+
+        return rv
+
+
     def mse(model, series, independent_vars = None):
         '''
         Generates MSE
@@ -144,11 +159,15 @@ class Predict:
         '''
         # First, select the number of lags
         measures_of_fit_acumulator = PriorityQueue()
-        for i in [1,2,3]:
+        for i in [1]:
+            print(i)
             model = Predict.model(series, i, independent_vars)
-            r_square = Predict.r_square(model, series, independent_vars)
-            print(r_square)
-            measures_of_fit_acumulator.put((-Predict.r_square(model, series, independent_vars), i))
+            adjusted_r_square = Predict.adjusted_r_square(model, series, i, independent_vars)
+            # r_square = Predict.r_square(model, series, independent_vars)
+            # print(r_square)
+            # measures_of_fit_acumulator.put((-Predict.r_square(model, series, independent_vars), i))
+            measures_of_fit_acumulator.put((-Predict.adjusted_r_square(model, series, i, independent_vars), i))
+
 
         winner = measures_of_fit_acumulator.get()[1]
         return winner
@@ -172,32 +191,28 @@ class Predict:
         database_dependent = database_dependent.dropna(axis=1)
         database_independent = database_independent.dropna(axis=1)
 
-        ### MODIFY THIS
-        database_independent = database_independent.drop(['WLDCRUDE_BRENT'], axis=1)
-        ### MODIFY THIS
-
         list_predictors = list(database_independent.columns)
-        print(list_predictors)
 
         series = database_dependent[name_column]
         autoregressive_terms = Predict.best_order(series)
 
         list_independent_vars = []
 
-        for j in range(5):
+        for j in range(2):
             queue_for_predictors = PriorityQueue()
             
             for element in list_predictors:
-
-                list_independent_vars.append(element)                
-                independent_vars = database_independent[list_independent_vars]
-                print("before model", element)
-                model = Predict.model(series, autoregressive_terms, independent_vars)
-                print("before r_square", element)
-                r_square = Predict.r_square(model, series, independent_vars)
-                print("before queue", element)
-                queue_for_predictors.put((-r_square, element))
-                del list_independent_vars[-1]
+                if element not in list_independent_vars:
+                    list_independent_vars.append(element)
+                    print("The dependent var is", name_column)
+                    print(list_independent_vars, autoregressive_terms)
+                    independent_vars = database_independent[list_independent_vars]
+                    model = Predict.model(series, autoregressive_terms, independent_vars)
+                    adjusted_r_square = Predict.adjusted_r_square(model, series, autoregressive_terms, independent_vars)
+                    # r_square = Predict.r_square(model, series, independent_vars)
+                    # print(r_square)
+                    queue_for_predictors.put((-adjusted_r_square, element))
+                    del list_independent_vars[-1]
                 
             best_one_variable = queue_for_predictors.get()[1]
             list_independent_vars.append(best_one_variable)
@@ -228,6 +243,7 @@ class Predict:
         independent_vars = database_independent[variables]
 
         best_model = Predict.model(series, order, independent_vars)
+        print("Dependent var is", name_column)
 
         return best_model, variables, order, independent_vars, series
 
