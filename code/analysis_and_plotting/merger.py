@@ -6,6 +6,19 @@ import csv
 
 def read_files():
     '''
+    Reads in files as pandas dataframes.
+
+    Inputs:
+        None.  Filenames are hard-coded in.
+
+    Outputs:
+        None
+
+    Returns:
+        predictor_dfs (list of pandas dataframes): A list of the pandas data-
+                                                   frames containing predictor
+                                                   variables
+        outcomes (pandas dataframe): A pandas dataframe of outcome variables.
     '''
 
     # Filenames
@@ -43,7 +56,7 @@ def read_files():
     # Create individual dataframes
     precipitation = pd.read_csv(precipitation_f, names = precip_hdrs, \
                                 converters = cv, skiprows = 1)
-    precipitation = precipitation.interpolate()
+    precipitation = precipitation.interpolate() # One month was missing data
 
     electricity = pd.read_csv(electricity_f, names = elec_hdrs, \
                               converters = cv, skiprows = 1)
@@ -88,9 +101,16 @@ def date_fixer(datestring):
 
 
 
-
 def merge_dfs(dataframes_list):
     '''
+    Recursively merges dataframes together.
+
+    Inputs:
+        dataframes_list (list of pandas dataframes): The list of dataframes to
+                                                     be merged.
+
+    Returns:
+        merged_df (pandas dataframe): The merged dataframe.
     '''
 
     if len(dataframes_list) < 2:
@@ -108,10 +128,9 @@ def merge_dfs(dataframes_list):
 
 
 
-
 def gen_sqrs_cbcs(df):
     '''
-    Generates squared and cubic terms for all variables in the data frame.
+    Generates squared and cubic terms for all variables in the dataframe.
 
     Inputs:
         df (pandas dataframe): The dataframe in question.
@@ -125,8 +144,8 @@ def gen_sqrs_cbcs(df):
 
     names = list(df.columns)[1:]
 
-    sqr_names = [x + ' ** 2' for x in names]
-    cbc_names = [x + ' ** 3' for x in names]
+    sqr_names = [x + ' ^ 2' for x in names]
+    cbc_names = [x + ' ^ 3' for x in names]
 
     for i, name in enumerate(names):
         df[sqr_names[i]] = df[name].map(lambda x: x ** 2)
@@ -142,16 +161,18 @@ def write_csv(df,filename):
         df (pandas dataframe): The final dataframe to be written.
 
     Outputs:
-        A csv file with the name of OUT_FILE.
+        A csv file with the name of [filename].
 
     Returns:
         None.
     '''
+
     dt = 'Date'
     dt_fmt = '%Y-%m'
 
     df.to_csv(path_or_buf = filename, header=True, index=False,\
                      date_format = dt_fmt)
+
 
 
 predictor_dfs, outcomes = read_files()
