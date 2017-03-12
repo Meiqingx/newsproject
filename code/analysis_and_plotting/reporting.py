@@ -1,5 +1,7 @@
 import numpy as np
 
+from plot_pred import build_plot
+
 from pylatex import Document, MiniPage, PageStyle, Section, Subsection, Tabular, \
                     MultiColumn, Head, Foot, Figure, LargeText, \
                     MediumText, LineBreak, simple_page_number
@@ -9,7 +11,9 @@ import os
 import time
 
 # subprocess error with gen_pdf
-# filepath
+# filepath with the picture
+# challenge, their package not stable
+# newly added simple page number is not returning correct value
 
 class Report:
     """docstring for ClassName"""
@@ -17,6 +21,11 @@ class Report:
     def __init__(self, margin='1.0in', default_filepath='./reports/report'):
         
 
+        parentdir= os.path.dirname(default_filepath)
+
+        if not os.path.exists(parentdir):
+            os.makedirs(parentdir)
+        
         geometry_options = {'margin': margin, 'paperheight': '11in', \
                             'paperwidth':'8.5in'}
         
@@ -33,9 +42,9 @@ class Report:
         company = 'Ochoa Valdés-Ortiz Zhang Ltd.'
 
         #add header
-        with header.create(Head('L')) as lheader:
-            with lheader.create(Figure(position='t!')) as graph:
-                graph.add_image(header_image, width='400px')
+        with header.create(Head('C')) as cheader:
+            with cheader.create(Figure(position='t!')) as graph:
+                graph.add_image(header_image, width='300px')
 
         
         #left footer
@@ -72,14 +81,11 @@ class Report:
                 sumtable.add_empty_row()
 
 
-    def insert_graph(self, sec_name, graph_fname, caption):
+    def insert_graph(self, graph_fname):
         '''
         '''
-        with self.doc.create(Section(sec_name)):
-            #self.doc.append('add section text')
-            with self.doc.create(Figure(position='t!')) as graph:
-                graph.add_image(graph_fname, width='200px', placement='flushleft')
-                graph.add_caption(caption)
+        with self.doc.create(Figure(position='h!')) as graph:
+            graph.add_image(graph_fname, width='300px')
 
     def insert_table(self, results):
         '''
@@ -113,8 +119,9 @@ class Report:
 
 if __name__ == '__main__':
 
+    #Rod passes me a list of df, and ten dictionaries
 
-    header_image = os.path.join(os.path.dirname(__file__), 'commodities_2.jpg')
+    header_image = '../commodity-pic.jpg'
 
     results = {'lag':1, 'R2': 0.99, 'stat': 5.66, 'num_diff': 4,\
                'independent_var': ['apple', 'banana', 'pear', 'peach']}
@@ -124,5 +131,7 @@ if __name__ == '__main__':
     r.set_title('Forecast', 'Wheat')
     r.add_headfoot(header_image)
     r.add_executive_summary('Summary')
+    r.insert_graph('../analysis/plot_result.png')
     r.insert_table(results)
     r.gen_pdf()
+    
