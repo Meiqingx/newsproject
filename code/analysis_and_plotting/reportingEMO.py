@@ -127,8 +127,8 @@ class Report:
     def gen_pdf(self, filepath=None):
         '''
         '''
-        self.doc.generate_pdf(filepath, clean=True, clean_tex=False,#True,  \
-                              compiler='pdflatex',silent=False)#, compiler_args = ["-synctex=1"])#True)
+        self.doc.generate_pdf(filepath, clean=True, clean_tex=True,\
+                              compiler='pdflatex',silent=True)
 
 
 
@@ -137,6 +137,8 @@ def write_summary(report, results):
     '''
     # interpret results rodrigo needs to tell me the
     # threshold
+
+
 
 def create_output_dir():
     '''
@@ -159,7 +161,6 @@ def create_output_dir():
 
 
 
-
 def build_report(df, results):
     '''
     '''
@@ -175,11 +176,6 @@ def build_report(df, results):
     output_path = os.path.join(PATH, name)
     r.gen_pdf(output_path)
 
-    #return r
+
 
 create_output_dir()
-
-#if __name__ == '__main__':
-
-    #for i, df in enumerate(dfs_list):
-    #    build_report(df, dicto[i])
