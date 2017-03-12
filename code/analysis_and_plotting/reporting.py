@@ -87,6 +87,7 @@ class Report:
         with self.doc.create(Figure(position='h!')) as graph:
             graph.add_image(graph_fname, width='300px')
 
+
     def insert_table(self, results):
         '''
         '''
@@ -103,7 +104,7 @@ class Report:
         table.add_row((bold('Independent variables'), indie_var), color='lightgray')
         table.add_row((bold('Number of differences'), results['num_diff']))
         table.add_row((NoEscape('\symbf{$R^2$}'), results['R2']), color='lightgray')
-        table.add_row((bold('Durbin Watson Statistic'), results['stat']))
+        table.add_row((bold('Durbin-Watson Statistic'), results['stat']))
         table.add_hline()
         
         section.append(LineBreak())
@@ -114,7 +115,8 @@ class Report:
     def gen_pdf(self, filepath=None):
         '''
         '''
-        self.doc.generate_pdf(filepath, clean_tex=False)
+        self.doc.generate_pdf(filepath, clean=True, clean_tex=True, \
+                              compiler='pdflatex', silent=True)
 
 
 if __name__ == '__main__':
