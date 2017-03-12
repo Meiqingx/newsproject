@@ -12,9 +12,8 @@ import time
 
 
 # subprocess error with gen_pdf
-# filepath with the picture
-# challenge, their package not stable
-# newly added simple page number is not returning correct value
+# challenge, their package not stable:
+## newly added simple page number is not returning correct value
 
 class Report:
     """docstring for ClassName"""
@@ -93,6 +92,8 @@ class Report:
         '''
         '''
         indie_var = ' '.join(results['independent_var'])
+        R2 = round(results['R2'], 2)
+        dstat = round(results['stat'], 2)
 
         section = Section('Statistical Results')
 
@@ -104,8 +105,8 @@ class Report:
         table.add_row((bold('Lag variables'), results['lag']))
         table.add_row((bold('Independent variables'), indie_var), color='lightgray')
         table.add_row((bold('Number of differences'), results['num_diff']))
-        table.add_row((NoEscape('\symbf{$R^2$}'), results['R2']), color='lightgray')
-        table.add_row((bold('Durbin-Watson Statistic'), results['stat']))
+        table.add_row((NoEscape('\symbf{$R^2$}'), R2), color='lightgray')
+        table.add_row((bold('Durbin-Watson Statistic'), dstat))
         table.add_hline()
         
         section.append(LineBreak())
@@ -126,14 +127,20 @@ if __name__ == '__main__':
 
     header_image = '../commodity-pic.jpg'
 
-    results = {'lag':1, 'R2': 0.99, 'stat': 5.66, 'num_diff': 4,\
+    results = {'lag':1, 'R2': 0.9910, 'stat': 5.6678, 'num_diff': 4,\
                'independent_var': ['apple', 'banana', 'pear', 'peach']}
     
+    # for i in df_lst: 1. create title
+    # 2. create summary, based on indie var, and stat., add 
+    # stock interpretation, moderately or significantly 
+    # 3. create different graph routes
+    # 
+
     r = Report()
 
     r.set_title('Forecast', 'Wheat')
     r.add_headfoot(header_image)
-    r.add_executive_summary('Summary')
+    r.add_executive_summary('Summary: ')
     r.insert_graph('../analysis/plot_result.png')
     r.insert_table(results)
     r.gen_pdf()
