@@ -26,8 +26,7 @@ def create_output_dir():
     output_path = os.path.join(cur_path, OUTPUT_DIR)
     if not os.access(output_path, os.F_OK):
         os.makedirs(output_path)
-
-    print('Creating output directory:', output_path)
+        print('Creating output directory:', output_path)
 
 
 def get_page(url):

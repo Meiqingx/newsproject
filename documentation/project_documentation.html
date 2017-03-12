@@ -129,11 +129,13 @@ $(document).ready(function () {
 <li><a href="#data-crawlers-and-scrapers">Data crawlers and scrapers</a><ul>
 <li><a href="#world-bank-data">World Bank data</a><ul>
 <li><a href="#reference-of-supported-indicators">Reference of supported indicators</a></li>
-<li><a href="#download-data">Download data</a></li>
+<li><a href="#downloading-data">Downloading data</a></li>
 </ul></li>
-<li><a href="#electricity-data">Electricity data</a></li>
-<li><a href="#precipitation-data">Precipitation data</a></li>
-<li><a href="#recessions-data">Recessions data</a></li>
+<li><a href="#electricity-data">Electricity Data</a></li>
+<li><a href="#precipitation-data">Precipitation Data</a><ul>
+<li><a href="#functions">Functions</a></li>
+</ul></li>
+<li><a href="#recessions-data">Recessions Data</a></li>
 <li><a href="#temperature-data">Temperature data</a></li>
 </ul></li>
 <li><a href="#data-analysis-module">Data analysis module</a></li>
@@ -181,8 +183,8 @@ def get_indicators()
 def get_commodities()  
 </code></pre>
 </div>
-<div id="download-data" class="section level3">
-<h3>Download data</h3>
+<div id="downloading-data" class="section level3">
+<h3>Downloading data</h3>
 <pre><code>def create_predictors_df(country_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv')
 
 Download 40 economic indicators from the world bank  
@@ -198,14 +200,32 @@ Parameters:
 </div>
 </div>
 <div id="electricity-data" class="section level2">
-<h2>Electricity data</h2>
-<p>The Energy Information Administration provides a single file, which can be downloaded by hand: URL = <a href="http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01" class="uri">http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01</a></p>
+<h2>Electricity Data</h2>
+<p>The Energy Information Administration provides a single file, which can be downloaded by hand:</p>
+<p>URL = <a href="http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01" class="uri">http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01</a></p>
 </div>
 <div id="precipitation-data" class="section level2">
-<h2>Precipitation data</h2>
+<h2>Precipitation Data</h2>
+<p>NASA provides 224 CSV maps of global monthly precipitation.</p>
+<p>The module scrapes the main page for each year in the data collection and determines the IDs of the files to be downloaded. It then downloads the necessary files and outputs them with the year and month in the filename.</p>
+<div id="functions" class="section level3">
+<h3>Functions</h3>
+<pre><code>create_output_dir():  Creates the output directory if it does not already exist.
+
+create_main_url_list():  Creates a list of main-page URLs to be scraped.
+
+get_csvs(queue):  Given a queue containing URLs of the files to be downloaded, downloads said files.
+
+write_csv(csv_map,filename):  Given a single csv_map, outputs a csv file.
+
+build_months(year):  Given a year, builds a list of the months for which data are available.
+
+crawl_page(url,months_list,queue): Given a URL, the months for which data are available for that year, and the queue, updates the queue with the IDs of the monthly files.</code></pre>
+</div>
 </div>
 <div id="recessions-data" class="section level2">
-<h2>Recessions data</h2>
+<h2>Recessions Data</h2>
+<p>The National Bureau of Economic Research provides a list of the start and end dates of</p>
 </div>
 <div id="temperature-data" class="section level2">
 <h2>Temperature data</h2>
