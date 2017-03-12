@@ -131,10 +131,11 @@ if __name__ == '__main__':
                'independent_var': ['apple', 'banana', 'pear', 'peach']}
 
     # for i in df_lst: 1. create title
-    # 2. create summary, based on indie var, and stat., add
-    # stock interpretation, moderately or significantly
-    # 3. create different graph routes
-    #
+    # 2. create summary, based on indie var, and stat., add 
+    # stock interpretation, moderately or significantly 
+    # 3. create different graph routes, import matplot
+    # 
+
 
     r = Report()
 

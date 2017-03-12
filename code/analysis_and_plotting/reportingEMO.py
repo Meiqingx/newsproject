@@ -10,22 +10,21 @@ import time
 
 HEADER_IMAGE = '../commodity-pic.jpg'
 PATH = './reports'
-
+# These global variables should be moved to run_files
 
 # subprocess error with gen_pdf
 # filepath with the picture
 # challenge, their package not stable
-# newly added simple page number is not returning correct value
 
 class Report:
     """docstring for ClassName"""
 
     def __init__(self, df, dicto, margin='1.0in', default_filepath=PATH):
 
-        #parentdir= os.path.dirname(default_filepath)
+        parentdir= os.path.dirname(default_filepath)
 
-        #if not os.path.exists(parentdir):
-            #os.makedirs(parentdir)
+        if not os.path.exists(parentdir):
+            os.makedirs(parentdir)
 
         geometry_options = {'margin': margin, 'paperheight': '11in', \
                             'paperwidth':'8.5in'}
@@ -66,8 +65,6 @@ class Report:
 
 
 
-
-
         self.doc.preamble.append(header)
 
         self.doc.change_document_style('header')
@@ -91,7 +88,7 @@ class Report:
                 sumtable.add_empty_row()
 
 
-    def insert_graph(self):#, graph_fname):
+    def insert_graph(self):
         '''
         '''
 
@@ -100,12 +97,12 @@ class Report:
             plot.add_plot(width="6.5in")
 
 
-
-
     def insert_table(self, results):
         '''
         '''
         indie_var = ', '.join(results['independent_var'])
+        R2 = round(results['R2'], 2)
+        dstat = round(results['stat'], 2)
 
         section = Section('Statistical Results')
 
@@ -126,6 +123,7 @@ class Report:
 
         self.doc.append(section)
 
+
     def gen_pdf(self, filepath=None):
         '''
         '''
@@ -133,47 +131,32 @@ class Report:
                               compiler='pdflatex',silent=False)#, compiler_args = ["-synctex=1"])#True)
 
 
-def create_output_dir():
+
+def write_summary(report, results):
     '''
-    Creates directory if precipitation_maps directory does not already exist.
-
-    Inputs:
-        None.
-
-    Outputs:
-        The output directory at current_path/OUTPUT_DIR.
-
-    Returns:
-        None.
     '''
-
-    cur_path = os.path.split(os.path.abspath(__file__))[0]
-    output_path = os.path.join(cur_path, PATH)
-    if not os.access(output_path, os.F_OK):
-        os.makedirs(output_path)
+    # interpret results rodrigo needs to tell me the 
+    # threshold
 
 
 
-def build_report(df, dicto):
+def build_report(df, results):
     '''
     '''
     name = df.columns[1].split(',')[0]
 
-    r = Report(df,dicto)
+    r = Report(df,results)
 
     r.set_title('Forecast:  ', name)
     r.add_headfoot(HEADER_IMAGE)
     r.add_executive_summary('Summary')
     r.insert_graph()
-    r.insert_table(dicto)
+    r.insert_table(results)
     output_path = os.path.join(PATH, name)
     r.gen_pdf(output_path)
 
     #return r
 
-
-
-create_output_dir()
 
 #if __name__ == '__main__':
 
