@@ -1,43 +1,45 @@
 import numpy as np
-
 from plot_pred import build_plot
-
 from pylatex import Document, MiniPage, PageStyle, Section, Subsection, Tabular, \
                     MultiColumn, Head, Foot, Figure, LargeText, \
                     MediumText, LineBreak, simple_page_number
 from pylatex.utils import italic, bold, NoEscape
-
 import os
 import time
 
 
+HEADER_IMAGE = '../commodity-pic.jpg'
+PATH = './reports'
+
+
 # subprocess error with gen_pdf
-# challenge, their package not stable:
-## newly added simple page number is not returning correct value
+# filepath with the picture
+# challenge, their package not stable
+# newly added simple page number is not returning correct value
 
 class Report:
     """docstring for ClassName"""
-    
-    def __init__(self, margin='1.0in', default_filepath='./reports/report'):
-        
+
+    def __init__(self, margin='1.0in', default_filepath=PATH):
+
 
         parentdir= os.path.dirname(default_filepath)
 
         if not os.path.exists(parentdir):
             os.makedirs(parentdir)
-        
+
         geometry_options = {'margin': margin, 'paperheight': '11in', \
                             'paperwidth':'8.5in'}
-        
+
         self.doc = Document(default_filepath= default_filepath, \
                             geometry_options=geometry_options, font_size='large')
-        
+
 
     def add_headfoot(self, header_image):
         '''
         '''
         header = PageStyle('header')
-        
+
         today = time.strftime('%Y %B %d')
         company = 'Ochoa Valdés-Ortiz Zhang, Ltd.'
 
@@ -46,18 +48,18 @@ class Report:
             with cheader.create(Figure(position='t!')) as graph:
                 graph.add_image(header_image, width='300px')
 
-        
+
         #left footer
         with header.create(Foot('L')):
             header.append(today)
             header.append(LineBreak())
             header.append(company)
-        
+
         #right footer
         with header.create(Foot('R')):
             header.append(simple_page_number())
 
-        
+
         self.doc.preamble.append(header)
 
         self.doc.change_document_style('header')
@@ -92,8 +94,6 @@ class Report:
         '''
         '''
         indie_var = ' '.join(results['independent_var'])
-        R2 = round(results['R2'], 2)
-        dstat = round(results['stat'], 2)
 
         section = Section('Statistical Results')
 
@@ -105,10 +105,10 @@ class Report:
         table.add_row((bold('Lag variables'), results['lag']))
         table.add_row((bold('Independent variables'), indie_var), color='lightgray')
         table.add_row((bold('Number of differences'), results['num_diff']))
-        table.add_row((NoEscape('\symbf{$R^2$}'), R2), color='lightgray')
-        table.add_row((bold('Durbin-Watson Statistic'), dstat))
+        table.add_row((NoEscape('\symbf{$R^2$}'), results['R2']), color='lightgray')
+        table.add_row((bold('Durbin-Watson Statistic'), results['stat']))
         table.add_hline()
-        
+
         section.append(LineBreak())
         section.append(table)
 
@@ -121,27 +121,48 @@ class Report:
                               compiler='pdflatex', silent=True)
 
 
-if __name__ == '__main__':
+def create_output_dir():
+    '''
+    Creates directory if precipitation_maps directory does not already exist.
 
-    #Rod passes me a list of df, and ten dictionaries
+    Inputs:
+        None.
 
-    header_image = '../commodity-pic.jpg'
+    Outputs:
+        The output directory at current_path/OUTPUT_DIR.
 
-    results = {'lag':1, 'R2': 0.9910, 'stat': 5.6678, 'num_diff': 4,\
-               'independent_var': ['apple', 'banana', 'pear', 'peach']}
-    
-    # for i in df_lst: 1. create title
-    # 2. create summary, based on indie var, and stat., add 
-    # stock interpretation, moderately or significantly 
-    # 3. create different graph routes
-    # 
+    Returns:
+        None.
+    '''
+
+    cur_path = os.path.split(os.path.abspath(__file__))[0]
+    output_path = os.path.join(cur_path, PATH)
+    if not os.access(output_path, os.F_OK):
+        os.makedirs(output_path)
+
+
+
+def build_report(df, dicto):
+    '''
+    '''
+    name = df.columns[1].split(',')[0]
 
     r = Report()
 
-    r.set_title('Forecast', 'Wheat')
-    r.add_headfoot(header_image)
-    r.add_executive_summary('Summary: ')
-    r.insert_graph('../analysis/plot_result.png')
-    r.insert_table(results)
-    r.gen_pdf()
-    
+    r.set_title('Forecast', name)
+    r.add_headfoot(HEADER_IMAGE)
+    r.add_executive_summary('Summary')
+    #r.insert_graph('../analysis/plot_result.png')
+    build_plot(df)
+    r.insert_table(dicto)
+    output_path = os.path.join(PATH, name)
+    r.gen_pdf(output_path)
+
+
+
+create_output_dir()
+
+#if __name__ == '__main__':
+
+    #for i, df in enumerate(dfs_list):
+    #    build_report(df, dicto[i])

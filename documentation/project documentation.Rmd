@@ -1,0 +1,117 @@
+---
+title: "Predicting Commodities Prices: A Data-Mining Approach"
+author: "Rodrigo Valdés Ortiz, Meiqing Zhang, & Erin M. Ochoa"
+
+date: "2017 March 14"
+output:
+  html_document:
+    toc: true
+---
+
+# Description
+192 independent variables
+
+Python modules are designed to run on Python 3.4+; shell scripts are designed to run on GNU bash 3.2+.
+
+# Package installation before using the software
+```{}
+pip3 install bs4
+pip3 install lxml
+pip3 install numpy
+pip3 install urllib
+pip3 install pandas
+pip3 install pylatex
+pip3 install sklearn
+pip3 install requests
+pip3 install dateutil
+pip3 install html2text
+pip3 install matplotlib
+pip3 install statsmodels
+
+sudo apt-get install texlive-latex-base
+sudo apt-get install texlive-latex-extra
+sudo apt-get install texlive-fonts-recommended
+```
+
+# Data crawlers and scrapers
+
+## World Bank data
+This module downloads data from the World Bank API.  
+   
+—filename: wbdata.py    
+
+### Reference of supported indicators  
+```
+def get_countries()  
+  
+def get_indicators()  
+  
+def get_commodities()  
+
+```
+
+### Downloading data
+
+```
+def create_predictors_df(country_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv')
+
+Download 40 economic indicators from the world bank  
+Parameters:  
+
+
+
+def create_commodities_df(commodity_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv')
+
+Download 11 commodities by default  
+Parameters:  
+
+```
+
+## Electricity data
+The Energy Information Administration provides a single file, which can be downloaded by hand:
+
+URL = http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01
+
+## Precipitation data
+
+## Recessions data
+
+## Temperature data
+
+
+
+
+
+# Data analysis module
+
+
+
+# Graphing module
+
+
+
+# Reporting module
+This module creates report  
+  
+filename: reporting.py  
+
+```
+class Report
+
+Parameters:
+
+Methods:
+  set_title()
+
+  insert_graph()
+
+  insert_table()
+
+  generate_pdf()
+```
+
+
+
+```{r engine='python', highlight=TRUE}
+print('Hello, world')
+```
