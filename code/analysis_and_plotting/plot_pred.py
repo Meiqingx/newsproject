@@ -23,7 +23,7 @@ def build_plot(df):
     actuals = df[actual]
     preds = df[pred]
 
-    fig, ax = plt.subplots(figsize=(6.5,4))
+    fig, ax = plt.subplots()#figsize=(6.5,4))
     plt.subplot(111, facecolor='lightgray')
     plt.minorticks_on()
     plt.plot(dates, actuals,color='darkturquoise',lw=1.5, label='Actual')

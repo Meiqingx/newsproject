@@ -1,7 +1,7 @@
 import numpy as np
 from plot_pred import build_plot
 from pylatex import Document, MiniPage, PageStyle, Section, Subsection, Tabular, \
-                    MultiColumn, Head, Foot, Figure, LargeText, \
+                    MultiColumn, Head, Foot, Figure, LargeText, figure,\
                     MediumText, LineBreak, simple_page_number
 from pylatex.utils import italic, bold, NoEscape
 import os
@@ -20,8 +20,7 @@ PATH = './reports'
 class Report:
     """docstring for ClassName"""
 
-    def __init__(self, margin='1.0in', default_filepath=PATH):
-
+    def __init__(self, df, dicto, margin='1.0in', default_filepath=PATH):
 
         parentdir= os.path.dirname(default_filepath)
 
@@ -33,6 +32,8 @@ class Report:
 
         self.doc = Document(default_filepath= default_filepath, \
                             geometry_options=geometry_options, font_size='large')
+        self._df = df
+        self._dicto = dicto
 
 
     def add_headfoot(self, header_image):
@@ -83,11 +84,18 @@ class Report:
                 sumtable.add_empty_row()
 
 
-    def insert_graph(self, graph_fname):
+    def insert_graph(self):#, graph_fname):
+        '''
         '''
         '''
         with self.doc.create(Figure(position='h!')) as graph:
             graph.add_image(graph_fname, width='300px')
+        '''
+        with self.doc.create(Figure(position='h!')) as plot:
+            build_plot(self._df)
+            plot.add_plot()
+
+
 
 
     def insert_table(self, results):
@@ -147,16 +155,20 @@ def build_report(df, dicto):
     '''
     name = df.columns[1].split(',')[0]
 
-    r = Report()
+    r = Report(df,dicto)
 
     r.set_title('Forecast', name)
     r.add_headfoot(HEADER_IMAGE)
     r.add_executive_summary('Summary')
     #r.insert_graph('../analysis/plot_result.png')
-    build_plot(df)
+    #build_plot(df)
+    r.insert_graph()
+    #r.figure.add_plot()
     r.insert_table(dicto)
     output_path = os.path.join(PATH, name)
     r.gen_pdf(output_path)
+
+    return r
 
 
 
