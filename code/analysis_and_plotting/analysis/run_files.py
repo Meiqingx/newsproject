@@ -2,6 +2,7 @@ import SeriesRVO
 from auxiliary_functions import load_data
 from Predict import *
 from AR_model import *
+import reportingEMO #change this name once the module is finalized
 
 import pandas as pd
 import numpy as np
@@ -52,4 +53,12 @@ series = dependent['Gold, $/toz, nominal$_sa']
 
 
 
+#Call the reporting module to build the reports
+'''
+# Assume dfs are in a list called df_list & dictionaries in a list called dictos
+# THEY MUST BE IN THE SAME ORDER
 
+for i, df in enumerate(df_list):
+    r = reportingEMO.build_report(df, dictos[i])
+
+'''

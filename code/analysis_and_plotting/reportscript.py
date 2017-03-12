@@ -18,7 +18,5 @@ dicto2 = {'lag':2, 'R2': 0.67, 'stat': 6.2, 'num_diff': 3,\
 
 dictos = [dicto1,dicto2]
 
-r = None
-
 for i, df in enumerate(df_list):
     r = reportingEMO.build_report(df, dictos[i])
