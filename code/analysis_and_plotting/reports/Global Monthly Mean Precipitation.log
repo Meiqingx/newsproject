@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  12 MAR 2017 12:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  12 MAR 2017 12:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -664,33 +664,33 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 (./Global Monthly Mean Precipitation.aux)
 \openout1 = `"Global Monthly Mean Precipitation.aux"'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 40.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 40.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 41.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 41.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 40.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 41.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
-(lastpage)             ! on input line 40.
+(lastpage)             ! on input line 41.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -727,7 +727,7 @@ Package lastpage Info: Please have a look at the pageslts package at
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 ABD: EverySelectfont initializing macros
-LaTeX Info: Redefining \selectfont on input line 40.
+LaTeX Info: Redefining \selectfont on input line 41.
 
 (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -827,16 +827,15 @@ control sequence to too much text. How can we recover?
 My plan is to forget the whole thing and hope for the best.
 
 
-Overfull \hbox (15.0pt too wide) in paragraph at lines 42--52
+Overfull \hbox (15.0pt too wide) in paragraph at lines 43--52
 []$[]$ 
  []
 
-<../commodity-pic.jpg, id=1, 707.64375pt x 149.05687pt>
+<../commodity-pic.jpg, id=1, 626.34pt x 48.18pt>
 File: ../commodity-pic.jpg Graphic file (type jpg)
-
-<use ../commodity-pic.jpg>
+ <use ../commodity-pic.jpg>
 Package pdftex.def Info: ../commodity-pic.jpg used on input line 52.
-(pdftex.def)             Requested size: 301.1261pt x 63.42906pt.
+(pdftex.def)             Requested size: 469.75499pt x 36.13635pt.
 
 ! Too many }'s.
 \ps@header ...ty-pic.jpg}\end {figure} \par \par }
@@ -847,16 +846,16 @@ You've closed more groups than you opened.
 Such booboos are generally harmless, so keep going.
 
 
-</var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/4ec1e777-211a-4d18-89
-db-638c1f417e4d.pdf, id=2, 462.52798pt x 346.89601pt>
-File: /var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/4ec1e777-211a-4d
-18-89db-638c1f417e4d.pdf Graphic file (type pdf)
+</var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/6aa8bb65-ed21-47e1-a0
+22-23fe76184f44.pdf, id=2, 578.16pt x 361.35pt>
+File: /var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/6aa8bb65-ed21-47
+e1-a022-23fe76184f44.pdf Graphic file (type pdf)
 
-<use /var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/4ec1e777-211a-4d1
-8-89db-638c1f417e4d.pdf>
+<use /var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/6aa8bb65-ed21-47e
+1-a022-23fe76184f44.pdf>
 Package pdftex.def Info: /var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylat
-ex/4ec1e777-211a-4d18-89db-638c1f417e4d.pdf used on input line 66.
-(pdftex.def)             Requested size: 375.80544pt x 281.86818pt.
+ex/6aa8bb65-ed21-47e1-a022-23fe76184f44.pdf used on input line 66.
+(pdftex.def)             Requested size: 375.80544pt x 234.87471pt.
 
 
 ! LaTeX Error: There's no line here to end.
@@ -887,13 +886,13 @@ AED: lastpage setting LastPage
 [1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <../comm
-odity-pic.jpg> </var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/4ec1e7
-77-211a-4d18-89db-638c1f417e4d.pdf>] (./Global Monthly Mean Precipitation.aux) 
+odity-pic.jpg> </var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/6aa8bb
+65-ed21-47e1-a022-23fe76184f44.pdf>] (./Global Monthly Mean Precipitation.aux) 
 ) 
 Here is how much of TeX's memory you used:
  3914 strings out of 493014
  53853 string characters out of 6133351
- 118023 words of memory out of 5000000
+ 118030 words of memory out of 5000000
  7367 multiletter control sequences out of 15000+600000
  38945 words of font info for 32 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -907,7 +906,7 @@ m/lmmi12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmr10.pf
 b></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/loc
 al/texlive/2016/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2
 016/texmf-dist/fonts/type1/public/lm/lmri12.pfb>
-Output written on "Global Monthly Mean Precipitation.pdf" (1 page, 194341 bytes
+Output written on "Global Monthly Mean Precipitation.pdf" (1 page, 158085 bytes
 ).
 PDF statistics:
  83 PDF objects out of 1000 (max. 8388607)

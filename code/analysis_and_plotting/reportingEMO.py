@@ -47,18 +47,25 @@ class Report:
         #add header
         with header.create(Head('C')) as cheader:
             with cheader.create(Figure(position='t!')) as graph:
-                graph.add_image(header_image, width='300px')
+                graph.add_image(header_image, width='6.5in')
 
 
         #left footer
         with header.create(Foot('L')):
             header.append(today)
-            header.append(LineBreak())
+            #header.append(LineBreak())
+            #header.append(company)
+
+        #center footer
+        with header.create(Foot('C')):
             header.append(company)
 
         #right footer
         with header.create(Foot('R')):
             header.append(simple_page_number())
+
+
+
 
 
         self.doc.preamble.append(header)
@@ -70,7 +77,7 @@ class Report:
         '''
         with self.doc.create(MiniPage(align='c')):
             self.doc.append(LargeText(bold(title)))
-            self.doc.append(LineBreak())
+            #self.doc.append(LineBreak())
             self.doc.append(MediumText(italic(bold(subtitle))))
 
     def add_executive_summary(self, text):
@@ -87,10 +94,7 @@ class Report:
     def insert_graph(self):#, graph_fname):
         '''
         '''
-        '''
-        with self.doc.create(Figure(position='h!')) as graph:
-            graph.add_image(graph_fname, width='300px')
-        '''
+
         with self.doc.create(Figure(position='h!')) as plot:
             build_plot(self._df)
             plot.add_plot()
@@ -157,13 +161,10 @@ def build_report(df, dicto):
 
     r = Report(df,dicto)
 
-    r.set_title('Forecast', name)
+    r.set_title('Forecast:  ', name)
     r.add_headfoot(HEADER_IMAGE)
     r.add_executive_summary('Summary')
-    #r.insert_graph('../analysis/plot_result.png')
-    #build_plot(df)
     r.insert_graph()
-    #r.figure.add_plot()
     r.insert_table(dicto)
     output_path = os.path.join(PATH, name)
     r.gen_pdf(output_path)
