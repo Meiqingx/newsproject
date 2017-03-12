@@ -4,6 +4,17 @@ from matplotlib.ticker import AutoMinorLocator
 
 def build_plot(df):
     '''
+    Builds a plot from a dataframe of dates, actual prices, & predicted prices.
+
+    Inputs:
+        df (pandas dataframe): A dataframe with three columns:  dates, actual
+                               prices, and predicted prices.
+    Outputs:
+        fig (matplotlib figure): A plot of the actual and predicted prices over
+                                 the time range in dates.
+
+    Returns:
+        None.
     '''
     date, actual, pred = df.columns[0], df.columns[1], df.columns[2]
 
@@ -17,7 +28,7 @@ def build_plot(df):
     fig, ax = plt.subplots(figsize=(6.5,4))
     plt.subplot(111, facecolor='lightgray')
     plt.minorticks_on()
-    plt.plot(dates, actuals,color='darkturquoise',lw=2, label='Actual')
+    plt.plot(dates, actuals,color='darkturquoise',lw=1.5, label='Actual')
     plt.plot(dates, preds,color='orangered',lw=1, label='Predicted')
     plt.grid(b=True, which='major', color='white', linewidth=.75)
     plt.grid(b=True, which='minor', color='white', linewidth=.25)
