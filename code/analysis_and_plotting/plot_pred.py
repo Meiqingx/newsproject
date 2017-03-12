@@ -1,25 +1,39 @@
-from ggplot import *
+import matplotlib.pyplot as plt
 
-def build_graphic(df):
+def build_plot(df):
+    '''
+    Builds a plot from a dataframe of dates, actual prices, & predicted prices.
 
+    Inputs:
+        df (pandas dataframe): A dataframe with three columns:  dates, actual
+                               prices, and predicted prices.
+    Outputs:
+        fig (matplotlib figure): A plot of the actual and predicted prices over
+                                 the time range in dates.
+
+    Returns:
+        None.
+    '''
     date, actual, pred = df.columns[0], df.columns[1], df.columns[2]
 
     name = actual.split(',')[0]
     title = name + ': Actual and Predicted Prices'
 
-    plotme = ggplot(aes(x=date, y=actual), data=df) +\
-                    geom_line(aes(color='darkturquoise', size=2)) +\
-                    geom_line(aes(x=date,y=pred, color='orangered', size=1)) +\
-                    labs(title = title,#subtitle = subtitle,
-                    x = "Date",y = "Price (USD)")
+    dates = df[date]
+    actuals = df[actual]
+    preds = df[pred]
 
-    return plotme
-
-
-
-    '''+\
-                    theme(plot.title = element_text(hjust = 0.5),
-                    plot.subtitle = element_text(hjust = 0.5),
-                    panel.border = element_rect(linetype = "solid",
-                    color = "grey70", fill=NA, size=1.1))
-    '''
+    fig, ax = plt.subplots(figsize=(6.5,4))
+    plt.subplot(111, facecolor='lightgray')
+    plt.minorticks_on()
+    plt.plot(dates, actuals,color='darkturquoise',lw=1.5, label='Actual')
+    plt.plot(dates, preds,color='orangered',lw=1, label='Predicted')
+    plt.grid(b=True, which='major', color='white', linewidth=.75)
+    plt.grid(b=True, which='minor', color='white', linewidth=.25)
+    plt.title(title, fontsize=15)
+    plt.xlabel('Date')
+    plt.ylabel('Price (USD)')
+    plt.legend(loc=0,fontsize=11)
+    plt.tight_layout()
+    plt.show()
+    #plt.close()

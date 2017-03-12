@@ -35,7 +35,6 @@ def load_data(dependent_f, independent_f):
         independent = dataframe of independent variables
 
     '''
-
     dependent = SeriesRVO.Series(dependent_f)
 
     independent = SeriesRVO.Series(independent_f)
@@ -47,6 +46,7 @@ def load_data(dependent_f, independent_f):
     max_ind = max(independent._table.index)
 
     dependent = dependent._table[dependent._table.index > max(min_ind, min_dep)]
+
     dependent = dependent[dependent.index < min(max_ind, max_dep)]
 
     independent = independent._table[independent._table.index > max(min_ind, min_dep)]
@@ -88,3 +88,43 @@ def gen_graph(series, pred):
 
 model, variables, order, independent_vars, series = Predict.best_model('Gold, $/toz, nominal$_sa', dependent, independent)
 # pred = Predict.predictions(model, series, independent_vars)
+
+# Creates series for prediction
+
+def series_for_prediction(independent_vars, num_years_to_predict):
+    '''
+    Creates a dataframe with future values for the independent variables
+
+    Inputs:
+        independent_vars = dataframe with original independent variables
+        num_year_to_predict = integer
+
+    Outputs:
+        result = dataframe with original and predicted values for the 
+            independent variables
+    '''
+    new_independent_series = []
+    for name in list(independent_vars.columns):
+        one_series = independent_vars[name]
+        X, predictions, integrated = AR_independent_vars(one_series, num_years_to_predict)
+        new_independent_series.append(integrated)
+        print(new_independent_series[0])
+
+    result = pd.concat(new_independent_series, axis=1)
+    result.columns = variables
+
+    return result
+
+num_years_to_predict = 1
+dependent_future = create_data_for_ar(series, num_years_to_predict)
+independent_future = series_for_prediction(independent_vars, num_years_to_predict)
+
+fit1 = sm.tsa.ARIMA(dependent_future[:len(dependent_future)-12], (1,1,0), exog = independent_future[:len(dependent_future)-12]).fit()
+#this works fine:
+
+# ARIMA(series, params, exog = independent_vars, freq = 'M')
+
+pred1 = fit1.predict(start=1,  end = 220, exog = independent_future)
+
+print(pred1)
+

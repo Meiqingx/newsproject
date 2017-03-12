@@ -99,3 +99,34 @@ class Series:
         plt.tight_layout()
 
         return plt.show()
+
+
+def create_database(file):
+    '''
+    Creates a dataframe with adequate characteristics for time series analysis
+
+    Inputs:
+        file = name of the file
+
+    Outputs:
+        dataframe
+    '''
+    dateparse = lambda dates: pd.datetime.strptime(dates, '%Y-%m') 
+    # from https://www.analyticsvidhya.com/blog/2016/02/time-series-forecasting-codes-python/
+
+    database = pd.read_csv(file, parse_dates=['Date'], index_col='Date',date_parser=dateparse)
+    database = database.dropna(axis=1)
+
+    original_columns = list(database.dtypes.index)
+
+    for series_name in database.dtypes.index:
+        new_name = series_name + "_sa"
+        database[new_name] = seasonal_decompose(database[series_name], freq=12).trend
+        season_factor_name = series_name + "_season"
+
+    database.drop(original_columns, axis = 1, inplace = True)
+    database.sort_index(inplace=True)
+
+    return database
+
+
