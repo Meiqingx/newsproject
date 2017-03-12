@@ -10,6 +10,7 @@ from pylatex.utils import italic, bold, NoEscape
 import os
 import time
 
+
 # subprocess error with gen_pdf
 # filepath with the picture
 # challenge, their package not stable
@@ -38,8 +39,8 @@ class Report:
         '''
         header = PageStyle('header')
         
-        today = time.strftime('%B %d %Y')
-        company = 'Ochoa Valdés-Ortiz Zhang Ltd.'
+        today = time.strftime('%Y %B %d')
+        company = 'Ochoa Valdés-Ortiz Zhang, Ltd.'
 
         #add header
         with header.create(Head('C')) as cheader:
