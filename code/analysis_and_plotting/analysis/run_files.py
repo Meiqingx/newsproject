@@ -1,10 +1,10 @@
 import SeriesRVO
+from auxiliary_functions import load_data
 from Predict import *
 from AR_model import *
 
 import pandas as pd
 import numpy as np
-import matplotlib.pylab as plt
 from matplotlib.pylab import rcParams
 import datetime
 from statsmodels.tsa.seasonal import seasonal_decompose
@@ -16,51 +16,8 @@ import statsmodels.api as sm
 
 
 # Load the databases of dependent and independent variables
-
-## CHANGE THIS ####
 dependent_f = '../outcomes.csv'
 independent_f = '../predictors.csv'
-
-def load_data(dependent_f, independent_f):
-    '''
-    Load the necessary data in two databases: dependent and independent
-
-    Inputs:
-        dependent_f = name of the csv file with dependent variables
-        independent_f = names of the csv file with independent variables
-
-    Outputs:
-        (dependent, independent) where
-        dependent = dataframe of dependent variables
-        independent = dataframe of independent variables
-
-    '''
-    dependent = SeriesRVO.Series(dependent_f)
-
-    independent = SeriesRVO.Series(independent_f)
-
-
-    min_dep = min(dependent._table.index)
-    min_ind = min(independent._table.index)
-    max_dep = max(dependent._table.index)
-    max_ind = max(independent._table.index)
-
-    dependent = dependent._table[dependent._table.index > max(min_ind, min_dep)]
-
-    dependent = dependent[dependent.index < min(max_ind, max_dep)]
-
-    independent = independent._table[independent._table.index > max(min_ind, min_dep)]
-    independent = independent[independent.index < min(max_ind, max_dep)]
-
-    independent.drop(independent.head(5).index, inplace=True)
-    dependent.drop(dependent.head(5).index, inplace=True)
-
-    independent.drop(independent.tail(5).index, inplace=True)
-    dependent.drop(dependent.tail(5).index, inplace=True)
-
-    return dependent, independent
-
-
 
 dependent, independent = load_data(dependent_f, independent_f)
 
@@ -70,61 +27,29 @@ dependent, independent = load_data(dependent_f, independent_f)
 #     model = Predict.best_model(name_var, dependent, independent)
 #     dic_models[name_var] = model
 
+series = dependent['Gold, $/toz, nominal$_sa']
 
-def gen_graph(series, pred):
-    '''
-    '''
-    plt.title("Data vs Prediction")
-    plt.plot(pred, color = "red", label = "Prediction", linewidth = 1)
-    plt.plot(series, color = "blue", label = "Original Data", linewidth = 1.5)
-    plt.legend(loc="upper left")
-    plt.show()
-    # plt.savefig("plot_result.png")
-    plt.close()
 
-# (best_model, variables, order, independent_vars, series)
-# model, variables, order, independent_vars, series = dic_models["Aluminum, $/mt, nominal$_sa"]
-# pred = Predict.predictions(model, series, independent_vars)
+# # (best_model, variables, order, independent_vars, series)
+# # model, variables, order, independent_vars, series = dic_models["Aluminum, $/mt, nominal$_sa"]
+# # pred = Predict.predictions(model, series, independent_vars)
 
-model, variables, order, independent_vars, series = Predict.best_model('Gold, $/toz, nominal$_sa', dependent, independent)
-# pred = Predict.predictions(model, series, independent_vars)
+# model, variables, order, independent_vars, series = Predict.best_model('Gold, $/toz, nominal$_sa', dependent, independent)
 
-# Creates series for prediction
+# # pred = Predict.predictions(model, series, independent_vars)
 
-def series_for_prediction(independent_vars, num_years_to_predict):
-    '''
-    Creates a dataframe with future values for the independent variables
+# pred = Predict.predictions(model, series, 1, independent_vars)
 
-    Inputs:
-        independent_vars = dataframe with original independent variables
-        num_year_to_predict = integer
+# dw = Predict.durbin_watson(model, series, independent_vars)
 
-    Outputs:
-        result = dataframe with original and predicted values for the 
-            independent variables
-    '''
-    new_independent_series = []
-    for name in list(independent_vars.columns):
-        one_series = independent_vars[name]
-        X, predictions, integrated = AR_independent_vars(one_series, num_years_to_predict)
-        new_independent_series.append(integrated)
-        print(new_independent_series[0])
+# resi = Predict.residuals(model, series, independent_vars)[:len(series)]
 
-    result = pd.concat(new_independent_series, axis=1)
-    result.columns = variables
+# r2 = Predict.r_square(model, series, independent_vars)
 
-    return result
 
-num_years_to_predict = 1
-dependent_future = create_data_for_ar(series, num_years_to_predict)
-independent_future = series_for_prediction(independent_vars, num_years_to_predict)
+# # a dictionary with these keys: 'lag', 'R2', 'stat', 'num_diff', 'independent_var', 'dependent_var'
 
-fit1 = sm.tsa.ARIMA(dependent_future[:len(dependent_future)-12], (1,1,0), exog = independent_future[:len(dependent_future)-12]).fit()
-#this works fine:
 
-# ARIMA(series, params, exog = independent_vars, freq = 'M')
 
-pred1 = fit1.predict(start=1,  end = 220, exog = independent_future)
 
-print(pred1)
 

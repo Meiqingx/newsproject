@@ -1,8 +1,7 @@
 # AR SIMPLE
-from Series import * 
-from Predict import * 
-
-from pandas import Series
+# from pandas import Series
+import pandas as pd
+import numpy as np 
 from matplotlib import pyplot
 from statsmodels.tsa.ar_model import AR
 from sklearn.metrics import mean_squared_error

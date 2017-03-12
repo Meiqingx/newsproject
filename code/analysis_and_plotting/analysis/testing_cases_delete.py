@@ -1,5 +1,5 @@
 
-from Series import * 
+from SeriesRVO import * 
 from Predict import * 
 
 import pandas as pd
@@ -26,7 +26,7 @@ independent_vars = database[list_predictors]
 
 autoregressive_terms = 1
 
-model = Predict.model(series, autoregressive_terms, independent_vars)
+model = Predict.model(series, autoregressive_terms, independent_vars =  independent_vars)
 
 testing = Predict.best_parameters(name_column, database, database)
 
@@ -35,7 +35,7 @@ testing = Predict.best_parameters(name_column, database, database)
 list_predictors = ['WLDIAGRICULTURE', 'WLDALUMINUM', 'WLDSOYBEANS', 'WLDTOBAC_US']
 independent_vars = database[list_predictors]
 autoregressive_terms = 1
-model = Predict.model(series, 1, independent_vars)
+model = Predict.model(series, 1, independent_vars = independent_vars)
 
 
 result_final = Predict.best_model(name_column, database, database)

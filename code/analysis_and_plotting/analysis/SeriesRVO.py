@@ -1,4 +1,5 @@
 
+import AR_model
 import pandas as pd
 import numpy as np
 import matplotlib.pylab as plt
@@ -98,3 +99,28 @@ class Series:
         plt.tight_layout()
 
         return plt.show()
+
+
+def series_for_prediction(independent_vars, num_years_to_predict):
+    '''
+    Creates a dataframe with future values for the independent variables
+
+    Inputs:
+        independent_vars = dataframe with original independent variables
+        num_year_to_predict = integer
+
+    Outputs:
+        result = dataframe with original and predicted values for the 
+            independent variables
+    '''
+    new_independent_series = []
+    variables = list(independent_vars.columns)
+    for name in list(independent_vars.columns):
+        one_series = independent_vars[name]
+        X, predictions, integrated = AR_model.AR_independent_vars(one_series, num_years_to_predict)
+        new_independent_series.append(integrated)
+
+    result = pd.concat(new_independent_series, axis=1)
+    result.columns = variables
+
+    return result
