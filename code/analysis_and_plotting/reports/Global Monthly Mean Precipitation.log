@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  12 MAR 2017 14:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  12 MAR 2017 15:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -846,15 +846,15 @@ You've closed more groups than you opened.
 Such booboos are generally harmless, so keep going.
 
 
-</var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/061b19ca-99fe-4376-88
-de-97a8179a49d2.pdf, id=2, 505.89pt x 289.08pt>
-File: /var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/061b19ca-99fe-43
-76-88de-97a8179a49d2.pdf Graphic file (type pdf)
+</var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/a2ec074c-96e2-4f1a-bb
+8a-b0493410e3e6.pdf, id=2, 505.89pt x 289.08pt>
+File: /var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/a2ec074c-96e2-4f
+1a-bb8a-b0493410e3e6.pdf Graphic file (type pdf)
 
-<use /var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/061b19ca-99fe-437
-6-88de-97a8179a49d2.pdf>
+<use /var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/a2ec074c-96e2-4f1
+a-bb8a-b0493410e3e6.pdf>
 Package pdftex.def Info: /var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylat
-ex/061b19ca-99fe-4376-88de-97a8179a49d2.pdf used on input line 66.
+ex/a2ec074c-96e2-4f1a-bb8a-b0493410e3e6.pdf used on input line 66.
 (pdftex.def)             Requested size: 469.75499pt x 268.43579pt.
 
 
@@ -886,8 +886,8 @@ AED: lastpage setting LastPage
 [1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <../comm
-odity-pic.jpg> </var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/061b19
-ca-99fe-4376-88de-97a8179a49d2.pdf>] (./Global Monthly Mean Precipitation.aux) 
+odity-pic.jpg> </var/folders/n2/g7jdspkn7bn_g_2vflh5sqr40000gn/T/pylatex/a2ec07
+4c-96e2-4f1a-bb8a-b0493410e3e6.pdf>] (./Global Monthly Mean Precipitation.aux) 
 ) 
 Here is how much of TeX's memory you used:
  3914 strings out of 493014
