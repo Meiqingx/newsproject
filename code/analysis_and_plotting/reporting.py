@@ -1,13 +1,15 @@
 import numpy as np
 
 from pylatex import Document, MiniPage, PageStyle, Section, Subsection, Tabular, \
-                    Head, Foot, Axis, Plot, Figure, Matrix, LargeText, \
+                    MultiColumn, Head, Foot, Figure, LargeText, \
                     MediumText, LineBreak, simple_page_number
 from pylatex.utils import italic, bold, NoEscape
 
 import os
 import time
 
+# subprocess error with gen_pdf
+# filepath
 
 class Report:
     """docstring for ClassName"""
@@ -59,18 +61,24 @@ class Report:
             self.doc.append(LineBreak())
             self.doc.append(MediumText(italic(bold(subtitle))))
 
-    def add_executive_summary(self):
+    def add_executive_summary(self, text):
         '''
         '''
-        pass
+        with self.doc.create(Section('Executive Summary')) as summary:
+            with summary.create(Tabular('p{15.4cm}')) as sumtable:
+                sumtable.add_hline()
+                sumtable.add_row([italic(text)])
+                sumtable.add_empty_row()
+                sumtable.add_empty_row()
+
 
     def insert_graph(self, sec_name, graph_fname, caption):
         '''
         '''
         with self.doc.create(Section(sec_name)):
-            #doc.append('add section text')
+            #self.doc.append('add section text')
             with self.doc.create(Figure(position='t!')) as graph:
-                graph.add_image(graph_fname, width='200px')
+                graph.add_image(graph_fname, width='200px', placement='flushleft')
                 graph.add_caption(caption)
 
     def insert_table(self, results):
@@ -78,16 +86,18 @@ class Report:
         '''
         indie_var = ' '.join(results['independent_var'])
 
-        section = Section('The Model')
+        section = Section('Statistical Results')
 
         table = Tabular('l p{10cm}')
         table.add_hline()
-        table.add_row((bold('Model'), 'AR'))
-        table.add_row((bold('Lag variables'), results['lag']), color='lightgray')
-        table.add_row((bold('Independent variables'), indie_var))
-        table.add_row((bold('Number of differences'), results['num_diff']), color='lightgray')
-        table.add_row((NoEscape('\symbf{$R^2$}'), results['R2']))
-        table.add_row((bold('Durbin Watson Statistic'), results['stat']), color='lightgray')
+        table.add_row((MultiColumn(2, align='c', data=bold('Characteristics of Model')),))
+        table.add_hline(cmidruleoption='r')
+        table.add_row((bold('Model'), 'AR'), color='lightgray')
+        table.add_row((bold('Lag variables'), results['lag']))
+        table.add_row((bold('Independent variables'), indie_var), color='lightgray')
+        table.add_row((bold('Number of differences'), results['num_diff']))
+        table.add_row((NoEscape('\symbf{$R^2$}'), results['R2']), color='lightgray')
+        table.add_row((bold('Durbin Watson Statistic'), results['stat']))
         table.add_hline()
         
         section.append(LineBreak())
@@ -95,7 +105,7 @@ class Report:
 
         self.doc.append(section)
 
-    def generate_pdf(self, filepath=None):
+    def gen_pdf(self, filepath=None):
         '''
         '''
         self.doc.generate_pdf(filepath, clean_tex=False)
@@ -103,7 +113,6 @@ class Report:
 
 if __name__ == '__main__':
 
-    # order matters, 1. add title first
 
     header_image = os.path.join(os.path.dirname(__file__), 'commodities_2.jpg')
 
@@ -114,5 +123,6 @@ if __name__ == '__main__':
 
     r.set_title('Forecast', 'Wheat')
     r.add_headfoot(header_image)
+    r.add_executive_summary('Summary')
     r.insert_table(results)
-    r.generate_pdf()
+    r.gen_pdf()
