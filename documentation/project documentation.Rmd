@@ -1,0 +1,111 @@
+---
+title: "Predicting Commodities Pricies: A Data Mining Approach"
+output: html_document
+---
+
+Description: 192 independent variables
+
+## Package installation before using the software: 
+```
+pip3 install pylatex --user
+$ sudo apt-get install texlive-latex-base
+$ sudo apt-get install texlive-fonts-recommended
+optional:  
+$ sudo apt-get install texlive-latex-extra  
+```
+
+***
+## Data crawling module
+
+### World bank data crawler
+This module downloads data from the world bank api.  
+   
+filename: wbdata.py    
+
+#### Reference of supported indicators  
+```
+def get_countries()  
+  
+def get_indicators()  
+  
+def get_commodities()  
+
+```
+
+#### Download data
+
+```
+def create_predictors_df(country_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv')
+
+Download 40 economic indicators from the world bank  
+Parameters:  
+
+
+
+def create_commodities_df(commodity_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv')
+
+Download 11 commodities by default  
+Parameters:  
+
+```
+
+
+***
+
+### other data crawlers
+
+***
+
+## Data analysis module
+
+***
+
+## Graphing module
+
+***
+
+## Reporting module
+This module creates report  
+  
+filename: reporting.py  
+
+```
+class Report
+
+Parameters:
+
+Methods:
+  set_title()
+
+  insert_graph()
+
+  insert_table()
+
+  generate_pdf()
+```
+
+***
+
+```{r engine='python', highlight=TRUE}
+print('Hello world')
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
