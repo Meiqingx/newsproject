@@ -9,7 +9,7 @@ import time
 
 
 HEADER_IMAGE = '../commodity-pic.jpg'
-PATH = './reports'
+PATH = 'reports/'
 # These global variables should be moved to run_files
 
 # subprocess error with gen_pdf
@@ -23,8 +23,8 @@ class Report:
 
         parentdir= os.path.dirname(default_filepath)
 
-        if not os.path.exists(parentdir):
-            os.makedirs(parentdir)
+        #if not os.path.exists(parentdir):
+           # os.makedirs(parentdir)
 
         geometry_options = {'margin': margin, 'paperheight': '11in', \
                             'paperwidth':'8.5in'}
@@ -135,8 +135,28 @@ class Report:
 def write_summary(report, results):
     '''
     '''
-    # interpret results rodrigo needs to tell me the 
+    # interpret results rodrigo needs to tell me the
     # threshold
+
+def create_output_dir():
+    '''
+    Creates directory if precipitation_maps directory does not already exist.
+
+    Inputs:
+        None.
+
+    Outputs:
+        The output directory at current_path/OUTPUT_DIR.
+
+    Returns:
+        None.
+    '''
+
+    cur_path = os.path.split(os.path.abspath(__file__))[0]
+    output_path = os.path.join(cur_path, PATH)
+    if not os.access(output_path, os.F_OK):
+        os.makedirs(output_path)
+
 
 
 
@@ -157,6 +177,7 @@ def build_report(df, results):
 
     #return r
 
+create_output_dir()
 
 #if __name__ == '__main__':
 
