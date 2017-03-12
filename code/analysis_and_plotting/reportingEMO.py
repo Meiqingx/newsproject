@@ -54,14 +54,15 @@ class Report:
             header.append(today)
             #header.append(LineBreak())
             #header.append(company)
-
+        '''
         #center footer
         with header.create(Foot('C')):
             header.append(company)
+        '''
 
         #right footer
         with header.create(Foot('R')):
-            header.append(simple_page_number())
+            header.append(company)#simple_page_number())
 
 
 
