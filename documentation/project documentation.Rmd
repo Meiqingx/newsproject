@@ -1,11 +1,17 @@
 ---
-title: "Predicting Commodities Pricies: A Data Mining Approach"
-output: html_document
+title: "Predicting Commodities Prices: A Data-Mining Approach"
+author: "Rodrigo Valdés Ortiz, Meiqing Zhang, & Erin M. Ochoa"
+
+date: "2017 March 14"
+output:
+  html_document:
+    toc: true
 ---
 
-Description: 192 independent variables
+# Description
+192 independent variables
 
-## Package installation before using the software: 
+# Package installation before using the software
 ```
 pip3 install pylatex --user
 $ sudo apt-get install texlive-latex-base
@@ -14,15 +20,14 @@ optional:
 $ sudo apt-get install texlive-latex-extra  
 ```
 
-***
-## Data crawling module
+# Data crawling module
 
-### World bank data crawler
+## World bank data crawler
 This module downloads data from the world bank api.  
    
 filename: wbdata.py    
 
-#### Reference of supported indicators  
+### Reference of supported indicators  
 ```
 def get_countries()  
   
@@ -32,7 +37,7 @@ def get_commodities()
 
 ```
 
-#### Download data
+### Download data
 
 ```
 def create_predictors_df(country_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv')
@@ -50,21 +55,20 @@ Parameters:
 ```
 
 
-***
 
-### other data crawlers
+## other data crawlers
 
-***
 
-## Data analysis module
 
-***
+# Data analysis module
 
-## Graphing module
 
-***
 
-## Reporting module
+# Graphing module
+
+
+
+# Reporting module
 This module creates report  
   
 filename: reporting.py  
@@ -84,28 +88,8 @@ Methods:
   generate_pdf()
 ```
 
-***
+
 
 ```{r engine='python', highlight=TRUE}
-print('Hello world')
+print('Hello, world')
 ```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
