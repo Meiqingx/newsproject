@@ -22,10 +22,10 @@ class Report:
 
     def __init__(self, df, dicto, margin='1.0in', default_filepath=PATH):
 
-        parentdir= os.path.dirname(default_filepath)
+        #parentdir= os.path.dirname(default_filepath)
 
-        if not os.path.exists(parentdir):
-            os.makedirs(parentdir)
+        #if not os.path.exists(parentdir):
+            #os.makedirs(parentdir)
 
         geometry_options = {'margin': margin, 'paperheight': '11in', \
                             'paperwidth':'8.5in'}
@@ -93,9 +93,9 @@ class Report:
         '''
         '''
 
-        with self.doc.create(Figure(position='h!')) as plot:
+        with self.doc.create(Figure(position='ht!')) as plot:
             build_plot(self._df)
-            plot.add_plot()
+            plot.add_plot(width="6.5in")
 
 
 
@@ -103,7 +103,7 @@ class Report:
     def insert_table(self, results):
         '''
         '''
-        indie_var = ' '.join(results['independent_var'])
+        indie_var = ', '.join(results['independent_var'])
 
         section = Section('Statistical Results')
 
@@ -127,8 +127,8 @@ class Report:
     def gen_pdf(self, filepath=None):
         '''
         '''
-        self.doc.generate_pdf(filepath, clean=True, clean_tex=True, \
-                              compiler='pdflatex', silent=True)
+        self.doc.generate_pdf(filepath, clean=True, clean_tex=False,#True,  \
+                              compiler='pdflatex',silent=False)#, compiler_args = ["-synctex=1"])#True)
 
 
 def create_output_dir():
@@ -167,7 +167,7 @@ def build_report(df, dicto):
     output_path = os.path.join(PATH, name)
     r.gen_pdf(output_path)
 
-    return r
+    #return r
 
 
 
