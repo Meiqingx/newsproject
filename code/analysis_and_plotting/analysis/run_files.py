@@ -1,8 +1,6 @@
-
-# from Series import * 
-from Series import *
-from Predict import * 
-from AR_model import * 
+import SeriesRVO
+from Predict import *
+from AR_model import *
 
 import pandas as pd
 import numpy as np
@@ -20,13 +18,13 @@ import statsmodels.api as sm
 # Load the databases of dependent and independent variables
 
 ## CHANGE THIS ####
-dependent_f = '/Users/ruy/Documents/UChicago/Winter_2017/cs/Project/newsproject/code/analysis_and_plotting/outcomes.csv'
-independent_f = '/Users/ruy/Documents/UChicago/Winter_2017/cs/Project/newsproject/code/analysis_and_plotting/predictors.csv'
+dependent_f = '../outcomes.csv'
+independent_f = '../predictors.csv'
 
 def load_data(dependent_f, independent_f):
     '''
     Load the necessary data in two databases: dependent and independent
-    
+
     Inputs:
         dependent_f = name of the csv file with dependent variables
         independent_f = names of the csv file with independent variables
@@ -37,22 +35,21 @@ def load_data(dependent_f, independent_f):
         independent = dataframe of independent variables
 
     '''
-    # Create individual dataframes
-    dependent = create_database(dependent_f)
-    #dependent.create_pandas(dependent_f)
-    independent = create_database(independent_f)
-    # dependent = Series.create_pandas(dependent_f)
-    # independent = Series.create_pandas(independent_f)
+    dependent = SeriesRVO.Series(dependent_f)
 
-    min_dep = min(dependent.index)
-    min_ind = min(independent.index)
-    max_dep = max(dependent.index)
-    max_ind = max(independent.index)
+    independent = SeriesRVO.Series(independent_f)
 
-    dependent = dependent[dependent.index > max(min_ind, min_dep)]
+
+    min_dep = min(dependent._table.index)
+    min_ind = min(independent._table.index)
+    max_dep = max(dependent._table.index)
+    max_ind = max(independent._table.index)
+
+    dependent = dependent._table[dependent._table.index > max(min_ind, min_dep)]
+
     dependent = dependent[dependent.index < min(max_ind, max_dep)]
 
-    independent = independent[independent.index > max(min_ind, min_dep)]
+    independent = independent._table[independent._table.index > max(min_ind, min_dep)]
     independent = independent[independent.index < min(max_ind, max_dep)]
 
     independent.drop(independent.head(5).index, inplace=True)
@@ -62,6 +59,8 @@ def load_data(dependent_f, independent_f):
     dependent.drop(dependent.tail(5).index, inplace=True)
 
     return dependent, independent
+
+
 
 dependent, independent = load_data(dependent_f, independent_f)
 
@@ -128,10 +127,4 @@ fit1 = sm.tsa.ARIMA(dependent_future[:len(dependent_future)-12], (1,1,0), exog =
 pred1 = fit1.predict(start=1,  end = 220, exog = independent_future)
 
 print(pred1)
-
-
-
-
-
-
 
