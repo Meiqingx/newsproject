@@ -145,7 +145,7 @@ def build_report(df, results):
     '''
     name = df.columns[1].split(',')[0]
 
-    r = Report(df,dicto)
+    r = Report(df,results)
 
     r.set_title('Forecast:  ', name)
     r.add_headfoot(HEADER_IMAGE)
