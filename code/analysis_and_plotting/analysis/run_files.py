@@ -1,8 +1,6 @@
-
-# from Series import * 
-from Series import *
-from Predict import * 
-from AR_model import * 
+import SeriesRVO
+from Predict import *
+from AR_model import *
 
 import pandas as pd
 import numpy as np
@@ -20,13 +18,13 @@ import statsmodels.api as sm
 # Load the databases of dependent and independent variables
 
 ## CHANGE THIS ####
-dependent_f = '/Users/ruy/Documents/UChicago/Winter_2017/cs/Project/newsproject/code/analysis_and_plotting/outcomes.csv'
-independent_f = '/Users/ruy/Documents/UChicago/Winter_2017/cs/Project/newsproject/code/analysis_and_plotting/predictors.csv'
+dependent_f = '../outcomes.csv'
+independent_f = '../predictors.csv'
 
 def load_data(dependent_f, independent_f):
     '''
     Load the necessary data in two databases: dependent and independent
-    
+
     Inputs:
         dependent_f = name of the csv file with dependent variables
         independent_f = names of the csv file with independent variables
@@ -37,22 +35,21 @@ def load_data(dependent_f, independent_f):
         independent = dataframe of independent variables
 
     '''
-    # Create individual dataframes
-    dependent = Series.create_pandas(dependent_f)
-    #dependent.create_pandas(dependent_f)
-    independent = Series.create_pandas(independent_f)
-    # dependent = Series.create_pandas(dependent_f)
-    # independent = Series.create_pandas(independent_f)
 
-    min_dep = min(dependent.index)
-    min_ind = min(independent.index)
-    max_dep = max(dependent.index)
-    max_ind = max(independent.index)
+    dependent = SeriesRVO.Series(dependent_f)
 
-    dependent = dependent[dependent.index > max(min_ind, min_dep)]
+    independent = SeriesRVO.Series(independent_f)
+
+
+    min_dep = min(dependent._table.index)
+    min_ind = min(independent._table.index)
+    max_dep = max(dependent._table.index)
+    max_ind = max(independent._table.index)
+
+    dependent = dependent._table[dependent._table.index > max(min_ind, min_dep)]
     dependent = dependent[dependent.index < min(max_ind, max_dep)]
 
-    independent = independent[independent.index > max(min_ind, min_dep)]
+    independent = independent._table[independent._table.index > max(min_ind, min_dep)]
     independent = independent[independent.index < min(max_ind, max_dep)]
 
     independent.drop(independent.head(5).index, inplace=True)
@@ -62,6 +59,8 @@ def load_data(dependent_f, independent_f):
     dependent.drop(dependent.tail(5).index, inplace=True)
 
     return dependent, independent
+
+
 
 dependent, independent = load_data(dependent_f, independent_f)
 
@@ -89,10 +88,3 @@ def gen_graph(series, pred):
 
 model, variables, order, independent_vars, series = Predict.best_model('Gold, $/toz, nominal$_sa', dependent, independent)
 # pred = Predict.predictions(model, series, independent_vars)
-
-
-
-
-
-
-

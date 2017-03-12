@@ -14,10 +14,9 @@ class Series:
 
     def __init__(self, file):
         '''
-        Construct a new model to predic prices
+        Construct a new model to predict prices
         '''
         self._file = file
-        print('\n\n\tIn constructor')
         self._table = self._create_pandas(self._file)
 
 
@@ -31,7 +30,7 @@ class Series:
         Outputs:
             dataframe
         '''
-        print('\n\nIn create_pandas()\n\n')
+
         dateparse = lambda dates: pd.datetime.strptime(dates, '%Y-%m')
         # from https://www.analyticsvidhya.com/blog/2016/02/time-series-forecasting-codes-python/
 
