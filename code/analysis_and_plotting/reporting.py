@@ -17,27 +17,27 @@ import time
 
 class Report:
     """docstring for ClassName"""
-    
+
     def __init__(self, margin='1.0in', default_filepath='./reports/report'):
-        
+
 
         parentdir= os.path.dirname(default_filepath)
 
         if not os.path.exists(parentdir):
             os.makedirs(parentdir)
-        
+
         geometry_options = {'margin': margin, 'paperheight': '11in', \
                             'paperwidth':'8.5in'}
-        
+
         self.doc = Document(default_filepath= default_filepath, \
                             geometry_options=geometry_options, font_size='large')
-        
+
 
     def add_headfoot(self, header_image):
         '''
         '''
         header = PageStyle('header')
-        
+
         today = time.strftime('%Y %B %d')
         company = 'Ochoa Valdés-Ortiz Zhang, Ltd.'
 
@@ -46,18 +46,18 @@ class Report:
             with cheader.create(Figure(position='t!')) as graph:
                 graph.add_image(header_image, width='300px')
 
-        
+
         #left footer
         with header.create(Foot('L')):
             header.append(today)
             header.append(LineBreak())
             header.append(company)
-        
+
         #right footer
         with header.create(Foot('R')):
             header.append(simple_page_number())
 
-        
+
         self.doc.preamble.append(header)
 
         self.doc.change_document_style('header')
@@ -105,10 +105,10 @@ class Report:
         table.add_row((bold('Lag variables'), results['lag']))
         table.add_row((bold('Independent variables'), indie_var), color='lightgray')
         table.add_row((bold('Number of differences'), results['num_diff']))
-        table.add_row((NoEscape('\symbf{$R^2$}'), R2), color='lightgray')
+        table.add_row((NoEscape('\boldmath$R^2$}'), R2), color='lightgray')
         table.add_row((bold('Durbin-Watson Statistic'), dstat))
         table.add_hline()
-        
+
         section.append(LineBreak())
         section.append(table)
 
@@ -129,12 +129,12 @@ if __name__ == '__main__':
 
     results = {'lag':1, 'R2': 0.9910, 'stat': 5.6678, 'num_diff': 4,\
                'independent_var': ['apple', 'banana', 'pear', 'peach']}
-    
+
     # for i in df_lst: 1. create title
-    # 2. create summary, based on indie var, and stat., add 
-    # stock interpretation, moderately or significantly 
+    # 2. create summary, based on indie var, and stat., add
+    # stock interpretation, moderately or significantly
     # 3. create different graph routes
-    # 
+    #
 
     r = Report()
 
@@ -144,4 +144,3 @@ if __name__ == '__main__':
     r.insert_graph('../analysis/plot_result.png')
     r.insert_table(results)
     r.gen_pdf()
-    
