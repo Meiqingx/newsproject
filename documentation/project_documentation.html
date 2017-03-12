@@ -124,14 +124,17 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#description-192-independent-variables">Description: 192 independent variables</a></li>
+<li><a href="#description">Description</a></li>
 <li><a href="#package-installation-before-using-the-software">Package installation before using the software</a></li>
-<li><a href="#data-crawling-module">Data crawling module</a><ul>
-<li><a href="#world-bank-data-crawler">World bank data crawler</a><ul>
+<li><a href="#data-crawlers-and-scrapers">Data crawlers and scrapers</a><ul>
+<li><a href="#world-bank-data">World Bank data</a><ul>
 <li><a href="#reference-of-supported-indicators">Reference of supported indicators</a></li>
 <li><a href="#download-data">Download data</a></li>
 </ul></li>
-<li><a href="#other-data-crawlers">other data crawlers</a></li>
+<li><a href="#electricity-data">Electricity data</a></li>
+<li><a href="#precipitation-data">Precipitation data</a></li>
+<li><a href="#recessions-data">Recessions data</a></li>
+<li><a href="#temperature-data">Temperature data</a></li>
 </ul></li>
 <li><a href="#data-analysis-module">Data analysis module</a></li>
 <li><a href="#graphing-module">Graphing module</a></li>
@@ -139,24 +142,37 @@ $(document).ready(function () {
 </ul>
 </div>
 
-<div id="description-192-independent-variables" class="section level1">
-<h1>Description: 192 independent variables</h1>
+<div id="description" class="section level1">
+<h1>Description</h1>
+<p>192 independent variables</p>
+<p>Python modules are designed to run on Python 3.4+; shell scripts are designed to run on GNU bash 3.2+.</p>
 </div>
 <div id="package-installation-before-using-the-software" class="section level1">
 <h1>Package installation before using the software</h1>
-<pre><code>pip3 install pylatex --user
-$ sudo apt-get install texlive-latex-base
-$ sudo apt-get install texlive-fonts-recommended
-optional:  
-$ sudo apt-get install texlive-latex-extra  </code></pre>
-<hr />
+<pre><code>pip3 install pylatex
+pip3 install bs4
+pip3 install numpy
+pip3 install pandas
+pip3 install requests
+pip3 install html2text
+pip3 install lxml
+pip3 install urllib
+pip3 install matplotlib
+pip3 install dateutil
+pip3 install statsmodels
+pip3 install sklearn
+
+sudo apt-get install texlive-latex-base
+sudo apt-get install texlive-fonts-recommended
+
+sudo apt-get install texlive-latex-extra  </code></pre>
 </div>
-<div id="data-crawling-module" class="section level1">
-<h1>Data crawling module</h1>
-<div id="world-bank-data-crawler" class="section level2">
-<h2>World bank data crawler</h2>
-<p>This module downloads data from the world bank api.</p>
-<p>filename: wbdata.py</p>
+<div id="data-crawlers-and-scrapers" class="section level1">
+<h1>Data crawlers and scrapers</h1>
+<div id="world-bank-data" class="section level2">
+<h2>World Bank data</h2>
+<p>This module downloads data from the World Bank API.</p>
+<p>—filename: wbdata.py</p>
 <div id="reference-of-supported-indicators" class="section level3">
 <h3>Reference of supported indicators</h3>
 <pre><code>def get_countries()  
@@ -182,13 +198,21 @@ Parameters:
 </code></pre>
 </div>
 </div>
-<div id="other-data-crawlers" class="section level2">
-<h2>other data crawlers</h2>
+<div id="electricity-data" class="section level2">
+<h2>Electricity data</h2>
+</div>
+<div id="precipitation-data" class="section level2">
+<h2>Precipitation data</h2>
+</div>
+<div id="recessions-data" class="section level2">
+<h2>Recessions data</h2>
+</div>
+<div id="temperature-data" class="section level2">
+<h2>Temperature data</h2>
 </div>
 </div>
 <div id="data-analysis-module" class="section level1">
 <h1>Data analysis module</h1>
-<hr />
 </div>
 <div id="graphing-module" class="section level1">
 <h1>Graphing module</h1>

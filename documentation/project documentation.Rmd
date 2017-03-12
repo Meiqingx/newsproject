@@ -11,21 +11,35 @@ output:
 # Description
 192 independent variables
 
+Python modules are designed to run on Python 3.4+; shell scripts are designed to run on GNU bash 3.2+.
+
 # Package installation before using the software
-```
-pip3 install pylatex --user
-$ sudo apt-get install texlive-latex-base
-$ sudo apt-get install texlive-fonts-recommended
-optional:  
-$ sudo apt-get install texlive-latex-extra  
+```{}
+pip3 install pylatex
+pip3 install bs4
+pip3 install numpy
+pip3 install pandas
+pip3 install requests
+pip3 install html2text
+pip3 install lxml
+pip3 install urllib
+pip3 install matplotlib
+pip3 install dateutil
+pip3 install statsmodels
+pip3 install sklearn
+
+sudo apt-get install texlive-latex-base
+sudo apt-get install texlive-fonts-recommended
+
+sudo apt-get install texlive-latex-extra  
 ```
 
-# Data crawling module
+# Data crawlers and scrapers
 
-## World bank data crawler
-This module downloads data from the world bank api.  
+## World Bank data
+This module downloads data from the World Bank API.  
    
-filename: wbdata.py    
+—filename: wbdata.py    
 
 ### Reference of supported indicators  
 ```
@@ -54,9 +68,15 @@ Parameters:
 
 ```
 
+## Electricity data
+
+## Precipitation data
+
+## Recessions data
+
+## Temperature data
 
 
-## other data crawlers
 
 
 
