@@ -67,14 +67,51 @@ Parameters:
 
 ```
 
-## Electricity data
+## Electricity Data
 The Energy Information Administration provides a single file, which can be downloaded by hand:
 
 URL = http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01
 
-## Precipitation data
+## Precipitation Data
+NASA provides 224 CSV maps of global monthly precipitation.
 
-## Recessions data
+Main page:  http://neo.sci.gsfc.nasa.gov/view.php?datasetId=TRMM_3B43M&year=1998
+
+The module scrapes the main page for each year in the data collection and determines the IDs of the files to be downloaded.  It then downloads the necessary files and outputs them with the year and month in the filename.
+
+###Functions
+```
+create_output_dir():  Creates the output directory if it does not already exist.
+
+create_main_url_list():  Creates a list of main-page URLs to be scraped.
+
+get_csvs(queue):  Given a queue containing URLs of the files to be downloaded, downloads said files.
+
+write_csv(csv_map,filename):  Given a single csv_map, outputs a csv file.
+
+build_months(year):  Given a year, builds a list of the months for which data are available.
+
+crawl_page(url,months_list,queue): Given a URL, the months for which data are available for that year, and the queue, updates the queue with the IDs of the monthly files.
+```
+## Recessions Data
+
+The National Bureau of Economic Research provides a list of the start and end dates of American economic recessions.
+
+URL = http://www.nber.org/cycles.html
+```
+create_output_dir():  Creates the output directory if it does not already exist.
+
+get_page(url):  Given a URL, downloads that page and creates a BeautifulSoup object.
+
+process_page(soup):  Processes a BeautifulSoup object and returns lists of the recession start and end dates.
+
+clean_dates(dates):  Takes in a list of dates in 'Month YYYY' format and switches them to YYYY-MM format.
+
+build_array(clean_start, clean_end):  Takes lists of cleaned start and end dates and makes an array of them.
+
+write_csv(array):  Writes a csv file from the given array.
+```
+
 
 ## Temperature data
 
