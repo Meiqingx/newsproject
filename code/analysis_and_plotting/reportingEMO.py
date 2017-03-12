@@ -66,8 +66,6 @@ class Report:
 
 
 
-
-
         self.doc.preamble.append(header)
 
         self.doc.change_document_style('header')
