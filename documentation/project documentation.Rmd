@@ -15,23 +15,22 @@ Python modules are designed to run on Python 3.4+; shell scripts are designed to
 
 # Package installation before using the software
 ```{}
-pip3 install pylatex
 pip3 install bs4
-pip3 install numpy
-pip3 install pandas
-pip3 install requests
-pip3 install html2text
 pip3 install lxml
+pip3 install numpy
 pip3 install urllib
-pip3 install matplotlib
-pip3 install dateutil
-pip3 install statsmodels
+pip3 install pandas
+pip3 install pylatex
 pip3 install sklearn
+pip3 install requests
+pip3 install dateutil
+pip3 install html2text
+pip3 install matplotlib
+pip3 install statsmodels
 
 sudo apt-get install texlive-latex-base
+sudo apt-get install texlive-latex-extra
 sudo apt-get install texlive-fonts-recommended
-
-sudo apt-get install texlive-latex-extra  
 ```
 
 # Data crawlers and scrapers
@@ -51,7 +50,7 @@ def get_commodities()
 
 ```
 
-### Download data
+### Downloading data
 
 ```
 def create_predictors_df(country_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv')
@@ -69,6 +68,9 @@ Parameters:
 ```
 
 ## Electricity data
+The Energy Information Administration provides a single file, which can be downloaded by hand:
+
+URL = http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01
 
 ## Precipitation data
 
