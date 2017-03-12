@@ -12,13 +12,14 @@ from statsmodels.tsa.arima_model import ARIMA
 
 class Series:
 
-    def __init__(self):
-        '''
-        Construct a new model to predic prices
-        '''
+    # def __init__(self, file):
+    #     '''
+    #     Construct a new model to predic prices
+    #     '''
+    #     self.table = create_pandas(file)
 
 
-    def create_database(file):
+    def create_pandas(file):
         '''
         Creates a dataframe with adequate characteristics for time series analysis
 
@@ -38,7 +39,7 @@ class Series:
 
         for series_name in database.dtypes.index:
             new_name = series_name + "_sa"
-            database[new_name] = seasonal_decompose(database[series_name]).trend
+            database[new_name] = seasonal_decompose(database[series_name], freq=12).trend
             season_factor_name = series_name + "_season"
 
         database.drop(original_columns, axis = 1, inplace = True)

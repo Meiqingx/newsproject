@@ -1,6 +1,8 @@
 
-from Series import * 
+# from Series import * 
+from Series import *
 from Predict import * 
+from AR_model import * 
 
 import pandas as pd
 import numpy as np
@@ -11,6 +13,9 @@ from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.tsa.stattools import acf, pacf
 from statsmodels.tsa.arima_model import ARIMA
+
+import statsmodels.api as sm
+
 
 # Load the databases of dependent and independent variables
 
@@ -33,8 +38,11 @@ def load_data(dependent_f, independent_f):
 
     '''
     # Create individual dataframes
-    dependent = Series.create_database(dependent_f)
-    independent = Series.create_database(independent_f)
+    dependent = Series.create_pandas(dependent_f)
+    #dependent.create_pandas(dependent_f)
+    independent = Series.create_pandas(independent_f)
+    # dependent = Series.create_pandas(dependent_f)
+    # independent = Series.create_pandas(independent_f)
 
     min_dep = min(dependent.index)
     min_ind = min(independent.index)
@@ -57,12 +65,34 @@ def load_data(dependent_f, independent_f):
 
 dependent, independent = load_data(dependent_f, independent_f)
 
-
 # Get the best model for each of the dependent variables
+# dic_models = {}
+# for name_var in  dependent.columns:
+#     model = Predict.best_model(name_var, dependent, independent)
+#     dic_models[name_var] = model
 
-dic_models = {}
-for name_var in  dependent.columns:
-    model = Predict.best_model(name_var, dependent, independent)
-    dic_models[name_var] = model
+
+def gen_graph(series, pred):
+    '''
+    '''
+    plt.title("Data vs Prediction")
+    plt.plot(pred, color = "red", label = "Prediction", linewidth = 1)
+    plt.plot(series, color = "blue", label = "Original Data", linewidth = 1.5)
+    plt.legend(loc="upper left")
+    plt.show()
+    # plt.savefig("plot_result.png")
+    plt.close()
+
+# (best_model, variables, order, independent_vars, series)
+# model, variables, order, independent_vars, series = dic_models["Aluminum, $/mt, nominal$_sa"]
+# pred = Predict.predictions(model, series, independent_vars)
+
+model, variables, order, independent_vars, series = Predict.best_model('Gold, $/toz, nominal$_sa', dependent, independent)
+# pred = Predict.predictions(model, series, independent_vars)
+
+
+
+
+
 
 

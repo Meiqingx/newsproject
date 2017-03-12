@@ -49,14 +49,5 @@ predict_var = model.predict('1960', '2016')
 results_ARIMA = model.fit(disp=-1) 
 
 
-# Graph in the presentation
-# new_data = series + random.sample(range(-800, 1000), 684)
-# plt.title("Copper Data vs Prediction")
-# plt.plot(new_data, color = "red", label = "Original Data", linewidth = 1)
-# plt.plot(series, color = "blue", label = "Predition", linewidth = 1.5)
-# plt.legend(loc="upper left")
-# # plt.show()
-# plt.savefig("plot_result.png")
-# plt.close()
 
 
