@@ -59,6 +59,9 @@ series = dependent['Gold, $/toz, nominal$_sa']
 # THEY MUST BE IN THE SAME ORDER
 
 for i, df in enumerate(df_list):
-    r = reportingEMO.build_report(df, dictos[i])
+    #reportingEMO.build_report(df, dictos[i])
+    name = 'df_tuple' + str(i) + '.p'
+    p_tuple = tuple((df, dictos[i]))
+    pickle.dump(p_tuple, open(name, 'wb'))
 
 '''

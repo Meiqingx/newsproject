@@ -20,7 +20,7 @@ dicto2 = {'lag':2, 'R2': 0.67, 'stat': 6.2, 'num_diff': 3,\
 dictos = [dicto1,dicto2]
 
 for i, df in enumerate(df_list):
-    "r = reportingEMO.build_report(df, dictos[i])"
+    #reportingEMO.build_report(df, dictos[i])
     name = 'df_tuple' + str(i) + '.p'
     p_tuple = tuple((df, dictos[i]))
     pickle.dump(p_tuple, open(name, 'wb'))
