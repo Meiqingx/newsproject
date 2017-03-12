@@ -35,5 +35,5 @@ def build_plot(df):
     plt.ylabel('Price (USD)')
     plt.legend(loc=0,fontsize=11)
     plt.tight_layout()
-    plt.show()
+    #plt.show()
     #plt.close()
