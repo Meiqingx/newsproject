@@ -125,7 +125,9 @@ $(document).ready(function () {
 <div id="TOC">
 <ul>
 <li><a href="#description">Description</a></li>
-<li><a href="#package-installation-before-using-the-software">Package installation before using the software</a></li>
+<li><a href="#technical-details">Technical details</a><ul>
+<li><a href="#package-installation-and-updates">Package installation and updates</a></li>
+</ul></li>
 <li><a href="#data-crawlers-and-scrapers">Data crawlers and scrapers</a><ul>
 <li><a href="#world-bank-data">World Bank data</a><ul>
 <li><a href="#reference-of-supported-indicators">Reference of supported indicators</a></li>
@@ -135,38 +137,66 @@ $(document).ready(function () {
 <li><a href="#precipitation-data">Precipitation Data</a><ul>
 <li><a href="#functions">Functions</a></li>
 </ul></li>
-<li><a href="#recessions-data">Recessions Data</a></li>
-<li><a href="#temperature-data">Temperature data</a></li>
+<li><a href="#recessions-data">Recessions Data</a><ul>
+<li><a href="#functions-1">Functions</a></li>
 </ul></li>
-<li><a href="#data-analysis-module">Data analysis module</a></li>
-<li><a href="#graphing-module">Graphing module</a></li>
+<li><a href="#temperature-data">Temperature data</a><ul>
+<li><a href="#functions-2">Functions</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#data-parsing-modules">Data parsing modules</a><ul>
+<li><a href="#electricity">Electricity</a><ul>
+<li><a href="#functions-3">Functions</a></li>
+</ul></li>
+<li><a href="#precipitation">Precipitation</a><ul>
+<li><a href="#functions-4">Functions</a></li>
+</ul></li>
+<li><a href="#recessions">Recessions</a><ul>
+<li><a href="#functions-5">Functions</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#data-merging-module">Data merging module</a><ul>
+<li><a href="#functions-6">Functions</a></li>
+</ul></li>
+<li><a href="#data-analysis-modules">Data analysis modules</a></li>
+<li><a href="#graphing-modules">Graphing modules</a><ul>
+<li><a href="#diagnostic-plots">Diagnostic plots</a></li>
+<li><a href="#predictive-plots">Predictive plots</a></li>
+</ul></li>
 <li><a href="#reporting-module">Reporting module</a></li>
 </ul>
 </div>
 
 <div id="description" class="section level1">
 <h1>Description</h1>
-<p>192 independent variables</p>
-<p>Python modules are designed to run on Python 3.4+; shell scripts are designed to run on GNU bash 3.2+.</p>
+<p>We predict the prices of ten commodities based on a pool of 192 independent predictors: 64 first-order variables and their squared and cubic terms.</p>
 </div>
-<div id="package-installation-before-using-the-software" class="section level1">
-<h1>Package installation before using the software</h1>
-<pre><code>pip3 install bs4
-pip3 install lxml
-pip3 install numpy
-pip3 install urllib
-pip3 install pandas
-pip3 install pylatex
-pip3 install sklearn
-pip3 install requests
-pip3 install dateutil
-pip3 install html2text
-pip3 install matplotlib
-pip3 install statsmodels
+<div id="technical-details" class="section level1">
+<h1>Technical details</h1>
+<p>Python modules are designed to run in Linux on Python 3.4+; shell scripts are designed to run on GNU bash 3.2+. Plotting requires an update to matplotlib, which requires the installation of libffi-dev, which requires an update of apt-get.</p>
+<div id="package-installation-and-updates" class="section level2">
+<h2>Package installation and updates</h2>
+<p>Before running the software, please run the following commands to ensure that the necessary packages are installed and/or updated:</p>
+<pre class="bash"><code>sudo pip3 install bs4
+sudo pip3 install lxml
+sudo pip3 install numpy
+sudo pip3 install urllib
+sudo pip3 install pandas
+sudo pip3 install pylatex
+sudo pip3 install sklearn
+sudo pip3 install requests
+sudo pip3 install dateutil
+sudo pip3 install html2text
+sudo pip3 install statsmodels
 
+sudo apt-get update
+sudo apt-get install libffi-dev
+sudo apt-get build-dep matplotlib
+sudo pip3 install matplotlib
 sudo apt-get install texlive-latex-base
 sudo apt-get install texlive-latex-extra
 sudo apt-get install texlive-fonts-recommended</code></pre>
+</div>
 </div>
 <div id="data-crawlers-and-scrapers" class="section level1">
 <h1>Data crawlers and scrapers</h1>
@@ -203,10 +233,12 @@ Parameters:
 <h2>Electricity Data</h2>
 <p>The Energy Information Administration provides a single file, which can be downloaded by hand:</p>
 <p>URL = <a href="http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01" class="uri">http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01</a></p>
+<p>File saved to: code/parsers/electricity_file/MER_T07_01.csv</p>
 </div>
 <div id="precipitation-data" class="section level2">
 <h2>Precipitation Data</h2>
 <p>NASA provides 224 CSV maps of global monthly precipitation.</p>
+<p>—filename: code/scrapers/precipitation-emo.py</p>
 <p>Main page: <a href="http://neo.sci.gsfc.nasa.gov/view.php?datasetId=TRMM_3B43M&amp;year=1998" class="uri">http://neo.sci.gsfc.nasa.gov/view.php?datasetId=TRMM_3B43M&amp;year=1998</a></p>
 <p>The module scrapes the main page for each year in the data collection and determines the IDs of the files to be downloaded. It then downloads the necessary files and outputs them with the year and month in the filename.</p>
 <div id="functions" class="section level3">
@@ -227,7 +259,11 @@ crawl_page(url,months_list,queue): Given a URL, the months for which data are av
 <div id="recessions-data" class="section level2">
 <h2>Recessions Data</h2>
 <p>The National Bureau of Economic Research provides a list of the start and end dates of American economic recessions.</p>
+<p>—filename: code/scrapers/recessions-emo.py</p>
 <p>URL = <a href="http://www.nber.org/cycles.html" class="uri">http://www.nber.org/cycles.html</a></p>
+<p>The module downloads the page, parses it, and outputs a csv file of the start and end dates.</p>
+<div id="functions-1" class="section level3">
+<h3>Functions</h3>
 <pre><code>create_output_dir():  Creates the output directory if it does not already exist.
 
 get_page(url):  Given a URL, downloads that page and creates a BeautifulSoup object.
@@ -240,15 +276,122 @@ build_array(clean_start, clean_end):  Takes lists of cleaned start and end dates
 
 write_csv(array):  Writes a csv file from the given array.</code></pre>
 </div>
+</div>
 <div id="temperature-data" class="section level2">
 <h2>Temperature data</h2>
+<p>NASA provides global temperature difference data.</p>
+<p>—filename: code/scrapers/temperature/scraper_temp_rv.py</p>
+<p>Main page: <a href="https://data.giss.nasa.gov/gistemp" class="uri">https://data.giss.nasa.gov/gistemp</a></p>
+<p>The module downloads the relevant data and outputs a single CSV file.</p>
+<div id="functions-2" class="section level3">
+<h3>Functions</h3>
+<pre><code>make_output_dir():  Creates directory for output data if the directory does not already exist.
+
+get_url_list(initial_url):  Gets the list of URLs to scrape from the main page.
+
+save_plain_text(urls_list,base_url): Saves the extracted plaintext to .txt files.
+
+generate_df(file):  Generates a pandas dataframe from the given filename.
+
+gen_auxdatabases_and_names(names_files):  Given a list of filenames, generates the correct names for the databases.
+
+compatibility(df):  Given a dataframe, produces a dataframe consistent with the output of other crawler modules that are part of the software.
+
+join_dataframes(df_list, treated_names):  Given a list of dataframes and their correct names, joins the dataframes.
+
+print_full(x):  Given a dataframe, prints the dataframe.</code></pre>
 </div>
 </div>
-<div id="data-analysis-module" class="section level1">
-<h1>Data analysis module</h1>
 </div>
-<div id="graphing-module" class="section level1">
-<h1>Graphing module</h1>
+<div id="data-parsing-modules" class="section level1">
+<h1>Data parsing modules</h1>
+<div id="electricity" class="section level2">
+<h2>Electricity</h2>
+<p>This module parses the electricity report and outputs a properly formatted CSV file of its variables.</p>
+<p>—filename: code/parsers/electricity-emo.py</p>
+<div id="functions-3" class="section level3">
+<h3>Functions</h3>
+<pre><code>create_output_dir():  Creates the output directory if it does not already exist.
+
+date_fixe(date_int):  Fixes dates that come in int(YYYYMM) format and changes them to datetime objects.
+
+build_df(filename): Given a filename, builds a pandas dataframe with one row per month and one column per variable.
+
+write_csv(df):  Given a pandas dataframe, writes it to a CSV file.</code></pre>
+</div>
+</div>
+<div id="precipitation" class="section level2">
+<h2>Precipitation</h2>
+<p>This module parses the precipitation CSV files and outputs a single CSV file.</p>
+<p>—filename: code/parsers/precipitation-emo.py</p>
+<div id="functions-4" class="section level3">
+<h3>Functions</h3>
+<pre><code>gen_filenames():  Generates the filenames for the precipitation CSV maps that were downloaded via the precipitation scraper.
+
+read_map(fname):  Creates a dataframe from the data in the file with the given filename.
+
+calc_means(clean_map):  Calculates the global, northern, southern, and tropics precipitations means for the given map.
+
+write_csv(array):  Given an array of monthly precipitation means, outputs a single CSV file.
+
+process_maps(filenames):  Given a list of filenames, processes the maps found in the files and outputs a single CSV with the mean precipitation values for each month.</code></pre>
+</div>
+</div>
+<div id="recessions" class="section level2">
+<h2>Recessions</h2>
+<p>This module parses the recessions data and outputs a CSV file with the generated recession deltas (months elapsed since most recent recession beginning and months elapsed since most recent recession ending) for each month.</p>
+<p>—filename: code/parsers/recessions-emo.py</p>
+<div id="functions-5" class="section level3">
+<h3>Functions</h3>
+<pre><code>read_file(fname):  Reads in the file and returns a cleaned dataframe.
+
+date_fixer(datestring):  Takes in a date in 'YYYY Month' format and converts it to a datetime object.
+
+build_df(clean_recessions):  Takes the cleaned dataframe and builds the output dataframe.
+
+dy2dm(reldel):  Takes a relative delta obeject and converts it to delta-months.
+
+def gen_months_list(clean_recessions):  Generates the list of YYYY-MMs ranging from the start of the first economic recession listed in the data to the present month.
+
+gen_deltas(clean_recessions,months_list):  For each month in months_list, generates the months elapsed since the start of the most recent recession and the most recent recession ending.
+
+get_dates(clean_recessions):  Returns the current date, the start date of the earliest recession, and the end date of the earliest recession, all as datetime objects.
+
+write_csv(df):  Writes a dataframe to a CSV file.</code></pre>
+</div>
+</div>
+</div>
+<div id="data-merging-module" class="section level1">
+<h1>Data merging module</h1>
+<p>This module unifies data from disparate sources, outputting one CSV for predictors and another for outcomes.</p>
+<p>—filename: code/analysis_and_plotting/merger.py</p>
+<div id="functions-6" class="section level2">
+<h2>Functions</h2>
+<pre><code>read_files():  Reads in files as pandas dataframes.  Returns a list of dataframes with preditors and a single dataframe with outcomes.
+
+date_fixer(datestring):  Converts dates from 'YYYY-MM' to datetime format.
+
+merge_dfs(dataframes_list):  Recursively merges dataframes in the list together (inner join based on Date).
+
+gen_sqrs_cbcs(df):  Generates squared and cubic terms for all variables in the given dataframe.
+
+write_csv(df,filename):  Writes a dataframe to a CSV file.</code></pre>
+</div>
+</div>
+<div id="data-analysis-modules" class="section level1">
+<h1>Data analysis modules</h1>
+</div>
+<div id="graphing-modules" class="section level1">
+<h1>Graphing modules</h1>
+<p>We implemented two graphing modules, one for diagnostic plots and one for predictive plots.</p>
+<div id="diagnostic-plots" class="section level2">
+<h2>Diagnostic plots</h2>
+<p>This module produces a series of figures. A single figure includes diagnostic plots for all ten outcome variables, while the diagnostic plots for the predictor variables are in a series of figures, each containing up to 50 plots.</p>
+<p>-filename:</p>
+</div>
+<div id="predictive-plots" class="section level2">
+<h2>Predictive plots</h2>
+</div>
 </div>
 <div id="reporting-module" class="section level1">
 <h1>Reporting module</h1>
@@ -266,11 +409,7 @@ Methods:
   insert_table()
 
   generate_pdf()</code></pre>
-<pre class="python"><code>print('Hello, world')
-def write_csv(csv_map,filename):
-    '''
-    Given a single csv_map, outputs a csv file.
-    '''</code></pre>
+<pre class="python"><code>print('Hello, world')</code></pre>
 </div>
 
 
