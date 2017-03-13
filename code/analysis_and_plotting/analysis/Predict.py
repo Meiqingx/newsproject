@@ -33,9 +33,7 @@ class Predict:
         moving_avg_terms = 0
         params = (autoregressive_terms, differences, moving_avg_terms)
 
-        # Given the finantial data, and the easy intepretation,
-        # I will use log
-        # TO LOGS
+        # Log to finantial interpretation 
         series = np.log(series)
         dependent_future = create_data_for_ar(series, num_years_to_predict)
 
@@ -52,7 +50,7 @@ class Predict:
             model = sm.tsa.ARIMA(dependent_future[:len(dependent_future)-(
                 12*num_years_to_predict)], (1,1,0))
 
-        return model
+        return model, differences
 
 
     def predictions(model, series, num_years_to_predict = 1, independent_vars = None):
@@ -67,6 +65,13 @@ class Predict:
         Outputs:
             array with the predictions
         '''
+        if not isinstance(num_years_to_predict, int):
+            num_years_to_predict = int(num_years_to_predict // 1)
+            print("Please use integers in number of years to predict. This time,")
+            print("we will predict", num_years_to_predict, "years")
+
+        original_expanded = create_data_for_ar(series, num_years_to_predict)
+
         # TO LOGS
         series = np.log(series)
         independent_future = None
@@ -96,14 +101,14 @@ class Predict:
         # Exponentiate the results to get original units
         prediction_original_units = np.exp(predictions_logs)
 
-        return prediction_original_units
+        return prediction_original_units, original_expanded
 
 
     def residuals(model, series, independent_vars = None):
         '''
         Generates a series of residuals
         '''
-        y_hat = Predict.predictions(model, series, independent_vars = independent_vars)
+        y_hat = Predict.predictions(model, series, independent_vars = independent_vars)[0]
         residuals = series - y_hat
         residuals = residuals[:len(series)]
 
@@ -146,7 +151,7 @@ class Predict:
         Outputs:
             r_square [0,1]
         '''
-        y_hat = Predict.predictions(model, series, independent_vars = independent_vars)
+        y_hat = Predict.predictions(model, series, independent_vars = independent_vars)[0]
         y_mean = np.mean(series)
         var_org = np.sum((series - y_mean) ** 2)
         var_hat = np.sum((series - y_hat) ** 2)
@@ -191,7 +196,7 @@ class Predict:
         Outputs:
             mse (positive number)
         '''
-        y_hat = Predict.predictions(model, series, independent_vars = independent_vars)
+        y_hat = Predict.predictions(model, series, independent_vars = independent_vars)[0]
         mse = np.sum((y_hat - series) ** 2) / len(series)
         return mse
 
@@ -202,8 +207,9 @@ class Predict:
         '''
         # First, select the number of lags
         measures_of_fit_acumulator = PriorityQueue()
+
         for i in [1]:
-            model = Predict.model(series, i, independent_vars = independent_vars)
+            model = Predict.model(series, i, independent_vars = independent_vars)[0]
             adjusted_r_square = Predict.adjusted_r_square(model, series, i, independent_vars)
             measures_of_fit_acumulator.put((-Predict.adjusted_r_square(model, series, i, independent_vars), i))
 
@@ -213,7 +219,7 @@ class Predict:
 
     def best_parameters(name_column, database_dependent, database_independent):
         '''
-        Selects the best model with 5 variables
+        Selects the best model with 2 variables
 
         Input:
             name_column = name of the column of the dependent variable
@@ -244,8 +250,9 @@ class Predict:
                 if element not in list_independent_vars:
                     list_independent_vars.append(element)
                     print("The dependent var is", name_column)
+                    print("The independent vars are", list_independent_vars, ".Number regressive terms", autoregressive_terms)
                     independent_vars = database_independent[list_independent_vars]
-                    model = Predict.model(series, autoregressive_terms, independent_vars = independent_vars)
+                    model = Predict.model(series, autoregressive_terms, independent_vars = independent_vars)[0]
                     adjusted_r_square = Predict.adjusted_r_square(model, series, autoregressive_terms, independent_vars)
                     queue_for_predictors.put((-adjusted_r_square, element))
                     del list_independent_vars[-1]
@@ -278,9 +285,13 @@ class Predict:
         series = database_dependent[name_column]
         independent_vars = database_independent[variables]
 
-        best_model = Predict.model(series, order, independent_vars = independent_vars)
+        best_model, differences = Predict.model(series, order, independent_vars = independent_vars)
 
-        return best_model, variables, order, independent_vars, series
+        r2 = Predict.adjusted_r_square(best_model, series, order, independent_vars = independent_vars)
+
+        dw = Predict.durbin_watson(best_model, series, independent_vars)
+
+        return name_column, best_model, series, independent_vars, variables, order, r2, dw, differences
 
 
 

@@ -4,7 +4,6 @@ import numpy as np
 import matplotlib.pylab as plt
 
 
-
 def load_data(dependent_f, independent_f):
     '''
     Load the necessary data in two databases: dependent and independent
