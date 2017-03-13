@@ -52,4 +52,4 @@ echo -e '\nBuilding diagnostic plots\n'
 python3 graph_builder.py
 echo -e '\nDone building diagnostic plots\n\n'
 
-echo -e '\nDone processing data files.  Next step is to analyze and predict.\n\n'
+echo -e '\nDone processing data files.  Next step is to run run_files.py.\n\n'
