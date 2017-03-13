@@ -23,8 +23,8 @@ PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'reports')
 
 class Report:
     """
-    A class for customized report producing for commodities prices 
-    prediction models. 
+    A class for customized report producing for commodities prices
+    prediction models.
 
     """
 
@@ -42,8 +42,8 @@ class Report:
 
     def add_headfoot(self, header_image):
         '''
-        Take a path of a header image, and insert it in the report. Also 
-        set default footers. 
+        Take a path of a header image, and insert it in the report. Also
+        set default footers.
         '''
         header = PageStyle('header')
 
@@ -59,17 +59,10 @@ class Report:
         #left footer
         with header.create(Foot('L')):
             header.append(today)
-            #header.append(LineBreak())
-            #header.append(company)
-        '''
-        #center footer
-        with header.create(Foot('C')):
-            header.append(company)
-        '''
 
         #right footer
         with header.create(Foot('R')):
-            header.append(company)#simple_page_number())
+            header.append(company)
 
 
         self.doc.preamble.append(header)
@@ -78,7 +71,7 @@ class Report:
 
     def set_title(self, title, subtitle):
         '''
-        Take two strings, and set report title and subtitle.  
+        Take two strings, and set report title and subtitle.
         '''
         with self.doc.create(MiniPage(align='c')):
             self.doc.append(LargeText(bold(title)))
@@ -87,7 +80,7 @@ class Report:
 
     def add_executive_summary(self, text):
         '''
-        Take a text string, and insert executive summary. 
+        Take a text string, and insert executive summary.
         '''
         with self.doc.create(Section('Executive Summary')) as summary:
             with summary.create(Tabular('p{15.4cm}')) as sumtable:
@@ -99,20 +92,24 @@ class Report:
     def gen_summary_text(self, results):
         '''
         '''
+<<<<<<< HEAD
         text0 = 'Summary: {} and {} have {} explanation power for {} price trend.' 
+=======
+        text0 = 'Summary: {} and {} have {} explanation power for {}. '
+>>>>>>> 4f455e62ac71d2f824eb726763f937c409c9a704
 
         var1, var2 = results['independent_var']
 
         dependent_var = results['dependent_var']
 
         R2 = results['R2']
-        
+
         if R2 >= 0.9:
             interpretation = 'high'
-        
+
         elif R2 < 0.9 and R2 > 0.5:
             interpretation = 'adequate'
-        
+
         else:
             interpretation = 'low'
 
@@ -122,8 +119,8 @@ class Report:
 
     def insert_graph(self, df):
         '''
-        Take a dataframe of prices prediction data, draw a plot 
-        and insert it in the report. 
+        Take a dataframe of prices prediction data, draw a plot
+        and insert it in the report.
         '''
 
         with self.doc.create(Figure(position='ht!')) as plot:
@@ -133,8 +130,8 @@ class Report:
 
     def insert_table(self, results):
         '''
-        Take a dictionary of statistical results of the model, and 
-        insert a summary table in the report. 
+        Take a dictionary of statistical results of the model, and
+        insert a summary table in the report.
         '''
         indie_var = ', '.join(results['independent_var'])
         R2 = round(results['R2'], 2)
@@ -162,17 +159,18 @@ class Report:
 
     def gen_pdf(self, filepath=None):
         '''
-        Generate pdf report. Take a filepath as optional. 
+        Generate pdf report. Take a filepath as optional.
         '''
         self.doc.generate_pdf(filepath, clean=True, clean_tex=True,\
                               compiler='pdflatex',silent=True)
-   
+
 
 def build_report(df, results, header_image):
     '''
-    Take a dataframe of prediction data, and a dictionary of 
-    analysis results, and build a report for an individual model. 
+    Take a dataframe of prediction data and a dictionary of
+    analysis results, and build a report for an individual model.
     '''
+
     name = df.columns[1].split(',')[0]
     print(name)
 
@@ -182,15 +180,11 @@ def build_report(df, results, header_image):
     r.add_headfoot(header_image)
 
     summary = r.gen_summary_text(results)
-    
+
     r.add_executive_summary(summary)
-    #r.insert_graph(df)
+    r.insert_graph(df)
     r.insert_table(results)
-    
+
     output_path = os.path.join(PATH, name)
-    
+
     r.gen_pdf(output_path)
-
-
-
-
