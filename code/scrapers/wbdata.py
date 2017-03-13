@@ -28,13 +28,6 @@ COMMODITIES = {'coffee': 'COFFEE_ROBUS', 'agriculture': 'IAGRICULTURE', 'beverag
 # Commodities data catalog.             #
 #########################################
 
-def create_request_object(myurl):
-    '''
-    Take an url and create a request object. 
-    '''
-    r = requests.get(url=myurl)
-    return r
-
 
 def get_countries():
     '''
@@ -55,6 +48,81 @@ def get_commodities():
     Returan a set of commodities supported
     '''
     return set(COMMODITIES)
+
+
+def create_predictors_df(country_lst=None, indicator_lst=None, yymm=None, \
+                         outfile='./worldbank/gem.csv'):
+    '''
+    Create a DataFrame of predictors and save into a csv file. By default download
+    all possible predictors supported by this module. Data time period spans 1960-01
+    to 2017-03 
+
+    Optional inputs:
+        country_lst: a list of countries (e.g.['Germany', 'Japan', 'World'])
+        indicator_lst: a list of indicator labels (e.g.: ['coffee', 'gold'])
+        yymm: (a tuple of integers )start and end year-month 
+              Example: (198001, 201612)
+        outfile: output filename
+
+    '''
+    variables = select_gem_vars(country_lst, indicator_lst)
+    
+    dfs = [] 
+
+    for var in variables:
+        
+        country, indicator = var
+        
+        indicator, country, val, date = crawl_data(country, indicator, yymm)
+
+        col_name = country + ': ' + indicator
+
+        df = pd.DataFrame({col_name: val}, index=date)
+        
+        dfs.append(df)
+
+    results = pd.concat(dfs, axis=1)
+    results.index.name = 'Date'
+
+    results.to_csv(outfile)
+
+
+def create_commodities_df(commodity_lst=None, yymm=None, \
+                         outfile='./worldbank/gem-commodities.csv'):
+    '''
+    Create a DataFrame of commodities and save into a csv file. This function
+    by default downloads all 11 available commodities, spanning all available
+    time period from 1960-01 to 2017-03. 
+    '''
+    if commodity_lst is None:
+        commodities_lst = list(COMMODITIES)
+
+    dfs = []
+
+    for commodity in commodities_lst:
+        
+        indicator, country, val, date = crawl_data(None, commodity, yymm, commodities=True)
+
+        col_name = indicator
+
+        df = pd.DataFrame({col_name: val}, index=date)
+
+        dfs.append(df)
+
+    results = pd.concat(dfs, axis=1)
+    results.index.name = 'Date'
+
+    results.to_csv(outfile)
+
+
+########### Auxiliary functions ###############
+
+def create_request_object(myurl):
+    '''
+    Take an url and create a request object. 
+    '''
+    r = requests.get(url=myurl)
+    return r
 
 
 def build_country_code(country):
@@ -218,65 +286,6 @@ def select_gem_vars(country_lst=None, indicator_lst=None):
 
     return list(itertools.product(country_lst, indicator_lst))
 
-
-def create_predictors_df(country_lst=None, indicator_lst=None, yymm=None, \
-                         outfile='./worldbank/gem.csv'):
-    '''
-    Create a DataFrame of predictors and save into a csv file. By default download
-    all possible predictors supported by this module. 
-
-    Optional inputs:
-        a list of countries, a list of indicators, start-end date, and output
-        filename. 
-    '''
-    variables = select_gem_vars(country_lst, indicator_lst)
-    
-    dfs = [] 
-
-    for var in variables:
-        
-        country, indicator = var
-        
-        indicator, country, val, date = crawl_data(country, indicator, yymm)
-
-        col_name = country + ': ' + indicator
-
-        df = pd.DataFrame({col_name: val}, index=date)
-        
-        dfs.append(df)
-
-    results = pd.concat(dfs, axis=1)
-    results.index.name = 'Date'
-
-    results.to_csv(outfile)
-
-
-def create_commodities_df(commodity_lst=None, yymm=None, \
-                         outfile='./worldbank/gem-commodities.csv'):
-    '''
-    Create a DataFrame of commodities and save into a csv file. This function
-    by default downloads all 11 available commodities, spanning all available
-    time period from 1960-01 to 2017-03. 
-    '''
-    if commodity_lst is None:
-        commodities_lst = list(COMMODITIES)
-
-    dfs = []
-
-    for commodity in commodities_lst:
-        
-        indicator, country, val, date = crawl_data(None, commodity, yymm, commodities=True)
-
-        col_name = indicator
-
-        df = pd.DataFrame({col_name: val}, index=date)
-
-        dfs.append(df)
-
-    results = pd.concat(dfs, axis=1)
-    results.index.name = 'Date'
-
-    results.to_csv(outfile)
 
 if __name__ == '__main__':
 
