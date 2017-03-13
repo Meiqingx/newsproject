@@ -165,7 +165,6 @@ def build_report(df, results, header_image):
     '''
 
     name = df.columns[1].split(',')[0]
-    print(name)
 
     r = Report()
 
