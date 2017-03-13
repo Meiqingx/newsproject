@@ -71,7 +71,6 @@ class Report:
         '''
         with self.doc.create(MiniPage(align='c')):
             self.doc.append(LargeText(bold(title)))
-            #self.doc.append(LineBreak())
             self.doc.append(MediumText(italic(bold(subtitle))))
 
     def add_executive_summary(self, text):
@@ -81,7 +80,7 @@ class Report:
         with self.doc.create(Section('Executive Summary')) as summary:
             with summary.create(Tabular('p{15.4cm}')) as sumtable:
                 sumtable.add_hline()
-                sumtable.add_row([italic(text)])
+                sumtable.add_row([text])
                 sumtable.add_empty_row()
                 sumtable.add_empty_row()
 
@@ -140,8 +139,8 @@ class Report:
         table.add_row((bold('Lag variables'), results['lag']))
         table.add_row((bold('Independent variables'), indie_var), color='lightgray')
         table.add_row((bold('Number of differences'), results['num_diff']))
-        table.add_row((NoEscape('\symbf{$R^2$}'), results['R2']), color='lightgray')
-        table.add_row((bold('Durbin-Watson Statistic'), results['stat']))
+        table.add_row((NoEscape('\symbf{$R^2$}'), R2), color='lightgray')
+        table.add_row((bold('Durbin-Watson Statistic'), dstat))
         table.add_hline()
 
         section.append(LineBreak())
@@ -174,7 +173,7 @@ def build_report(df, results, header_image):
     summary = r.gen_summary_text(results)
 
     r.add_executive_summary(summary)
-    r.insert_graph(df)
+    #r.insert_graph(df)
     r.insert_table(results)
 
     output_path = os.path.join(PATH, name)
