@@ -22,6 +22,7 @@ import os
 import pickle
 
 PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pickles/')
+ERROR = "Exception:  There has been a CalledProcessError, but the report has still\nbeen generated."
 
 def create_pickles_dir():
     '''
@@ -131,7 +132,7 @@ if __name__ == '__main__':
         try:
             reporting.build_report(df, dictos[i], header_image)
         except CalledProcessError:
-            print("Exception:  There has been a CalledProcessError, but the report was still generated.")
+            print(ERROR)
             continue
 
     # Remove auxiliary files created during pdflatex compiling

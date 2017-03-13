@@ -310,13 +310,13 @@ write_csv(df,filename):  Writes a dataframe to a CSV file.
 
 <p align=right><a href="#top" style="color:coral;background-color:white">Table of Contents</a></p>
 
-# Graphing modules
+# Visualization modules
 
-The software includes two graphing modules, one for diagnostic plots and one for predictive plots.
+The software includes two visualization modules, one to create diagnostic plots and one to create predictive plots.
 
 ## Diagnostic plots
 
-This module produces a series of figures.  A single figure includes diagnostic plots for all ten outcome variables, while the diagnostic plots for the predictor variables are in a series of figures, each containing up to 50 plots.
+This module produces a series of figures.  A single figure includes diagnostic plots for all ten outcome variables, while the diagnostic plots for the predictor variables are produced in a series of figures, each containing up to 50 plots.
 
 > filename: **code/analysis_and_plotting/graph_builder.py**
 
@@ -351,15 +351,25 @@ Initialize an empty report in Latex with 11.5 * 8 in page size, 1 in margin by d
   
     + **gen_pdf(self, filepath=None)**: Generate pdf report. Take a filepath as optional. 
     
-    
+
 ```
 > def build_report(df, results)
 ```
 * Description: Take a dataframe of prediction data and a dictionary of model analysis results, and build a report. 
 
 
+<p align=right><a href="#top" style="color:coral;background-color:white">Table of Contents</a></p>
+
+# Additional files
+
+## Shell script to run scrapers
+
+## Python script to perform analyses and output reports
+
+Meiqing:  this should be run_files.py
+
+## Python script to generate reports from pickles
+
+
 <p align=right><a href="#top" style="color:coral;background-color:white">Table of Contents</a></p><br>
 
-```{r engine='python', eval=FALSE, highlight=TRUE, include=FALSE}
-print('Hello, world')
-```
