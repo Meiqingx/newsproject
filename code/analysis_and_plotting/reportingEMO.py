@@ -16,12 +16,23 @@ PATH = 'reports/'
 # filepath with the picture
 # challenge, their package not stable
 
+###########################################################
+# This module produces individual reports for commodities #
+# prices prediction. It provides methods to set titles,   #
+# executive summaries, headers and footers, graphs, and   #
+# tables for individual reports.                          #
+###########################################################
+
 class Report:
-    """docstring for ClassName"""
+    """
+    A class for customized report producing for commodities prices 
+    prediction models. 
 
-    def __init__(self, df, dicto, margin='1.0in', default_filepath=PATH):
+    """
 
-        parentdir= os.path.dirname(default_filepath)
+    def __init__(self, margin='1.0in', default_filepath=PATH):
+
+        #parentdir= os.path.dirname(default_filepath)
 
         #if not os.path.exists(parentdir):
            # os.makedirs(parentdir)
@@ -31,12 +42,12 @@ class Report:
 
         self.doc = Document(default_filepath= default_filepath, \
                             geometry_options=geometry_options, font_size='large')
-        self._df = df
-        self._dicto = dicto
 
 
     def add_headfoot(self, header_image):
         '''
+        Take a path of a header image, and insert it in the report. Also 
+        set default footers. 
         '''
         header = PageStyle('header')
 
@@ -65,13 +76,13 @@ class Report:
             header.append(company)#simple_page_number())
 
 
-
         self.doc.preamble.append(header)
 
         self.doc.change_document_style('header')
 
     def set_title(self, title, subtitle):
         '''
+        Take two strings, and set report title and subtitle.  
         '''
         with self.doc.create(MiniPage(align='c')):
             self.doc.append(LargeText(bold(title)))
@@ -80,6 +91,7 @@ class Report:
 
     def add_executive_summary(self, text):
         '''
+        Take a text string, and insert executive summary. 
         '''
         with self.doc.create(Section('Executive Summary')) as summary:
             with summary.create(Tabular('p{15.4cm}')) as sumtable:
@@ -89,17 +101,21 @@ class Report:
                 sumtable.add_empty_row()
 
 
-    def insert_graph(self):
+    def insert_graph(self, df):
         '''
+        Take a dataframe of prices prediction data, draw a plot 
+        and insert it in the report. 
         '''
 
         with self.doc.create(Figure(position='ht!')) as plot:
-            build_plot(self._df)
+            build_plot(df)
             plot.add_plot(width="6.5in")
 
 
     def insert_table(self, results):
         '''
+        Take a dictionary of statistical results of the model, and 
+        insert a summary table in the report. 
         '''
         indie_var = ', '.join(results['independent_var'])
         R2 = round(results['R2'], 2)
@@ -127,6 +143,7 @@ class Report:
 
     def gen_pdf(self, filepath=None):
         '''
+        Generate pdf report. Take a filepath as optional. 
         '''
         self.doc.generate_pdf(filepath, clean=True, clean_tex=True,\
                               compiler='pdflatex',silent=True)
@@ -135,6 +152,7 @@ class Report:
 
 def write_summary(report, results):
     '''
+    
     '''
     # interpret results rodrigo needs to tell me the
     # threshold
@@ -167,12 +185,12 @@ def build_report(df, results):
     '''
     name = df.columns[1].split(',')[0]
 
-    r = Report(df,results)
+    r = Report()
 
     r.set_title('Forecast:  ', name)
     r.add_headfoot(HEADER_IMAGE)
     r.add_executive_summary('Summary')
-    r.insert_graph()
+    r.insert_graph(df)
     r.insert_table(results)
     output_path = os.path.join(PATH, name)
     r.gen_pdf(output_path)
