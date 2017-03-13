@@ -15,6 +15,10 @@ from statsmodels.tsa.arima_model import ARIMA
 
 import statsmodels.api as sm
 
+import reporting
+import merger as mrgr
+from subprocess import check_output, CalledProcessError
+import os
 
 # Load the databases of dependent and independent variables
 dependent_f = '../outcomes.csv'
@@ -54,6 +58,21 @@ series = dependent['Gold, $/toz, nominal$_sa']
 
 
 #Call the reporting module to build the reports
+header_image = '../commodity-pic.jpg'
+
+for i, df in enumerate(df_list):
+    try:
+        reporting.build_report(df, dictos[i], header_image)
+    except CalledProcessError:
+        print("A CalledProcessError not fixed by developer of pylatex")
+        continue
+
+
+for fname in os.listdir(reporting.PATH):
+    if fname.endswith('.tex') or fname.endswith('.aux') or fname.endswith('log'):
+        os.remove(fname)
+
+
 '''
 # Assume dfs are in a list called df_list & dictionaries in a list called dictos
 # THEY MUST BE IN THE SAME ORDER
