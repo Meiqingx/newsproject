@@ -2,10 +2,11 @@ import SeriesRVO
 from auxiliary_functions import load_data
 from Predict import *
 from AR_model import *
-import reportingEMO #change this name once the module is finalized
+# import reportingEMO #change this name once the module is finalized
 
 import pandas as pd
 import numpy as np
+
 from matplotlib.pylab import rcParams
 import datetime
 from statsmodels.tsa.seasonal import seasonal_decompose
@@ -26,36 +27,74 @@ independent_f = '../predictors.csv'
 
 dependent, independent = load_data(dependent_f, independent_f)
 
-# Get the best model for each of the dependent variables
-# dic_models = {}
-# for name_var in  dependent.columns:
-#     model = Predict.best_model(name_var, dependent, independent)
-#     dic_models[name_var] = model
 
-series = dependent['Gold, $/toz, nominal$_sa']
+def create_one_output(name_var, dependent, independent, num_years_to_predict = 1):
+    '''
+    Generates the outputs of the model for only one dependent variable
+
+    Inputs:
+        name_var = name of the variable as in the dependent dataframe
+        dependent = pandas data frame with dependent vars
+        independent = pandas data frame with independent vars
+        num_years_to_predict = integer of number of months to predict
+    Output:
+        () 
+    '''
+
+    # Dictionary for report
+    output_dictionary = {  'lag': None,
+                            'R2': None,
+                            'stat': None,
+                            'num_diff': None,
+                            'independent_var': None,
+                            'dependent_var': None}
+
+    name_column, model, series, independent_vars, variables, order, r2, dw, differences = Predict.best_model(name_var, dependent, independent)
+
+    output_dictionary['lag'] = order
+    output_dictionary['R2'] = r2
+    output_dictionary['stat'] = dw
+    output_dictionary['num_diff'] = differences
+    output_dictionary['independent_var'] = variables
+    output_dictionary['dependent_var'] = name_column
+
+    # Databaase for report
+    pred, original = Predict.predictions(model, series, num_years_to_predict, independent_vars)
+    date = pred.index
+    data_for_graphs = pd.DataFrame({'date': date, 'original':original, 'prediction':pred})
+    data_for_graphs.date = pd.to_datetime(data_for_graphs.date).dt.to_period('m')
+
+    return output_dictionary, data_for_graphs
+
+def generate_outputs(dependent, independent, num_years_to_predict = 1):
+    '''
+    Generates a list of dictionaries (key information of the model for the report) 
+    and a list of dataframes with the original series and the predictions
+
+    Inputs:
+        dependent = dataframe with dependent variables
+        independent = dataframe with independetn variables
+        num_years_to_predict = integer with the number of years to predict
+
+    Outputs:
+        (list_dictionaries, list_dataframes)
+    '''
+    
+    list_dictionaries = []
+    list_dataframes = []
+
+    for commodity in dependent.columns:
+        one_result = create_one_output(commodity, dependent, independent, num_years_to_predict)
+        list_dictionaries.append(one_result[0])
+        list_dataframes.append(one_result[1])
+
+    return list_dictionaries, list_dataframes
 
 
-# # (best_model, variables, order, independent_vars, series)
-# # model, variables, order, independent_vars, series = dic_models["Aluminum, $/mt, nominal$_sa"]
-# # pred = Predict.predictions(model, series, independent_vars)
-
-# model, variables, order, independent_vars, series = Predict.best_model('Gold, $/toz, nominal$_sa', dependent, independent)
-
-# # pred = Predict.predictions(model, series, independent_vars)
-
-# pred = Predict.predictions(model, series, 1, independent_vars)
-
-# dw = Predict.durbin_watson(model, series, independent_vars)
-
-# resi = Predict.residuals(model, series, independent_vars)[:len(series)]
-
-# r2 = Predict.r_square(model, series, independent_vars)
+list_dictionaries, list_dataframes = generate_outputs(dependent, independent, 1)
 
 
-# # a dictionary with these keys: 'lag', 'R2', 'stat', 'num_diff', 'independent_var', 'dependent_var'
-
-
-
+# list_dictionaries, list_dataframes = generate_outputs(dependent[["Agr: Food: Grains, 2010=100, nominal$_sa", "Agriculture, 2010=100, nominal$_sa"]], independent, 1)
 
 #Call the reporting module to build the reports
 header_image = '../commodity-pic.jpg'
