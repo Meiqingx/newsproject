@@ -55,7 +55,8 @@ def create_one_output(name_var, dependent, independent, num_years_to_predict = 1
     # Databaase for report
     pred, original = Predict.predictions(model, series, num_years_to_predict, independent_vars)
     date = pred.index
-    data_for_graphs = pd.DataFrame({'date': date, 'original':original, 'prediction':pred})
+    data_for_graphs = pd.DataFrame({'date': date, name_var: original, 'prediction':pred})
+    data_for_graphs = data_for_graphs[['date', name_var, 'prediction']]
     data_for_graphs.date = pd.to_datetime(data_for_graphs.date).dt.to_period('m')
 
     return output_dictionary, data_for_graphs
