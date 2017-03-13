@@ -201,14 +201,21 @@ class Predict:
         return mse
 
 
-    def best_order(series, independent_vars = None):
+    def best_order(series, independent_vars = None, stop_num_lags = 1):
         '''
-        Creates the parameter for the best model
+        Selects the number of lags
+
+        Inputs:
+            series = series of dependent vars
+            independent_vars = dataframe of independent variables
+            stop_num_lags = maximum number of lags to explore
+        Outputs:
+            winner = best number of lags 
         '''
         # First, select the number of lags
         measures_of_fit_acumulator = PriorityQueue()
 
-        for i in [1]:
+        for i in list(range(1, stop_num_lags + 1)):
             model = Predict.model(series, i, independent_vars = independent_vars)[0]
             adjusted_r_square = Predict.adjusted_r_square(model, series, i, independent_vars)
             measures_of_fit_acumulator.put((-Predict.adjusted_r_square(model, series, i, independent_vars), i))
@@ -217,14 +224,15 @@ class Predict:
         winner = measures_of_fit_acumulator.get()[1]
         return winner
 
-    def best_parameters(name_column, database_dependent, database_independent):
+    def best_parameters(name_column, database_dependent, database_independent, num_ind_var = 2):
         '''
-        Selects the best model with 2 variables
+        Selects the best model with X (num_ind_var) variables
 
         Input:
             name_column = name of the column of the dependent variable
             database_dependent
             database_independent
+            num_ind_var = number of independent vars to select
 
         Outputs:
             list of [list_independent_vars, autoregressive_terms], where
@@ -243,7 +251,7 @@ class Predict:
 
         list_independent_vars = []
 
-        for j in range(2):
+        for j in range(num_ind_var):
             queue_for_predictors = PriorityQueue()
             
             for element in list_predictors:
