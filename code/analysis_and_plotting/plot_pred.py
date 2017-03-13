@@ -19,7 +19,6 @@ def build_plot(df):
     name = actual.split(',')[0]
     title = name + ': Actual and Predicted Prices'
 
-    #dates = df[date].tolist()
     dates = df[date].map(lambda x: x.to_timestamp())
     actuals = df[actual].tolist()
     preds = df[pred].tolist()

@@ -29,12 +29,10 @@ Before running the software, please run the following commands to ensure that th
 sudo pip3 install bs4
 sudo pip3 install lxml
 sudo pip3 install numpy
-sudo pip3 install urllib
 sudo pip3 install pandas
 sudo pip3 install pylatex
 sudo pip3 install sklearn
 sudo pip3 install requests
-sudo pip3 install dateutil
 sudo pip3 install html2text
 sudo pip3 install statsmodels
 
@@ -46,6 +44,8 @@ sudo apt-get install texlive-latex-base
 sudo apt-get install texlive-latex-extra
 sudo apt-get install texlive-fonts-recommended
 ```
+
+Please also install dateutil from: https://pypi.python.org/pypi/python-dateutil/2.6.0
 
 # Data crawlers and scrapers
 
