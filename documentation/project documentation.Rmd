@@ -67,14 +67,42 @@ Parameters:
 
 ```
 
+<<<<<<< HEAD
+## Electricity Data
+
+The Energy Information Administration provides a single file, which can be downloaded by hand:  http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01
+=======
 ## Electricity data
 The Energy Information Administration provides a single file, which can be downloaded by hand:
 
 URL = http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01
+>>>>>>> origin/master
 
 ## Precipitation data
 
+<<<<<<< HEAD
+URL = http://www.nber.org/cycles.html
+
+The module downloads the page, parses it, and outputs a CSV file of the start and end dates.
+
+### Functions
+
+```
+create_output_dir():  Creates the output directory if it does not already exist.
+
+get_page(url):  Given a URL, downloads that page and creates a BeautifulSoup object.
+
+process_page(soup):  Processes a BeautifulSoup object and returns lists of the recession start and end dates.
+
+clean_dates(dates):  Takes in a list of dates in 'Month YYYY' format and switches them to YYYY—MM format.
+
+build_array(clean_start, clean_end):  Takes lists of cleaned start and end dates and makes an array of them.
+
+write_csv(array):  Writes a CSV file from the given array.
+```
+=======
 ## Recessions data
+>>>>>>> origin/master
 
 ## Temperature data
 
@@ -86,9 +114,32 @@ URL = http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01
 
 
 
+<<<<<<< HEAD
+—filename: code/analysis_and_plotting/graph_builder.py
+
+### Functions
+
+```
+plot_a_lot(df,filename):  Plots a lot of plots in one single figure.
+
+build_plot(dates,values,label):  Generates a single plot.
+
+plot_plots(predictors):  Breaks predictors dataframe into chunks of many columns and generates one plot for each chunk.
+```
+=======
 # Graphing module
+>>>>>>> origin/master
 
 
+This module produces a predictive plot from a dataframe of actual and predicted prices.
+
+—filename: code/analysis_and_plotting/plot_pred.py
+
+### Functions
+
+```
+build_plot(df):  Given a dataframe of dates, actual prices, and predicted prices, builds a time-series plot.
+```
 
 # Reporting module
 This module creates report  
