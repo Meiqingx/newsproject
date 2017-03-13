@@ -10,10 +10,6 @@ import time
 
 PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'reports')
 
-
-# These global variables should be moved to run_files
-
-
 ###########################################################
 # This module produces individual reports for commodities #
 # prices prediction. It provides methods to set titles,   #
@@ -91,6 +87,7 @@ class Report:
 
     def gen_summary_text(self, results):
         '''
+        Takes a dictionary of analysis results, and generate a summary text string. 
         '''
         text0 = 'Summary: {} and {} have {} explanation power for {} price trend.' 
 
