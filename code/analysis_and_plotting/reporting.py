@@ -173,7 +173,7 @@ def build_report(df, results, header_image):
     summary = r.gen_summary_text(results)
 
     r.add_executive_summary(summary)
-    #r.insert_graph(df)
+    r.insert_graph(df)
     r.insert_table(results)
 
     output_path = os.path.join(PATH, name)
