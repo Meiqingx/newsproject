@@ -134,7 +134,7 @@ if __name__ == '__main__':
             print("Exception:  There has been a CalledProcessError, but the report was still generated.")
             continue
 
-
+    # Remove auxiliary files created during pdflatex compiling
     for fname in os.listdir(reporting.PATH):
         if fname.endswith('.tex') or fname.endswith('.aux') or fname.endswith('log'):
             os.remove(fname)
