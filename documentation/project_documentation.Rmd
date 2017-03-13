@@ -10,7 +10,7 @@ output:
 
 # Description
 
-This program forecasts the prices of ten commodities based on a pool of 192 independent predictors:  64 first-order variables and their squared and cubic terms. Runing the program produces one pdf report for each of the ten commodities. 
+This program forecasts the prices of ten commodities based on a pool of 192 independent predictors:  64 first-order variables and their squared and cubic terms. Running the program produces one pdf report for each of the ten commodities. 
 
 ## Technical details
 
@@ -109,7 +109,7 @@ This module downloads data from the World Bank's GEM (Global Economic Monitor) a
     same as create_predictors_df.
 
 
-## Electricity Data
+## Electricity data
 
 The Energy Information Administration provides a single file, which can be downloaded by hand:
 
@@ -117,7 +117,7 @@ URL = http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01
 
 File saved to:  code/parsers/electricity_file/MER_T07_01.csv
 
-## Precipitation Data
+## Precipitation data
 
 NASA provides 224 CSV maps of global monthly precipitation.
 
@@ -143,7 +143,7 @@ build_months(year):  Given a year, builds a list of the months for which data ar
 crawl_page(url,months_list,queue): Given a URL, the months for which data are available for that year, and the queue, updates the queue with the IDs of the monthly files.
 ```
 
-## Recessions Data
+## Recessions data
 
 The National Bureau of Economic Research provides a list of the start and end dates of American economic recessions.
 
@@ -290,7 +290,7 @@ write_csv(df,filename):  Writes a dataframe to a CSV file.
 
 # Graphing modules
 
-We implemented two graphing modules, one for diagnostic plots and one for predictive plots.
+The software includes two graphing modules, one for diagnostic plots and one for predictive plots.
 
 ## Diagnostic plots
 

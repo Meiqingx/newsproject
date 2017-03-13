@@ -18,11 +18,11 @@ PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'reports')
 ###########################################################
 
 class Report:
-    """
+    '''
     A class for customized report producing for commodities prices
     prediction models.
 
-    """
+    '''
 
     def __init__(self, margin='1.0in', default_filepath=PATH):
 
@@ -51,7 +51,6 @@ class Report:
             with cheader.create(Figure(position='t!')) as graph:
                 graph.add_image(header_image, width='6.5in')
 
-
         #left footer
         with header.create(Foot('L')):
             header.append(today)
@@ -60,10 +59,10 @@ class Report:
         with header.create(Foot('R')):
             header.append(company)
 
-
         self.doc.preamble.append(header)
 
         self.doc.change_document_style('header')
+
 
     def set_title(self, title, subtitle):
         '''
@@ -126,8 +125,8 @@ class Report:
         insert a summary table in the report.
         '''
         indie_var = '; '.join(results['independent_var'])
-        R2 = round(results['R2'], 2)
-        dstat = round(results['stat'], 2)
+        R2 = round(results['R2'], 5)
+        dstat = round(results['stat'], 5)
 
         section = Section('Statistical Results')
 
