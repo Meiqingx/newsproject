@@ -2,7 +2,6 @@ import SeriesRVO
 from auxiliary_functions import load_data
 from Predict import *
 from AR_model import *
-# import reportingEMO #change this name once the module is finalized
 
 import pandas as pd
 import numpy as np
@@ -20,6 +19,30 @@ import reporting
 import merger as mrgr
 from subprocess import check_output, CalledProcessError
 import os
+import pickle
+
+PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pickles/')
+
+def create_pickles_dir():
+    '''
+    Creates pickles directory if it does not already exist.
+
+    Inputs:
+        None.
+
+    Outputs:
+        The pickles directory at current_path/pickles.
+
+    Returns:
+        None.
+    '''
+
+    cur_path = os.path.split(os.path.abspath(__file__))[0]
+    output_path = os.path.join(cur_path, 'pickles')
+    if not os.access(output_path, os.F_OK):
+        os.makedirs(output_path)
+        print('Creating pickles directory:', output_path)
+
 
 
 def create_one_output(name_var, dependent, independent, num_years_to_predict = 1):
@@ -91,20 +114,23 @@ independent_f = 'predictors.csv'
 dependent, independent = load_data(dependent_f, independent_f)
 
 # Generate the general output
-# dictos, df_list = generate_outputs(dependent, independent, 1)
+dictos, df_list = generate_outputs(dependent, independent, 1)
 
-#dictos, df_list = generate_outputs(dependent[["Agr: Food: Grains, 2010=100, nominal$_sa"]], independent, 1)
-#dictos, df_list = generate_outputs(dependent[["Agriculture, 2010=100, nominal$_sa"]], independent, 1)
-dictos, df_list = generate_outputs(dependent[["Agr: Food: Grains, 2010=100, nominal$_sa", "Agriculture, 2010=100, nominal$_sa"]], independent, 1)
+#dictos, df_list = generate_outputs(dependent[["Agr: Food: Grains, 2010=100, nominal$_sa", "Agriculture, 2010=100, nominal$_sa"]], independent, 1)
+
+create_pickles_dir()
 
 #Call the reporting module to build the reports
 header_image = '../commodity-pic.jpg'
 
 for i, df in enumerate(df_list):
+    name = PATH + 'df_tuple' + str(i) + '.pkl'
+    p_tuple = tuple((df,dictos[i]))
+    pickle.dump(p_tuple, open(name, 'wb'))
     try:
         reporting.build_report(df, dictos[i], header_image)
     except CalledProcessError:
-        print("Exception:  A CalledProcessError not fixed by developer of pylatex")
+        print("Exception:  There has been a CalledProcessError, but the report was still generated.")
         continue
 
 
