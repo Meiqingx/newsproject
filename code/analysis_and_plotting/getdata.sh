@@ -1,5 +1,7 @@
 #!/bin/bash
 
+wget http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01 -O ../parsers/electricity_file/MER_T07_01.csv
+
 cd ../scrapers
 
 echo -e '\nRunning precipitation scraper\n'
