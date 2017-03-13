@@ -5,8 +5,7 @@ from subprocess import check_output, CalledProcessError
 
 
 PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pickles/')
-ERROR = "Exception:  There has been a CalledProcessError, but the report\n /
-has still been generated."
+ERROR = "Exception:  There has been a CalledProcessError, but the report has still\nbeen generated."
 PICKLES = 10
 
 
