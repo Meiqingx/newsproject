@@ -116,7 +116,6 @@ dependent, independent = load_data(dependent_f, independent_f)
 # Generate the general output
 dictos, df_list = generate_outputs(dependent, independent, 1)
 
-#dictos, df_list = generate_outputs(dependent[["Agr: Food: Grains, 2010=100, nominal$_sa", "Agriculture, 2010=100, nominal$_sa"]], independent, 1)
 
 create_pickles_dir()
 
@@ -137,16 +136,3 @@ for i, df in enumerate(df_list):
 for fname in os.listdir(reporting.PATH):
     if fname.endswith('.tex') or fname.endswith('.aux') or fname.endswith('log'):
         os.remove(fname)
-
-
-'''
-# Assume dfs are in a list called df_list & dictionaries in a list called dictos
-# THEY MUST BE IN THE SAME ORDER
-
-for i, df in enumerate(df_list):
-    #reportingEMO.build_report(df, dictos[i])
-    name = 'df_tuple' + str(i) + '.p'
-    p_tuple = tuple((df, dictos[i]))
-    pickle.dump(p_tuple, open(name, 'wb'))
-
-'''
