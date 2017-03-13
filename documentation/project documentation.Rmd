@@ -78,9 +78,7 @@ Parameters:
 
 ## Electricity Data
 
-The Energy Information Administration provides a single file, which can be downloaded by hand:
-
-URL = http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01
+The Energy Information Administration provides a single file, which can be downloaded by hand:  http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01
 
 File saved to:  code/parsers/electricity_file/MER_T07_01.csv
 
@@ -118,7 +116,7 @@ The National Bureau of Economic Research provides a list of the start and end da
 
 URL = http://www.nber.org/cycles.html
 
-The module downloads the page, parses it, and outputs a csv file of the start and end dates.
+The module downloads the page, parses it, and outputs a CSV file of the start and end dates.
 
 ### Functions
 
@@ -133,7 +131,7 @@ clean_dates(dates):  Takes in a list of dates in 'Month YYYY' format and switche
 
 build_array(clean_start, clean_end):  Takes lists of cleaned start and end dates and makes an array of them.
 
-write_csv(array):  Writes a csv file from the given array.
+write_csv(array):  Writes a CSV file from the given array.
 ```
 
 ## Temperature data
@@ -263,10 +261,29 @@ We implemented two graphing modules, one for diagnostic plots and one for predic
 
 This module produces a series of figures.  A single figure includes diagnostic plots for all ten outcome variables, while the diagnostic plots for the predictor variables are in a series of figures, each containing up to 50 plots.
 
-—filename: 
+—filename: code/analysis_and_plotting/graph_builder.py
+
+### Functions
+
+```
+plot_a_lot(df,filename):  Plots a lot of plots in one single figure.
+
+build_plot(dates,values,label):  Generates a single plot.
+
+plot_plots(predictors):  Breaks predictors dataframe into chunks of many columns and generates one plot for each chunk.
+```
 
 ## Predictive plots
 
+This module produces a predictive plot from a dataframe of actual and predicted prices.
+
+—filename: code/analysis_and_plotting/plot_pred.py
+
+### Functions
+
+```
+build_plot(df):  Given a dataframe of dates, actual prices, and predicted prices, builds a time-series plot.
+```
 
 # Reporting module
 This module creates report  
