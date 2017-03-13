@@ -108,31 +108,33 @@ def generate_outputs(dependent, independent, num_years_to_predict = 1):
 
     return list_dictionaries, list_dataframes
 
-# Load the databases of dependent and independent variables
-dependent_f = 'outcomes.csv'
-independent_f = 'predictors.csv'
-dependent, independent = load_data(dependent_f, independent_f)
+if __name__ == '__main__':
 
-# Generate the general output
-dictos, df_list = generate_outputs(dependent, independent, 1)
+    # Load the databases of dependent and independent variables
+    dependent_f = 'outcomes.csv'
+    independent_f = 'predictors.csv'
+    dependent, independent = load_data(dependent_f, independent_f)
 
-
-create_pickles_dir()
-
-#Call the reporting module to build the reports
-header_image = '../commodity-pic.jpg'
-
-for i, df in enumerate(df_list):
-    name = PATH + 'df_tuple' + str(i) + '.pkl'
-    p_tuple = tuple((df,dictos[i]))
-    pickle.dump(p_tuple, open(name, 'wb'))
-    try:
-        reporting.build_report(df, dictos[i], header_image)
-    except CalledProcessError:
-        print("Exception:  There has been a CalledProcessError, but the report was still generated.")
-        continue
+    # Generate the general output
+    dictos, df_list = generate_outputs(dependent, independent, 1)
 
 
-for fname in os.listdir(reporting.PATH):
-    if fname.endswith('.tex') or fname.endswith('.aux') or fname.endswith('log'):
-        os.remove(fname)
+    create_pickles_dir()
+
+    #Call the reporting module to build the reports
+    header_image = '../commodity-pic.jpg'
+
+    for i, df in enumerate(df_list):
+        name = PATH + 'df_tuple' + str(i) + '.pkl'
+        p_tuple = tuple((df,dictos[i]))
+        pickle.dump(p_tuple, open(name, 'wb'))
+        try:
+            reporting.build_report(df, dictos[i], header_image)
+        except CalledProcessError:
+            print("Exception:  There has been a CalledProcessError, but the report was still generated.")
+            continue
+
+
+    for fname in os.listdir(reporting.PATH):
+        if fname.endswith('.tex') or fname.endswith('.aux') or fname.endswith('log'):
+            os.remove(fname)
