@@ -1,18 +1,23 @@
-———
-title: "Predicting Commodities Prices: A Data—Mining Approach"
+---
+title: "Predicting Commodities Prices: A Data-Mining Approach"
 author: "Rodrigo Valdés Ortiz, Meiqing Zhang, & Erin M. Ochoa"
 
 date: "2017 March 14"
 output:
   html_document:
     toc: true
-———
+---
 
 # Description
 
-We predict the prices of ten commodities based on a pool of 192 independent predictors:  64 first—order variables and their squared and cubic terms.
+This program predicts the prices of ten commodities based on a pool of 192 independent predictors:  64 first—order variables and their squared and cubic terms. Runing the program produces one pdf report for each of the ten commodities. 
 
-# Technical details
+> **How to run the program**        
+  * Make sure all packages mentioned in the next section are properly installed   
+  * run **getdata.sh** to scrape all the data, merge and process data, produce two csv files (one for independent variables, one for dependent variables), and N/50 diagnostic plotting graphs. (N is the number of independent variables.)   
+  * run **run_files.py** to produce ten pdf reports of data analysis results, saved in a folder './reports'
+
+## Technical details
 
 Python modules are designed to run in Linux on Python 3.4+; shell scripts are designed to run on GNU bash 3.2+.  Plotting requires an update to matplotlib, which requires the installation of libffi—dev, which requires an update of apt—get.
 
@@ -44,37 +49,56 @@ sudo apt-get install texlive-fonts-recommended
 
 # Data crawlers and scrapers
 
+## Shell script to scrape and process raw data:  
+> get_datash.sh   
+
+* Description: 
+A shell script that runs through all data scraping modules, the data merging module, and diagonistic plotting module. It produces two csv data files, and N/50 graph files. 
+
 ## World Bank data
-This module downloads data from the World Bank API.  
-   
-—filename: wbdata.py    
+This module downloads data from the World Bank's GEM (Global Economic Monitor) and GEM Commodities data catalog using World Bank's API structure.  
+
+> filename: code/scrapers/wbdata.py  
 
 ### Reference of supported indicators  
 ```
-def get_countries()  
-  
-def get_indicators()  
-  
-def get_commodities()  
+> def get_countries()  
 
+> def get_indicators()  
+  
+> def get_commodities()  
+```
+
+* Description: a variable from world bank is defined as country+indicator. For example, CPI in Japan, stock index in US; a commodity is by nature an indicator, but it only supports world value: world+cotton, world+gold (world is also a country value)
 ```
 
 ### Downloading data
 
 ```
-def create_predictors_df(country_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv')
+> def create_predictors_df(country_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv')
+```
 
-Download 40 economic indicators from the world bank  
-Parameters:  
+* Description:
+    By default download 40 economic indicators from the world bank.  
+40 variables = 8 countries * 5 indicators
 
-
-
-def create_commodities_df(commodity_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv')
-
-Download 11 commodities by default  
-Parameters:  
+* Parameters:  
+    **country_lst**: a selected list of countries   
+    **indicator_lst**: a selected list of indicators  
+    **yymm**: (a tuple of integers )start and end year-month 
+          Example: (198001, 201612)  
+    **outfile**: an output filename   
 
 ```
+> def create_commodities_df(commodity_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv')
+```
+
+* Description:
+    By default download 11 commodities by default (including crude oil, which is used as a predictor in our model)
+
+* Parameters:    
+    same as create_predictors_df.
+
 
 ## Electricity Data
 
@@ -88,7 +112,7 @@ File saved to:  code/parsers/electricity_file/MER_T07_01.csv
 
 NASA provides 224 CSV maps of global monthly precipitation.
 
-—filename:  code/scrapers/precipitation-emo.py
+> filename:  code/scrapers/precipitation-emo.py
 
 Main page:  http://neo.sci.gsfc.nasa.gov/view.php?datasetId=TRMM_3B43M&year=1998
 
@@ -114,7 +138,7 @@ crawl_page(url,months_list,queue): Given a URL, the months for which data are av
 
 The National Bureau of Economic Research provides a list of the start and end dates of American economic recessions.
 
-—filename:  code/scrapers/recessions-emo.py
+> filename:  code/scrapers/recessions-emo.py
 
 URL = http://www.nber.org/cycles.html
 
@@ -235,7 +259,7 @@ write_csv(df):  Writes a dataframe to a CSV file.
 
 This module unifies data from disparate sources, outputting one CSV for predictors and another for outcomes.
 
-—filename:  code/analysis_and_plotting/merger.py
+> filename:  code/analysis_and_plotting/merger.py
 
 ## Functions
 
@@ -263,31 +287,43 @@ We implemented two graphing modules, one for diagnostic plots and one for predic
 
 This module produces a series of figures.  A single figure includes diagnostic plots for all ten outcome variables, while the diagnostic plots for the predictor variables are in a series of figures, each containing up to 50 plots.
 
-—filename: 
+> filename: 
 
 ## Predictive plots
 
 
 # Reporting module
-This module creates report  
+This module outputs a pdf report for each of the ten futures prices models. The ten reports are saved under './reports' folder.  
   
-filename: reporting.py  
+> filename: reporting.py  
 
 ```
-class Report
-
-Parameters:
-
-Methods:
-  set_title()
-
-  insert_graph()
-
-  insert_table()
-
-  generate_pdf()
+> class Report
 ```
+Initialize an empty report in Latex with 11.5 * 8 in page size, 1 in margin by default. 
 
+
+* Methods:
+  
+    + **add_headfoot(self, header_image)**: Take a path of a header image, and insert it in the report. Also set default footers.
+    
+    + **set_title(self, title, subtitle)**: Take two strings, and set report title and subtitle.  
+    
+    + **add_executive_summary(self, text)**: Take a text string, and insert executive summary.   
+    
+    + **gen_summary_text(self, results)**: Takes a dictionary of analysis results, and generate a summary text string. 
+    
+    + **insert_graph(self, df)**: Take a dataframe of prices prediction data, draw a plot and insert it in the report. 
+  
+    + **insert_table(self, results)**:  Take a dictionary of statistical results of the model, and insert a summary table in the report. 
+  
+    + **gen_pdf(self, filepath=None)**: Generate pdf report. Take a filepath as optional. 
+    
+    
+```
+> def build_report(df, results)
+```
+* Description: Take a dataframe of predition data and a dictionary of model analysis results, and build a report. 
 
 
 ```{r engine='python', eval=FALSE, highlight=TRUE, include=TRUE}
