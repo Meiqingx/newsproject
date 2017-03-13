@@ -79,7 +79,7 @@ Main page:  http://neo.sci.gsfc.nasa.gov/view.php?datasetId=TRMM_3B43M&year=1998
 
 The module scrapes the main page for each year in the data collection and determines the IDs of the files to be downloaded.  It then downloads the necessary files and outputs them with the year and month in the filename.
 
-###Functions
+### Functions
 ```
 create_output_dir():  Creates the output directory if it does not already exist.
 
@@ -98,6 +98,10 @@ crawl_page(url,months_list,queue): Given a URL, the months for which data are av
 The National Bureau of Economic Research provides a list of the start and end dates of American economic recessions.
 
 URL = http://www.nber.org/cycles.html
+
+The module downloads the page, parses it, and outputs a csv file of the start and end dates.
+
+### Functions
 ```
 create_output_dir():  Creates the output directory if it does not already exist.
 
@@ -114,12 +118,53 @@ write_csv(array):  Writes a csv file from the given array.
 
 
 ## Temperature data
+NASA provides global temperature difference data.
 
+Main page:  https://data.giss.nasa.gov/gistemp
 
+The module downloads the relevant data and outputs a single CSV file.
 
+### Functions
+```
+make_output_dir():  Creates directory for output data if the directory does not already exist.
 
+get_url_list(initial_url):  Gets the list of URLs to scrape from the main page.
 
-# Data analysis module
+save_plain_text(urls_list,base_url): Saves the extracted plaintext to .txt files.
+
+generate_df(file):  Generates a pandas dataframe from the given filename.
+
+gen_auxdatabases_and_names(names_files):  Given a list of filenames, generates the correct names for the databases.
+
+compatibility(df):  Given a dataframe, produces a dataframe consistent with the output of other crawler modules that are part of the software.
+
+join_dataframes(df_list, treated_names):  Given a list of dataframes and their correct names, joins the dataframes.
+
+print_full(x):  Given a dataframe, prints the dataframe.
+```
+
+# Data parsing modules
+
+## Electricity
+
+This module parses the electricity report and outputs a properly formatted CSV file of its variables.
+
+### Functions
+```
+create_output_dir():  Creates the output directory if it does not already exist.
+
+date_fixe(date_int):  Fixes dates that come in int(YYYYMM) format and changes them to datetime objects.
+
+build_df(filename): Given a filename, builds a pandas dataframe with one row per month and one column per variable.
+
+write_csv(df):  Given a pandas dataframe, writes it to a CSV file.
+```
+
+## Precipitation
+
+## Recessions
+
+# Data analysis modules
 
 
 
@@ -149,6 +194,6 @@ Methods:
 
 
 
-```{r engine='python', highlight=TRUE}
+```{r engine='python', eval=FALSE, highlight=TRUE, include=TRUE}
 print('Hello, world')
 ```

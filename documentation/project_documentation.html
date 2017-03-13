@@ -207,6 +207,7 @@ Parameters:
 <div id="precipitation-data" class="section level2">
 <h2>Precipitation Data</h2>
 <p>NASA provides 224 CSV maps of global monthly precipitation.</p>
+<p>Main page: <a href="http://neo.sci.gsfc.nasa.gov/view.php?datasetId=TRMM_3B43M&amp;year=1998" class="uri">http://neo.sci.gsfc.nasa.gov/view.php?datasetId=TRMM_3B43M&amp;year=1998</a></p>
 <p>The module scrapes the main page for each year in the data collection and determines the IDs of the files to be downloaded. It then downloads the necessary files and outputs them with the year and month in the filename.</p>
 <div id="functions" class="section level3">
 <h3>Functions</h3>
@@ -225,7 +226,19 @@ crawl_page(url,months_list,queue): Given a URL, the months for which data are av
 </div>
 <div id="recessions-data" class="section level2">
 <h2>Recessions Data</h2>
-<p>The National Bureau of Economic Research provides a list of the start and end dates of</p>
+<p>The National Bureau of Economic Research provides a list of the start and end dates of American economic recessions.</p>
+<p>URL = <a href="http://www.nber.org/cycles.html" class="uri">http://www.nber.org/cycles.html</a></p>
+<pre><code>create_output_dir():  Creates the output directory if it does not already exist.
+
+get_page(url):  Given a URL, downloads that page and creates a BeautifulSoup object.
+
+process_page(soup):  Processes a BeautifulSoup object and returns lists of the recession start and end dates.
+
+clean_dates(dates):  Takes in a list of dates in 'Month YYYY' format and switches them to YYYY-MM format.
+
+build_array(clean_start, clean_end):  Takes lists of cleaned start and end dates and makes an array of them.
+
+write_csv(array):  Writes a csv file from the given array.</code></pre>
 </div>
 <div id="temperature-data" class="section level2">
 <h2>Temperature data</h2>
@@ -253,8 +266,11 @@ Methods:
   insert_table()
 
   generate_pdf()</code></pre>
-<pre class="python"><code>print('Hello, world')</code></pre>
-<pre><code>## Hello, world</code></pre>
+<pre class="python"><code>print('Hello, world')
+def write_csv(csv_map,filename):
+    '''
+    Given a single csv_map, outputs a csv file.
+    '''</code></pre>
 </div>
 
 
