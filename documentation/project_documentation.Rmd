@@ -17,10 +17,7 @@ output:
   h3 {color: blueviolet;}
   p {color: dimgray;}
   a {color: lightseagreen;}
-  a:link {color: lightseagreen;}
-  a:link:hover {color: white; background-color: lightseagreen;}
-  a:visited {color: white; background-color: lightseagreen;}
-  a:visited:hover {color: white; background-color: lightseagreen;}
+  a:hover {color:white; background-color: lightseagreen;}
 }
 </style>
 
@@ -361,10 +358,7 @@ Initialize an empty report in Latex with 11.5 * 8 in page size, 1 in margin by d
 * Description: Take a dataframe of prediction data and a dictionary of model analysis results, and build a report. 
 
 
-<p align=right><a href="#top" style="color:coral;background-color:white">Table of Contents</a></p>
-
-
-
+<p align=right><a href="#top" style="color:coral;background-color:white">Table of Contents</a></p><br>
 
 ```{r engine='python', eval=FALSE, highlight=TRUE, include=FALSE}
 print('Hello, world')
