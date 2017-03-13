@@ -99,7 +99,7 @@ class Report:
     def gen_summary_text(self, results):
         '''
         '''
-        text0 = 'Summary: {} and {} have {} explanation power for {}. ' 
+        text0 = 'Summary: {} and {} have {} explanation power for {} price trend.' 
 
         var1, var2 = results['independent_var']
 
