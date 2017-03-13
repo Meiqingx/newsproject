@@ -56,7 +56,7 @@ series = dependent['Gold, $/toz, nominal$_sa']
 
 
 
-
+'''
 #Call the reporting module to build the reports
 header_image = '../commodity-pic.jpg'
 
@@ -72,15 +72,5 @@ for fname in os.listdir(reporting.PATH):
     if fname.endswith('.tex') or fname.endswith('.aux') or fname.endswith('log'):
         os.remove(fname)
 
-
-'''
-# Assume dfs are in a list called df_list & dictionaries in a list called dictos
-# THEY MUST BE IN THE SAME ORDER
-
-for i, df in enumerate(df_list):
-    #reportingEMO.build_report(df, dictos[i])
-    name = 'df_tuple' + str(i) + '.p'
-    p_tuple = tuple((df, dictos[i]))
-    pickle.dump(p_tuple, open(name, 'wb'))
 
 '''
