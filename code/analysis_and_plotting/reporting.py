@@ -87,9 +87,9 @@ class Report:
 
     def gen_summary_text(self, results):
         '''
-        Takes a dictionary of analysis results, and generate a summary text string. 
+        Takes a dictionary of analysis results, and generate a summary text string.
         '''
-        text0 = 'Summary: {} and {} have {} explanation power for {} price trend.' 
+        text0 = 'Summary: {} and {} have {} explanatory power for the {} price trend.'
 
         var1, var2 = results['independent_var']
 
@@ -126,7 +126,7 @@ class Report:
         Take a dictionary of statistical results of the model, and
         insert a summary table in the report.
         '''
-        indie_var = ', '.join(results['independent_var'])
+        indie_var = '; '.join(results['independent_var'])
         R2 = round(results['R2'], 2)
         dstat = round(results['stat'], 2)
 

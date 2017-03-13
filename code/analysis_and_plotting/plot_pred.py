@@ -19,9 +19,10 @@ def build_plot(df):
     name = actual.split(',')[0]
     title = name + ': Actual and Predicted Prices'
 
-    dates = df[date]
-    actuals = df[actual]
-    preds = df[pred]
+    #dates = df[date].tolist()
+    dates = df[date].map(lambda x: x.to_timestamp())
+    actuals = df[actual].tolist()
+    preds = df[pred].tolist()
 
     fig, ax = plt.subplots(figsize=(7,4))
     plt.subplot(111, facecolor='lightgray')

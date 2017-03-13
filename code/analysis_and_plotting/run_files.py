@@ -32,7 +32,7 @@ def create_one_output(name_var, dependent, independent, num_years_to_predict = 1
         independent = pandas data frame with independent vars
         num_years_to_predict = integer of number of months to predict
     Output:
-        () 
+        ()
     '''
 
     # Dictionary for report
@@ -62,7 +62,7 @@ def create_one_output(name_var, dependent, independent, num_years_to_predict = 1
 
 def generate_outputs(dependent, independent, num_years_to_predict = 1):
     '''
-    Generates a list of dictionaries (key information of the model for the report) 
+    Generates a list of dictionaries (key information of the model for the report)
     and a list of dataframes with the original series and the predictions
 
     Inputs:
@@ -73,7 +73,7 @@ def generate_outputs(dependent, independent, num_years_to_predict = 1):
     Outputs:
         (list_dictionaries, list_dataframes)
     '''
-    
+
     list_dictionaries = []
     list_dataframes = []
 
@@ -92,16 +92,18 @@ dependent, independent = load_data(dependent_f, independent_f)
 # Generate the general output
 # dictos, df_list = generate_outputs(dependent, independent, 1)
 
+#dictos, df_list = generate_outputs(dependent[["Agr: Food: Grains, 2010=100, nominal$_sa"]], independent, 1)
+#dictos, df_list = generate_outputs(dependent[["Agriculture, 2010=100, nominal$_sa"]], independent, 1)
 dictos, df_list = generate_outputs(dependent[["Agr: Food: Grains, 2010=100, nominal$_sa", "Agriculture, 2010=100, nominal$_sa"]], independent, 1)
 
 #Call the reporting module to build the reports
-header_image = 'commodity-pic.jpg'
+header_image = '../commodity-pic.jpg'
 
 for i, df in enumerate(df_list):
     try:
         reporting.build_report(df, dictos[i], header_image)
     except CalledProcessError:
-        print("A CalledProcessError not fixed by developer of pylatex")
+        print("Exception:  A CalledProcessError not fixed by developer of pylatex")
         continue
 
 
