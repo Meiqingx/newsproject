@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir ../parsers/electricity_file
+
 wget https://www.eia.gov/totalenergy/data/browser/csv.php?tbl=T01.01 -O ../parsers/electricity_file/MER_T07_01.csv
 
 cd ../scrapers
