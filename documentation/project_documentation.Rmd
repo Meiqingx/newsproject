@@ -32,8 +32,6 @@ Python modules are designed to run in Linux on Python 3.4+; shell scripts are de
 > **How to run the program**
 > 
 > 1. Make sure all packages mentioned in the next section are properly installed.
->
-> 1. Download the electricity dataset (http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01) and place it in **code/parsers/electricity_file/**.
 > 
 > 1. CD into **code/analysis_and_plotting/**.
 > 
@@ -126,11 +124,9 @@ This module downloads data from the World Bank's GEM (Global Economic Monitor) a
 
 ## Electricity data
 
-The Energy Information Administration provides a single file, which can be downloaded by hand:
+The Energy Information Administration provides data in a single file, which is downloaded via **getdata.sh**.
 
-URL = http://www.eia.gov/totalenergy/data/browser/xls.cfm?tbl=T07.01
-
-File saved to:  code/parsers/electricity_file/MER_T07_01.csv
+> filename: **code/parsers/electricity_file/MER_T07_01.csv**
 
 ## Precipitation data
 
@@ -368,8 +364,15 @@ Initialize an empty report in Latex with 11.5 * 8 in page size, 1 in margin by d
 
 Meiqing:  this should be run_files.py
 
+## Auxiliary functions for analysis
+
+This is for auxiliary_functions.py
+
 ## Python script to generate reports from pickles
 
+> filename: **pkl2report.py**
+
+This module generates reports from pickles, which each contain a (dataframe, dictionary) tuple for a given commodity's model.
 
 <p align=right><a href="#top" style="color:coral;background-color:white">Table of Contents</a></p><br>
 
