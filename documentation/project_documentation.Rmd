@@ -23,7 +23,7 @@ output:
 
 # Description
 
-This program forecasts the prices of ten commodities based on a pool of 195 independent predictors:  65 first-order variables and their squared and cubic terms. Running the software produces one pdf report for each of the ten commodities. 
+This program forecasts the prices of ten commodities based on a pool of 192 independent predictors:  64 first-order variables and their squared and cubic terms. Running the software produces one pdf report for each of the ten commodities. 
 
 ## Technical details and software execution
 
@@ -106,7 +106,7 @@ indicators, start and end dates, and an output filename.
 ## Electricity data
 > filename: **code/parsers/electricity_file/MER_T07_01.csv**
 
-The Energy Information Administration provides data in a single file, which is downloaded via **getdata.sh**.
+The Energy Information Administration provides data in a single file, which was downloaded by hand on 2017 February 9.
 
 Main page:  https://www.eia.gov/totalenergy/data/browser
 
