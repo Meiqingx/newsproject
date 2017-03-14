@@ -23,7 +23,7 @@ output:
 
 # Description
 
-This program forecasts the prices of ten commodities based on a pool of 192 independent predictors:  64 first-order variables and their squared and cubic terms. Running the software produces one pdf report for each of the ten commodities. 
+This program forecasts the prices of ten commodities based on a pool of 195 independent predictors:  65 first-order variables and their squared and cubic terms. Running the software produces one pdf report for each of the ten commodities. 
 
 ## Technical details and software execution
 
