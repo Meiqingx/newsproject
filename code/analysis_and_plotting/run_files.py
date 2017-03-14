@@ -57,11 +57,13 @@ def load_data(dependent_f, independent_f):
     max_dep = max(dependent._table.index)
     max_ind = max(independent._table.index)
 
-    dependent = dependent._table[dependent._table.index > max(min_ind, min_dep)]
+    dependent = dependent._table[dependent._table.index > max(min_ind, 
+        min_dep)]
 
     dependent = dependent[dependent.index < min(max_ind, max_dep)]
 
-    independent = independent._table[independent._table.index > max(min_ind, min_dep)]
+    independent = independent._table[independent._table.index > max(min_ind, 
+        min_dep)]
     independent = independent[independent.index < min(max_ind, max_dep)]
 
     independent.drop(independent.head(5).index, inplace=True)
@@ -72,7 +74,8 @@ def load_data(dependent_f, independent_f):
 
     return dependent, independent
 
-def create_one_output(name_var, dependent, independent, num_years_to_predict = 1):
+def create_one_output(name_var, dependent, independent, 
+        num_years_to_predict = 1):
     '''
     Generates the outputs of the model for only one dependent variable
 
@@ -93,7 +96,8 @@ def create_one_output(name_var, dependent, independent, num_years_to_predict = 1
                             'independent_var': None,
                             'dependent_var': None}
 
-    name_column, model, series, independent_vars, variables, order, r2, dw, differences = Predict.best_model(name_var, dependent, independent)
+    (name_column, model, series, independent_vars, variables, order, r2, dw, 
+        differences) = Predict.best_model(name_var, dependent, independent)
 
     output_dictionary['lag'] = order
     output_dictionary['R2'] = r2
@@ -103,9 +107,11 @@ def create_one_output(name_var, dependent, independent, num_years_to_predict = 1
     output_dictionary['dependent_var'] = name_column
 
     # Databaase for report
-    pred, original = Predict.predictions(model, series, num_years_to_predict, independent_vars)
+    pred, original = Predict.predictions(model, series, num_years_to_predict, 
+        independent_vars)
     date = pred.index
-    data_for_graphs = pd.DataFrame({'date': date, name_var: original, 'prediction':pred})
+    data_for_graphs = pd.DataFrame({'date': date, name_var: original, 
+        'prediction':pred})
     data_for_graphs = data_for_graphs[['date', name_var, 'prediction']]
     data_for_graphs.date = pd.to_datetime(data_for_graphs.date).dt.to_period('m')
 
@@ -129,7 +135,8 @@ def generate_outputs(dependent, independent, num_years_to_predict = 1):
     list_dataframes = []
 
     for commodity in dependent.columns:
-        one_result = create_one_output(commodity, dependent, independent, num_years_to_predict)
+        one_result = create_one_output(commodity, dependent, 
+            independent, num_years_to_predict)
         list_dictionaries.append(one_result[0])
         list_dataframes.append(one_result[1])
 
