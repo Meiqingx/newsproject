@@ -91,36 +91,16 @@ This module downloads data from the World Bank's GEM (Global Economic Monitor) a
 > def get_commodities(): Returns a set of commodities supported.
 ```
 
-* Description: a variable from World Bank is defined as country+indicator. For example, CPI in Japan, stock index in US; a commodity is by nature an indicator, but it only supports world value: world+cotton, world+gold (world is also a country value)
-```
+* Note: a variable from World Bank is defined as country+indicator. For example, CPI in Japan, stock index in US; a commodity is by nature an indicator, but it only supports world value: world+cotton, world+gold (world is also a country value)
+
 
 ### Downloading data
 
 ```
-> def create_predictors_df(country_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv')
+> def create_predictors_df(country_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv'): By default download 40 economic indicators from the World Bank. It can optionally take a list of countries, indicators, start-end time, and output filename 40 variables = 8 countries * 5 indicators
+
+> def create_commodities_df(commodity_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv'): By default download 11 commodities by default (including crude oil, which is used as a predictor in our pool of independent variables).
 ```
-
-* Description:
-    By default download 40 economic indicators from the World Bank.  
-40 variables = 8 countries * 5 indicators
-
-* Parameters:  
-    **country_lst**: a selected list of countries   
-    **indicator_lst**: a selected list of indicators  
-    **yymm**: (a tuple of integers )start and end year-month 
-          Example: (198001, 201612)  
-    **outfile**: an output filename   
-
-```
-> def create_commodities_df(commodity_lst=None, indicator_lst=None, yymm=None, outfile='./worldbank/gem.csv')
-```
-
-* Description:
-    By default download 11 commodities by default (including crude oil, which is used as a predictor in our pool of independent variables).
-
-* Parameters:    
-    same as create_predictors_df.
-
 
 ## Electricity data
 
@@ -443,15 +423,8 @@ Initialize an empty report in Latex with 11.5 * 8 in page size, 1 in margin by d
     
 
 ```
-> def build_report(df, results)
+> def build_report(df, results): Take a dataframe of prediction data and a dictionary that stores model analysis results, and build a report. 
 ```
-* Description: Take a dataframe of prediction data and a dictionary of model analysis results, and build a report. 
-
-* Parameters:
-
-    * **df**: a pandas DataFrame of graphing data 
-    
-    * **results**: a dictionary that stores information of the model
 
 <p align=right><a href="#top" style="color:coral;background-color:white;">Table of Contents</a></p>
 
