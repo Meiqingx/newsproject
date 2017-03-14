@@ -57,7 +57,8 @@ def create_data_for_ar(series, num_years_to_predict):
         num_years_to_predict = integer
 
     Outpus:
-        result = pandas series with empty rows for the number of years to predict
+        result = pandas series with empty rows for the number of years to 
+            predict
     '''
 
     initial_date = str(max(series.index))[:10]
@@ -94,12 +95,15 @@ def AR_independent_vars(series, num_years_to_predict):
         predictions = predictions for the specified number of years
     '''
     X = create_data_for_ar(series, num_years_to_predict)
-    train, future = X[:len(X)-num_years_to_predict*12], X[len(X)-num_years_to_predict*12:]
+    train, future = X[:len(X)-num_years_to_predict*12], X[
+        len(X)-num_years_to_predict*12:]
     # train autoregression
     model = AR(train)
     model_fit = model.fit()
     num_lags = model_fit.k_ar
-    predictions = model_fit.predict(start=num_lags, end=len(train)+len(future)-1, dynamic=False)
-    integrated = train.append(predictions[len(predictions)-num_years_to_predict*12:])
+    predictions = model_fit.predict(start=num_lags, 
+        end=len(train)+len(future)-1, dynamic=False)
+    integrated = train.append(
+        predictions[len(predictions)-num_years_to_predict*12:])
 
     return X, predictions, integrated
