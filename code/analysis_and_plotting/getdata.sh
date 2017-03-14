@@ -1,9 +1,5 @@
 #!/bin/bash
 
-mkdir ../parsers/electricity_file
-
-wget https://www.eia.gov/totalenergy/data/browser/csv.php?tbl=T01.01 -O ../parsers/electricity_file/MER_T07_01.csv
-
 cd ../scrapers
 
 echo -e '\nRunning precipitation scraper\n'
@@ -54,4 +50,4 @@ echo -e '\nBuilding diagnostic plots\n'
 python3 graph_builder.py
 echo -e '\nDone building diagnostic plots\n\n'
 
-echo -e '\nDone processing data files.  Next step is to run run_files.py.\n\n'
+echo -e '\nDone processing data files.  Next step:  execute run_files.py\n\n'
