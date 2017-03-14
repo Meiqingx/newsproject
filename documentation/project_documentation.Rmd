@@ -67,7 +67,7 @@ sudo apt-get install texlive-fonts-recommended
 
 Please also install dateutil from: https://pypi.python.org/pypi/python-dateutil/2.6.0
 
-<p align=right><a href="#top" style="color:coral;background-color:white">Table of Contents</a></p>
+<p align=right><a href="#top" style="color:coral;background-color:white;">Table of Contents</a></p>
 
 # Data crawlers and scrapers
 
@@ -210,7 +210,7 @@ join_dataframes(df_list, treated_names):  Given a list of dataframes and their c
 print_full(x):  Given a dataframe, prints the dataframe.
 ```
 
-<p align=right><a href="#top" style="color:coral;background-color:white">Table of Contents</a></p>
+<p align=right><a href="#top" style="color:coral;background-color:white;">Table of Contents</a></p>
 
 # Data parsing modules
 
@@ -277,7 +277,7 @@ get_dates(clean_recessions):  Returns the current date, the start date of the ea
 write_csv(df):  Writes a dataframe to a CSV file.
 ```
 
-<p align=right><a href="#top" style="color:coral;background-color:white">Table of Contents</a></p>
+<p align=right><a href="#top" style="color:coral;background-color:white;">Table of Contents</a></p>
 
 # Data merging module
 
@@ -299,12 +299,12 @@ gen_sqrs_cbcs(df):  Generates squared and cubic terms for all variables in the g
 write_csv(df,filename):  Writes a dataframe to a CSV file.
 ```
 
-<p align=right><a href="#top" style="color:coral;background-color:white">Table of Contents</a></p>
+<p align=right><a href="#top" style="color:coral;background-color:white;">Table of Contents</a></p>
 
 # Data analysis modules
 
 
-<p align=right><a href="#top" style="color:coral;background-color:white">Table of Contents</a></p>
+<p align=right><a href="#top" style="color:coral;background-color:white;">Table of Contents</a></p>
 
 # Visualization modules
 
@@ -318,7 +318,21 @@ This module produces a series of figures.  A single figure includes diagnostic p
 
 ## Predictive plots
 
-<p align=right><a href="#top" style="color:coral;background-color:white">Table of Contents</a></p>
+> filename: **code/analysis_and_plotting/graph_builder.py**
+
+This module produces diagnostic plots in a series of figures.  Plots for all the outcome variables are returned in a single figure.  For the predictor variables, the plots are returned in a series of figures, each containing up to 50 plots.
+
+### Functions:
+
+```
+plot_a_lot(df,filename):  Plots a lot of plots in one single figure.
+
+build_plot(dates,values,label):  Generates a single plot.
+
+plot_plots(predictors):  Breaks a dataframe into chunks of up to 50 predictor variables and generates one figure for each chunk.
+```
+
+<p align=right><a href="#top" style="color:coral;background-color:white;">Table of Contents</a></p>
 
 # Reporting module
 This module outputs a pdf report for each of the ten futures prices models. The ten reports are saved in the **./reports** folder.  
@@ -354,7 +368,7 @@ Initialize an empty report in Latex with 11.5 * 8 in page size, 1 in margin by d
 * Description: Take a dataframe of prediction data and a dictionary of model analysis results, and build a report. 
 
 
-<p align=right><a href="#top" style="color:coral;background-color:white">Table of Contents</a></p>
+<p align=right><a href="#top" style="color:coral;background-color:white;">Table of Contents</a></p>
 
 # Additional files
 
@@ -374,5 +388,5 @@ This is for auxiliary_functions.py
 
 This module generates reports from pickles, which each contain a (dataframe, dictionary) tuple for a given commodity's model.
 
-<p align=right><a href="#top" style="color:coral;background-color:white">Table of Contents</a></p><br>
+<p align=right><a href="#top" style="color:coral;background-color:white;">Table of Contents</a></p><br>
 
