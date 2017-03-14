@@ -393,7 +393,7 @@ This module produces a single plot of actual and predicted prices for a single c
 
 ### Functions
 
-```
+```{r eval=FALSE, highlight=FALSE, include=TRUE}
 build_plot(df):  Builds a plot from a dataframe of dates, actual prices, and predicted prices.
 ```
 
