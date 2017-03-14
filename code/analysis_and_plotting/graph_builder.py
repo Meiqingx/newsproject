@@ -106,9 +106,7 @@ def plot_plots(predictors):
 
 if __name__ == '__main__':
 
-    # Tiny bit of duplication here, but I think it's better than copying a function
-    # to serve as the date converter.
-
+    # Tiny bit of duplication here.
     predictor_dfs, outcomes = mrgr.read_files()
     predictors = mrgr.merge_dfs(predictor_dfs)
     mrgr.gen_sqrs_cbcs(predictors)
