@@ -128,6 +128,8 @@ The Energy Information Administration provides data in a single file, which is d
 
 > filename: **code/parsers/electricity_file/MER_T07_01.csv**
 
+Main page:  https://www.eia.gov/totalenergy/data/browser
+
 ## Precipitation data
 
 NASA provides 224 CSV maps of global monthly precipitation.
@@ -162,7 +164,7 @@ The National Bureau of Economic Research provides a list of the start and end da
 
 URL = http://www.nber.org/cycles.html
 
-The module downloads the page, parses it, and outputs a csv file of the start and end dates.
+The module downloads the page, parses it, and outputs a CSV file of the start and end dates.
 
 ### Functions
 
@@ -312,17 +314,11 @@ The software includes two visualization modules, one to create diagnostic plots 
 
 ## Diagnostic plots
 
-This module produces a series of figures.  A single figure includes diagnostic plots for all ten outcome variables, while the diagnostic plots for the predictor variables are produced in a series of figures, each containing up to 50 plots.
-
-> filename: **code/analysis_and_plotting/graph_builder.py**
-
-## Predictive plots
-
-> filename: **code/analysis_and_plotting/graph_builder.py**
-
 This module produces diagnostic plots in a series of figures.  Plots for all the outcome variables are returned in a single figure.  For the predictor variables, the plots are returned in a series of figures, each containing up to 50 plots.
 
-### Functions:
+> filename: **code/analysis_and_plotting/graph_builder.py**
+
+### Functions
 
 ```
 plot_a_lot(df,filename):  Plots a lot of plots in one single figure.
@@ -330,6 +326,17 @@ plot_a_lot(df,filename):  Plots a lot of plots in one single figure.
 build_plot(dates,values,label):  Generates a single plot.
 
 plot_plots(predictors):  Breaks a dataframe into chunks of up to 50 predictor variables and generates one figure for each chunk.
+```
+## Predictive plots
+
+This module produces a single plot of actual and predicted prices for a single commodity.
+
+> filename:  **code/analysis_and_plotting/plot_pred.py**
+
+### Functions
+
+```
+build_plot(df):  Builds a plot from a dataframe of dates, actual prices, and predicted prices.
 ```
 
 <p align=right><a href="#top" style="color:coral;background-color:white;">Table of Contents</a></p>

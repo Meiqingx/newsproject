@@ -271,6 +271,7 @@ same as create_predictors_df.</p></li>
 <blockquote>
 <p>filename: <strong>code/parsers/electricity_file/MER_T07_01.csv</strong></p>
 </blockquote>
+<p>Main page: <a href="https://www.eia.gov/totalenergy/data/browser" class="uri">https://www.eia.gov/totalenergy/data/browser</a></p>
 </div>
 <div id="precipitation-data" class="section level2">
 <h2>Precipitation data</h2>
@@ -302,7 +303,7 @@ crawl_page(url,months_list,queue): Given a URL, the months for which data are av
 <p>filename: <strong>code/scrapers/recessions-emo.py</strong></p>
 </blockquote>
 <p>URL = <a href="http://www.nber.org/cycles.html" class="uri">http://www.nber.org/cycles.html</a></p>
-<p>The module downloads the page, parses it, and outputs a csv file of the start and end dates.</p>
+<p>The module downloads the page, parses it, and outputs a CSV file of the start and end dates.</p>
 <div id="functions-1" class="section level3">
 <h3>Functions</h3>
 <pre><code>create_output_dir():  Creates the output directory if it does not already exist.
@@ -449,24 +450,28 @@ write_csv(df,filename):  Writes a dataframe to a CSV file.</code></pre>
 <p>The software includes two visualization modules, one to create diagnostic plots and one to create predictive plots.</p>
 <div id="diagnostic-plots" class="section level2">
 <h2>Diagnostic plots</h2>
-<p>This module produces a series of figures. A single figure includes diagnostic plots for all ten outcome variables, while the diagnostic plots for the predictor variables are produced in a series of figures, each containing up to 50 plots.</p>
-<blockquote>
-<p>filename: <strong>code/analysis_and_plotting/graph_builder.py</strong></p>
-</blockquote>
-</div>
-<div id="predictive-plots" class="section level2">
-<h2>Predictive plots</h2>
-<blockquote>
-<p>filename: <strong>code/analysis_and_plotting/graph_builder.py</strong></p>
-</blockquote>
 <p>This module produces diagnostic plots in a series of figures. Plots for all the outcome variables are returned in a single figure. For the predictor variables, the plots are returned in a series of figures, each containing up to 50 plots.</p>
+<blockquote>
+<p>filename: <strong>code/analysis_and_plotting/graph_builder.py</strong></p>
+</blockquote>
 <div id="functions-7" class="section level3">
-<h3>Functions:</h3>
+<h3>Functions</h3>
 <pre><code>plot_a_lot(df,filename):  Plots a lot of plots in one single figure.
 
 build_plot(dates,values,label):  Generates a single plot.
 
 plot_plots(predictors):  Breaks a dataframe into chunks of up to 50 predictor variables and generates one figure for each chunk.</code></pre>
+</div>
+</div>
+<div id="predictive-plots" class="section level2">
+<h2>Predictive plots</h2>
+<p>This module produces a single plot of actual and predicted prices for a single commodity.</p>
+<blockquote>
+<p>filename: <strong>code/analysis_and_plotting/plot_pred.py</strong></p>
+</blockquote>
+<div id="functions-8" class="section level3">
+<h3>Functions</h3>
+<pre><code>build_plot(df):  Builds a plot from a dataframe of dates, actual prices, and predicted prices.</code></pre>
 <p align="right">
 <a href="#top" style="color:coral;background-color:white;">Table of Contents</a>
 </p>
