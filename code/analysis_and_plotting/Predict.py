@@ -107,6 +107,13 @@ class Predict:
     def residuals(model, series, independent_vars = None):
         '''
         Generates a series of residuals
+        
+        Inputs:
+            model = arima model
+            series = series of dependend variable
+            independent_vars = array of independent variables
+        Outputs:
+            residual = series of residuals
         '''
         y_hat = Predict.predictions(model, series, independent_vars = independent_vars)[0]
         residuals = series - y_hat
@@ -119,26 +126,19 @@ class Predict:
         '''
         Computes the Durbin - Watson statistic
         Parts of the code from: http://statsmodels.sourceforge.net/devel/_modules/statsmodels/stats/stattools.html
+
+        Inputs:
+            model = arima model
+            series = series of dependend variable
+            independent_vars = array of independent variables
+        Outputs:
+            dw = statistic durbin-watson
         '''
         resids = np.asarray(Predict.residuals(model, series, independent_vars))
         diff_resids = np.diff(resids) # First difference
         dw = np.sum(diff_resids**2) / np.sum(resids**2)
         return dw
 
-
-    def measures_of_fit(model, series, independent_vars = None):
-        '''
-        Creates measures to decide between models
-
-        Inputs:
-            model = ARIMA model of class Predict
-            series = series of class Series
-            independent_vars = array of independent vars
-
-        Outputs:
-
-        '''
-        return None
 
     def r_square(model, series, independent_vars = None):
         '''

@@ -84,11 +84,11 @@ This module downloads data from the World Bank's GEM (Global Economic Monitor) a
 
 ### Reference of supported indicators  
 ```
-> def get_countries()  
+> def get_countries(): Returns a set of countries supported.
 
-> def get_indicators()  
+> def get_indicators(): Returns a set of economic indicators supported.
   
-> def get_commodities()  
+> def get_commodities(): Returns a set of commodities supported.
 ```
 
 * Description: a variable from World Bank is defined as country+indicator. For example, CPI in Japan, stock index in US; a commodity is by nature an indicator, but it only supports world value: world+cotton, world+gold (world is also a country value)
@@ -305,6 +305,79 @@ write_csv(df,filename):  Writes a dataframe to a CSV file.
 
 # Data analysis modules
 
+## AR simple model
+This module creates predictions for the independent variables through AR models.
+
+> filename: **code/analysis_and_plotting/AR_model.py**
+
+### Functions
+
+```
+create_index(year, month, num_years_to_predict): Creates the index for the predicted part of the dataframe.
+
+create_data_for_ar(series, num_years_to_predict): Creates series to predict the future of independent variables (out of the sample).
+
+AR_independent_vars(series, num_years_to_predict): Creates predictions for the independent variables.
+```
+
+## Prediction
+
+This module creates predictions for the dependent variable.
+
+> filename: **code/analysis_and_plotting/Predict.py**
+
+```
+> class Predict
+```
+
+* Methods:
+  
+    + **model(series, autoregressive_terms, num_years_to_predict = 1, independent_vars = None)**: Creates the ARIMA model.
+    
+    + **predictions(model, series, num_years_to_predict = 1, independent_vars = None)**: Given an ARIMA model, predicts the values of the series.  
+    
+    + **residuals(model, series, independent_vars = None)**: Generates a series of residuals.   
+    
+    + **durbin_watson(model, series, independent_vars = None)**: Computes the Durbin - Watson statistic. 
+    
+    + **r_square(model, series, independent_vars = None)**: Generates the R square measure. 
+  
+    + **adjusted_r_square(model, series, autoregressive_terms, independent_vars = None)**: Computes the adjusted R2 . 
+  
+    + **mse(model, series, independent_vars = None)**: Generates the mean square error. 
+    
+    + **best_order(series, independent_vars = None, stop_num_lags = 1)**: Selects the number of lags. 
+  
+    + **best_parameters(name_column, database_dependent, database_independent, num_ind_var = 2)**: Selects the best model with X (num_ind_var) variables. 
+  
+    + **best_model(name_column, database_dependent, database_independent)**: Selects the best model and generates some parameters to test the model. 
+
+
+## Series
+
+This module creates predictions for the dependent variable.
+
+> filename: **code/analysis_and_plotting/SeriesRVO.py**
+
+```
+> class Series
+```
+Initialize a pandas object with adequate features for time series analysis.
+
+* Methods:
+  
+    + **create_pandas(self,file)**: Creates a dataframe with adequate characteristics for time series analysis.
+    
+    + **descompose(series)**: Given a series, it splits in (trend, season, residual).  
+    
+    + **print_seasonality(series)**: Generates a plot with trend, season, and residuals.   
+    
+### Functions
+
+```
+series_for_prediction(independent_vars, num_years_to_predict): Creates a dataframe with future values for the independent variables.
+```
+
 
 <p align=right><a href="#top" style="color:coral;background-color:white;">Table of Contents</a></p>
 
@@ -405,6 +478,9 @@ Auxiliary functions:
 ```
 > create_pickles_dir(): 
     Creates a directory for "pickling data".  
+    
+> load_data(dependent_f, independent_f):
+    Load the necessary data in two databases: dependent and independent.
 
 > create_one_output(name_var, dependent, independent, num_years_to_predict = 1): 
     Process a single model and output data for graphing and reporting  
@@ -413,10 +489,6 @@ Auxiliary functions:
     Generate a list of dictionaries and a list of dataframe ready for graphing and reporting.   
 
 ```
-
-## Auxiliary functions for analysis
-
-This is for auxiliary_functions.py
 
 ## Python script to generate reports from serialized data  
 

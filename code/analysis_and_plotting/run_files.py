@@ -1,19 +1,9 @@
 import SeriesRVO
-from auxiliary_functions import load_data
 from Predict import *
 from AR_model import *
 
 import pandas as pd
 import numpy as np
-
-from matplotlib.pylab import rcParams
-import datetime
-from statsmodels.tsa.seasonal import seasonal_decompose
-from statsmodels.tsa.stattools import adfuller
-from statsmodels.tsa.stattools import acf, pacf
-from statsmodels.tsa.arima_model import ARIMA
-
-import statsmodels.api as sm
 
 import reporting
 import merger as mrgr
@@ -44,7 +34,43 @@ def create_pickles_dir():
         os.makedirs(output_path)
         print('Creating pickles directory:', output_path)
 
+def load_data(dependent_f, independent_f):
+    '''
+    Load the necessary data in two databases: dependent and independent
 
+    Inputs:
+        dependent_f = name of the csv file with dependent variables
+        independent_f = names of the csv file with independent variables
+
+    Outputs:
+        (dependent, independent) where
+        dependent = dataframe of dependent variables
+        independent = dataframe of independent variables
+
+    '''
+    dependent = SeriesRVO.Series(dependent_f)
+
+    independent = SeriesRVO.Series(independent_f)
+
+    min_dep = min(dependent._table.index)
+    min_ind = min(independent._table.index)
+    max_dep = max(dependent._table.index)
+    max_ind = max(independent._table.index)
+
+    dependent = dependent._table[dependent._table.index > max(min_ind, min_dep)]
+
+    dependent = dependent[dependent.index < min(max_ind, max_dep)]
+
+    independent = independent._table[independent._table.index > max(min_ind, min_dep)]
+    independent = independent[independent.index < min(max_ind, max_dep)]
+
+    independent.drop(independent.head(5).index, inplace=True)
+    dependent.drop(dependent.head(5).index, inplace=True)
+
+    independent.drop(independent.tail(5).index, inplace=True)
+    dependent.drop(dependent.tail(5).index, inplace=True)
+
+    return dependent, independent
 
 def create_one_output(name_var, dependent, independent, num_years_to_predict = 1):
     '''

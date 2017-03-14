@@ -100,6 +100,9 @@ class Series:
 
         return plt.show()
 
+# This fuction is not in the class because it is useful for predictions, not of the 
+# characteristics of the series. However, we believe this is a better place for it than in 
+# the file Predict.py
 
 def series_for_prediction(independent_vars, num_years_to_predict):
     '''
