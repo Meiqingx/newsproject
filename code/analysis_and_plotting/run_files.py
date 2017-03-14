@@ -118,7 +118,7 @@ def generate_outputs(dependent, independent, num_years_to_predict = 1):
 
     Inputs:
         dependent = dataframe with dependent variables
-        independent = dataframe with independetn variables
+        independent = dataframe with independent variables
         num_years_to_predict = integer with the number of years to predict
 
     Outputs:
